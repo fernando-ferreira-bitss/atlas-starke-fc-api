@@ -79,7 +79,7 @@ services:
       # CORS
       - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-https://starke.brainitsolutions.com.br}
     ports:
-      - "8002:8000"
+      - "8003:8000"
     networks:
       - starke-network
       - n8n_traefik_proxy

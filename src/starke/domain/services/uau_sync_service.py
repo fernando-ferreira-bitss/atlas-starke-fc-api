@@ -1422,6 +1422,11 @@ class UAUSyncService:
                     except Exception as e:
                         logger.warning(f"Error syncing PortfolioStats: {e}")
 
+                    # Update last_financial_sync_at after successful financial sync
+                    empresa.last_financial_sync_at = datetime.utcnow()
+                    self.db.commit()
+                    logger.info(f"Updated last_financial_sync_at for empresa {empresa.name}")
+
                 except Exception as e:
                     error_msg = f"Error syncing empresa {empresa.name}: {e}"
                     logger.error(error_msg)

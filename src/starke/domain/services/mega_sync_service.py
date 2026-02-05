@@ -241,13 +241,14 @@ class MegaSyncService:
                     existing_filial.atualizado_em = datetime.utcnow()
                     filiais_updated += 1
                 else:
-                    # Create new with external_id
+                    # Create new with external_id (inactive by default, will be activated if has active developments)
                     new_filial = Filial(
                         external_id=external_filial_id,
                         nome=filial_info["nome"],
                         fantasia=filial_info["fantasia"],
                         cnpj=filial_info["cnpj"],
                         origem="mega",
+                        is_active=False,
                         criado_em=datetime.utcnow(),
                     )
                     self.db.add(new_filial)
@@ -1494,7 +1495,7 @@ class MegaSyncService:
                 cutoff_time = datetime.utcnow() - timedelta(hours=skip_recent_hours) if skip_recent_hours > 0 else None
 
                 # Import models needed for inline processing
-                from starke.infrastructure.database.models import PortfolioStats, Delinquency
+                from starke.infrastructure.database.models import PortfolioStats, Delinquency, Filial
 
                 for dev in developments:
                     try:
@@ -1603,6 +1604,20 @@ class MegaSyncService:
                             # Clear dev_cache to free memory
                             del dev_cache
 
+                        # Activate development and filial after complete processing
+                        if has_active:
+                            dev.is_active = True
+                            dev.updated_at = datetime.utcnow()
+                            logger.info(f"✅ Activated development: {dev.name}")
+
+                            # Also activate the filial if not already active
+                            if dev.filial_id:
+                                filial = self.db.query(Filial).filter(Filial.id == dev.filial_id).first()
+                                if filial and not filial.is_active:
+                                    filial.is_active = True
+                                    filial.atualizado_em = datetime.utcnow()
+                                    logger.info(f"✅ Activated filial: {filial.nome}")
+
                         # CHECKPOINT: Mark this development as synced
                         dev.last_financial_sync_at = datetime.utcnow()
 
@@ -1650,42 +1665,7 @@ class MegaSyncService:
                 stats["developments_skipped"] = devs_skipped
                 logger.info(f"⏱️ Step 3 completed: {devs_processed} processed, {devs_skipped} skipped in {stats['timings']['step3_process_developments']:.2f}s")
                 logger.info(f"   PortfolioStats: {total_portfolio_stats}, Delinquency: {total_delinquency}")
-
-                # Update is_active for developments with active contracts
-                # OPTIMIZATION: Use dev_by_id dict instead of querying each dev
-                logger.info(f"Activating {len(developments_with_active_contracts)} developments with active contracts")
-                for dev_id in developments_with_active_contracts:
-                    dev = dev_by_id.get(dev_id)
-                    if dev:
-                        dev.is_active = True
-                        dev.updated_at = datetime.utcnow()
-
-                self.db.commit()
-
-                # Update is_active for MEGA filiais based on active developments
-                # NOTE: Only affects filiais with origem="mega", not UAU filiais
-                logger.info("Updating filial activation status based on active developments (Mega only)")
-                from starke.infrastructure.database.models import Filial
-
-                # Step 1: Deactivate only MEGA filiais (not UAU!)
-                self.db.query(Filial).filter(Filial.origem == "mega").update({"is_active": False})
-
-                # Step 2: Get filiais with active developments using dev_by_id dict
-                active_filial_ids = set()
-                for dev_id in developments_with_active_contracts:
-                    dev = dev_by_id.get(dev_id)
-                    if dev and dev.filial_id:
-                        active_filial_ids.add(dev.filial_id)
-
-                # Step 3: Activate filiais with active developments (bulk update)
-                if active_filial_ids:
-                    logger.info(f"Activating {len(active_filial_ids)} filiais with active developments")
-                    self.db.query(Filial).filter(Filial.id.in_(active_filial_ids)).update(
-                        {"is_active": True, "atualizado_em": datetime.utcnow()},
-                        synchronize_session=False
-                    )
-
-                self.db.commit()
+                logger.info(f"   Activated {len(developments_with_active_contracts)} developments with active contracts")
 
                 # STEP 5: Process Faturas a Pagar (accounts payable)
                 # Faturas are not filtered by development - they are global across all filiais

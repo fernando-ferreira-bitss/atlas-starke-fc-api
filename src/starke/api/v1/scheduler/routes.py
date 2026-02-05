@@ -7,7 +7,8 @@ from typing import List, Optional
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
-from starke.api.dependencies import get_current_active_user, get_db
+from starke.api.dependencies import get_db
+from starke.api.dependencies.auth import require_admin
 from starke.core.scheduler import get_scheduler
 from starke.infrastructure.database.models import Run, User
 
@@ -28,7 +29,7 @@ logger = logging.getLogger(__name__)
 @router.get("/status", response_model=SchedulerStatus)
 def get_scheduler_status(
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_active_user),
+    current_user: User = Depends(require_admin()),
 ) -> SchedulerStatus:
     """
     Retorna status do scheduler e próxima execução.
@@ -57,7 +58,7 @@ def get_recent_runs(
     per_page: int = Query(20, ge=1, le=100, description="Itens por página"),
     status: Optional[str] = Query(None, description="Filtrar por status (success, failed, running)"),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_active_user),
+    current_user: User = Depends(require_admin()),
 ) -> RunListResponse:
     """
     Retorna execuções recentes do sync com paginação.
@@ -105,7 +106,7 @@ def get_recent_runs(
 def get_run_details(
     run_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_active_user),
+    current_user: User = Depends(require_admin()),
 ) -> RunResponse:
     """
     Retorna detalhes de uma execução específica.
@@ -134,7 +135,7 @@ def get_run_details(
 def trigger_manual_sync(
     exec_date: Optional[str] = Query(None, description="Data no formato YYYY-MM-DD (default: T-1)"),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_active_user),
+    current_user: User = Depends(require_admin()),
 ) -> TriggerResponse:
     """
     Dispara sincronização manual (Mega apenas - legacy).
@@ -268,7 +269,7 @@ def trigger_sync(
     request: SyncRequest,
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_active_user),
+    current_user: User = Depends(require_admin()),
 ) -> SyncResponse:
     """
     Dispara sincronização com seleção de origem.
@@ -327,7 +328,7 @@ def trigger_sync(
 
 @router.get("/sync/origins")
 def get_available_origins(
-    current_user: User = Depends(get_current_active_user),
+    current_user: User = Depends(require_admin()),
 ) -> dict:
     """
     Lista origens disponíveis para sincronização.

@@ -25,7 +25,7 @@ depends_on = None
 def upgrade():
     """Create default admin user if not exists."""
     # Hash for 'admin123' using bcrypt
-    password_hash = "$2b$12$td/rMn5Ha6Nx0S7EhqA4KeAPqDMP.eICjOwtnPclgztL5e626hBaW"
+    password_hash = "$2b$12$6WF7ct7I7sTEKNrS.4sm9uk/gV6x84vUHIRiJztAlbd4YyUr5f/EW"
 
     # Insert admin user only if email doesn't already exist
     op.execute(f"""
