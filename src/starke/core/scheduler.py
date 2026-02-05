@@ -38,19 +38,38 @@ class SyncScheduler:
 
     def start(self):
         """Start the scheduler."""
-        # Add daily sync job (runs both Mega and UAU sequentially)
+        # Job 1: Daily Mega sync (runs every day at configured time)
         self.scheduler.add_job(
-            func=self.run_daily_sync,
+            func=self.run_mega_sync,
             trigger=CronTrigger(
                 hour=self.schedule_hour,
                 minute=self.schedule_minute,
                 timezone=self.timezone
             ),
-            id="daily_sync",
-            name="Daily Mega + UAU Synchronization",
+            id="daily_mega_sync",
+            name="Daily Mega Synchronization",
             replace_existing=True,
-            max_instances=1,  # Prevent concurrent runs
+            max_instances=1,
         )
+        logger.info(
+            f"Mega sync scheduled: daily at {self.schedule_hour:02d}:{self.schedule_minute:02d}"
+        )
+
+        # Job 2: Weekly UAU sync (runs only on Saturday at 00:00)
+        self.scheduler.add_job(
+            func=self.run_uau_sync,
+            trigger=CronTrigger(
+                day_of_week="sat",  # Saturday
+                hour=0,
+                minute=0,
+                timezone=self.timezone
+            ),
+            id="weekly_uau_sync",
+            name="Weekly UAU Synchronization (Saturday)",
+            replace_existing=True,
+            max_instances=1,
+        )
+        logger.info("UAU sync scheduled: Saturday at 00:00")
 
         self.scheduler.start()
         logger.info("Scheduler started successfully")
@@ -61,26 +80,75 @@ class SyncScheduler:
             self.scheduler.shutdown(wait=True)
             logger.info("Scheduler stopped")
 
+    def run_mega_sync(self):
+        """
+        Execute daily Mega synchronization.
+
+        Runs every day at the scheduled time.
+        Processes data for T-1 (yesterday).
+        """
+        exec_date = (date.today() - timedelta(days=1)).isoformat()
+        logger.info(f"Starting daily Mega sync for date: {exec_date}")
+
+        mega_run_id = self._create_run_record(exec_date, source="mega")
+        try:
+            mega_stats = self._execute_mega_sync(exec_date)
+            logger.info(f"Mega sync completed: {mega_stats}")
+            self._complete_run_record(mega_run_id, status="success", metrics=mega_stats)
+
+            # Run aggregation after Mega sync
+            try:
+                self._execute_aggregation(exec_date)
+                logger.info("Aggregation completed successfully")
+            except Exception as e:
+                logger.error(f"Aggregation failed: {e}", exc_info=True)
+
+        except Exception as e:
+            error_msg = f"Mega sync failed: {e}"
+            logger.error(error_msg, exc_info=True)
+            self._complete_run_record(mega_run_id, status="failed", error=str(e), metrics={"error": str(e)})
+
+    def run_uau_sync(self):
+        """
+        Execute weekly UAU synchronization.
+
+        Runs only on Saturday at 00:00.
+        Processes data for the last 12 months.
+        """
+        exec_date = (date.today() - timedelta(days=1)).isoformat()
+        logger.info(f"Starting weekly UAU sync for date: {exec_date}")
+
+        uau_run_id = self._create_run_record(exec_date, source="uau")
+        try:
+            uau_stats = self._execute_uau_sync(exec_date)
+            logger.info(f"UAU sync completed: {uau_stats}")
+            self._complete_run_record(uau_run_id, status="success", metrics=uau_stats)
+
+            # Run aggregation after UAU sync
+            try:
+                self._execute_aggregation(exec_date)
+                logger.info("Aggregation completed successfully")
+            except Exception as e:
+                logger.error(f"Aggregation failed: {e}", exc_info=True)
+
+        except Exception as e:
+            error_msg = f"UAU sync failed: {e}"
+            logger.error(error_msg, exc_info=True)
+            self._complete_run_record(uau_run_id, status="failed", error=str(e), metrics={"error": str(e)})
+
     def run_daily_sync(self):
         """
-        Execute daily synchronization.
+        Execute both Mega and UAU synchronization (legacy method for manual runs).
 
-        This is the main job that runs daily at the scheduled time.
-        It processes data for T-1 (yesterday).
-
-        Runs Mega first, then UAU sequentially. Each sync is independent -
-        if one fails, the other still executes. Creates separate Run records
-        for each source to allow individual error tracking.
+        Runs Mega first, then UAU sequentially.
         """
-        # Calculate T-1 (yesterday)
         exec_date = (date.today() - timedelta(days=1)).isoformat()
-
-        logger.info(f"Starting daily sync for date: {exec_date}")
+        logger.info(f"Starting combined sync for date: {exec_date}")
 
         mega_success = False
         uau_success = False
 
-        # Step 1: Execute Mega synchronization (independent record)
+        # Step 1: Execute Mega synchronization
         mega_run_id = self._create_run_record(exec_date, source="mega")
         try:
             logger.info("Step 1: Starting Mega synchronization...")
@@ -93,7 +161,7 @@ class SyncScheduler:
             logger.error(error_msg, exc_info=True)
             self._complete_run_record(mega_run_id, status="failed", error=str(e), metrics={"error": str(e)})
 
-        # Step 2: Execute UAU synchronization (independent record)
+        # Step 2: Execute UAU synchronization
         uau_run_id = self._create_run_record(exec_date, source="uau")
         try:
             logger.info("Step 2: Starting UAU synchronization...")
@@ -106,22 +174,21 @@ class SyncScheduler:
             logger.error(error_msg, exc_info=True)
             self._complete_run_record(uau_run_id, status="failed", error=str(e), metrics={"error": str(e)})
 
-        # Step 3: Execute monthly aggregation (only if at least one sync succeeded)
+        # Step 3: Execute monthly aggregation
         if mega_success or uau_success:
             try:
                 self._execute_aggregation(exec_date)
                 logger.info("Aggregation completed successfully")
             except Exception as e:
-                error_msg = f"Aggregation failed: {e}"
-                logger.error(error_msg, exc_info=True)
+                logger.error(f"Aggregation failed: {e}", exc_info=True)
 
         # Log final summary
         if mega_success and uau_success:
-            logger.info(f"Daily sync completed successfully for {exec_date}")
+            logger.info(f"Combined sync completed successfully for {exec_date}")
         elif mega_success or uau_success:
-            logger.warning(f"Daily sync completed with partial success for {exec_date}")
+            logger.warning(f"Combined sync completed with partial success for {exec_date}")
         else:
-            logger.error(f"Daily sync failed for {exec_date}")
+            logger.error(f"Combined sync failed for {exec_date}")
 
     def _create_run_record(
         self,

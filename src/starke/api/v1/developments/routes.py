@@ -46,7 +46,7 @@ def list_developments(
 
     # Pagination
     offset = (page - 1) * per_page
-    query = query.order_by(Development.name).offset(offset).limit(per_page)
+    query = query.order_by(Development.is_active.desc(), Development.name).offset(offset).limit(per_page)
 
     items = db.execute(query).scalars().all()
 
