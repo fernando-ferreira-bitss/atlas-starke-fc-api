@@ -1,6 +1,6 @@
 """Schemas for Reports API."""
 
-from datetime import date
+from datetime import date, datetime
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
@@ -131,6 +131,8 @@ class DevelopmentItem(BaseModel):
     id: int
     name: str
     is_active: bool = True
+    origem: str = "mega"
+    last_financial_sync_at: Optional[datetime] = None
 
 
 class FilialItem(BaseModel):
@@ -138,6 +140,8 @@ class FilialItem(BaseModel):
     id: int
     nome: str
     is_active: bool = True
+    origem: str = "mega"
+    last_financial_sync_at: Optional[datetime] = None
 
 
 class DevelopmentsListResponse(BaseModel):

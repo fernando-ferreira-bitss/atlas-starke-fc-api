@@ -40,6 +40,30 @@ from .schemas import (
 router = APIRouter(prefix="/reports", tags=["Reports"])
 
 
+def _validate_origem(origem: Optional[str]) -> Optional[str]:
+    """Valida e retorna origem normalizada.
+
+    Aceita tanto valores técnicos (mega, uau) quanto nomes de exibição (ABecker, JVF).
+    Retorna sempre o valor normalizado (mega ou uau).
+    """
+    if origem is None:
+        return None
+    origem_lower = origem.lower()
+    # Mapeia nomes de exibição para valores técnicos
+    display_name_mapping = {
+        "abecker": "mega",
+        "jvf": "uau",
+    }
+    if origem_lower in display_name_mapping:
+        return display_name_mapping[origem_lower]
+    if origem_lower in ["mega", "uau"]:
+        return origem_lower
+    raise HTTPException(
+        status_code=400,
+        detail="origem deve ser 'mega', 'uau', 'ABecker' ou 'JVF'"
+    )
+
+
 def _parse_date(date_str: str) -> date:
     """Parse date string in YYYY-MM-DD or YYYY-MM format."""
     if len(date_str) == 7:  # YYYY-MM format
@@ -50,6 +74,7 @@ def _parse_date(date_str: str) -> date:
 @router.get("/developments", response_model=DevelopmentsListResponse)
 def get_developments_list(
     active_only: bool = Query(True, description="Retornar apenas ativos"),
+    origem: Optional[str] = Query(None, description="Filtrar por origem: mega ou uau"),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
 ) -> DevelopmentsListResponse:
@@ -57,26 +82,60 @@ def get_developments_list(
     Retorna lista de empreendimentos e filiais para filtros de relatórios.
 
     - **active_only**: Se True, retorna apenas empreendimentos/filiais ativos
+    - **origem**: Filtrar por origem (mega = ABecker, uau = JVF)
     """
+    origem = _validate_origem(origem)
+
     # Get developments
     dev_query = db.query(Development)
     if active_only:
         dev_query = dev_query.filter(Development.is_active == True)
+    if origem:
+        dev_query = dev_query.filter(Development.origem == origem)
     developments = dev_query.order_by(Development.name).all()
 
     # Get filiais
     filial_query = db.query(Filial)
     if active_only:
         filial_query = filial_query.filter(Filial.is_active == True)
+    if origem:
+        filial_query = filial_query.filter(Filial.origem == origem)
     filiais = filial_query.order_by(Filial.nome).all()
+
+    # Get max last_financial_sync_at per filial from developments
+    last_sync_query = (
+        db.query(
+            Development.filial_id,
+            func.max(Development.last_financial_sync_at).label("last_financial_sync_at")
+        )
+        .filter(Development.filial_id.isnot(None))
+        .group_by(Development.filial_id)
+    )
+    if active_only:
+        last_sync_query = last_sync_query.filter(Development.is_active == True)
+    if origem:
+        last_sync_query = last_sync_query.filter(Development.origem == origem)
+    last_sync_by_filial = {row.filial_id: row.last_financial_sync_at for row in last_sync_query.all()}
 
     return DevelopmentsListResponse(
         developments=[
-            DevelopmentItem(id=d.id, name=d.name, is_active=d.is_active)
+            DevelopmentItem(
+                id=d.id,
+                name=d.name,
+                is_active=d.is_active,
+                origem=d.origem,
+                last_financial_sync_at=d.last_financial_sync_at,
+            )
             for d in developments
         ],
         filiais=[
-            FilialItem(id=f.id, nome=f.nome, is_active=f.is_active)
+            FilialItem(
+                id=f.id,
+                nome=f.nome,
+                is_active=f.is_active,
+                origem=f.origem,
+                last_financial_sync_at=last_sync_by_filial.get(f.id),
+            )
             for f in filiais
         ],
     )
@@ -87,6 +146,7 @@ def get_cash_flow(
     start_date: str = Query(..., description="Data inicial (YYYY-MM-DD ou YYYY-MM)"),
     end_date: Optional[str] = Query(None, description="Data final (YYYY-MM-DD ou YYYY-MM)"),
     filial_id: Optional[int] = Query(None, description="ID da filial (omitir para consolidado)"),
+    origem: Optional[str] = Query(None, description="Filtrar por origem: mega ou uau"),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
 ) -> CashFlowResponse:
@@ -96,7 +156,9 @@ def get_cash_flow(
     - **start_date**: Data inicial do período
     - **end_date**: Data final do período (default: start_date)
     - **filial_id**: Filtrar por filial específica (omitir para visão consolidada)
+    - **origem**: Filtrar por origem (mega = ABecker, uau = JVF)
     """
+    origem = _validate_origem(origem)
     try:
         start = normalize_ref_date(_parse_date(start_date))
         end = normalize_ref_date(_parse_date(end_date)) if end_date else start
@@ -109,20 +171,24 @@ def get_cash_flow(
 
     if is_consolidated:
         # Consolidated view: aggregate across all active filiais
-        all_cash_out = (
+        cash_out_query = (
             db.query(CashOut)
             .join(Filial, CashOut.filial_id == Filial.id)
             .filter(Filial.is_active == True, CashOut.mes_referencia.in_(month_strings))
-            .all()
         )
+        if origem:
+            cash_out_query = cash_out_query.filter(CashOut.origem == origem)
+        all_cash_out = cash_out_query.all()
 
-        all_cash_in = (
+        cash_in_query = (
             db.query(CashIn)
             .join(Development, CashIn.empreendimento_id == Development.id)
             .join(Filial, Development.filial_id == Filial.id)
             .filter(Filial.is_active == True, CashIn.ref_month.in_(month_strings))
-            .all()
         )
+        if origem:
+            cash_in_query = cash_in_query.filter(CashIn.origem == origem)
+        all_cash_in = cash_in_query.all()
 
         filial_name = "Consolidado"
     else:
@@ -136,18 +202,22 @@ def get_cash_flow(
 
         filial_name = filial.nome
 
-        all_cash_out = (
+        cash_out_query = (
             db.query(CashOut)
             .filter(CashOut.filial_id == filial_id, CashOut.mes_referencia.in_(month_strings))
-            .all()
         )
+        if origem:
+            cash_out_query = cash_out_query.filter(CashOut.origem == origem)
+        all_cash_out = cash_out_query.all()
 
-        all_cash_in = (
+        cash_in_query = (
             db.query(CashIn)
             .join(Development, CashIn.empreendimento_id == Development.id)
             .filter(Development.filial_id == filial_id, CashIn.ref_month.in_(month_strings))
-            .all()
         )
+        if origem:
+            cash_in_query = cash_in_query.filter(CashIn.origem == origem)
+        all_cash_in = cash_in_query.all()
 
     # Aggregate data
     total_cash_in_by_category = defaultdict(lambda: {"forecast": Decimal("0"), "actual": Decimal("0")})
@@ -184,6 +254,10 @@ def get_cash_flow(
     if not is_consolidated:
         opening_cash_in_query = opening_cash_in_query.filter(Development.filial_id == filial_id)
         opening_cash_out_query = opening_cash_out_query.filter(CashOut.filial_id == filial_id)
+
+    if origem:
+        opening_cash_in_query = opening_cash_in_query.filter(CashIn.origem == origem)
+        opening_cash_out_query = opening_cash_out_query.filter(CashOut.origem == origem)
 
     opening_cash_in = opening_cash_in_query.scalar() or Decimal("0")
     opening_cash_out = opening_cash_out_query.scalar() or Decimal("0")
@@ -245,7 +319,7 @@ def get_cash_flow(
     portfolio_stats = None
     if is_consolidated:
         # Query PortfolioStats for all active developments
-        all_portfolios = (
+        portfolio_query = (
             db.query(PortfolioStats)
             .join(Development, PortfolioStats.empreendimento_id == Development.id)
             .join(Filial, Development.filial_id == Filial.id)
@@ -253,6 +327,11 @@ def get_cash_flow(
                 Filial.is_active == True,
                 PortfolioStats.ref_month <= period_dates[-1].strftime("%Y-%m"),
             )
+        )
+        if origem:
+            portfolio_query = portfolio_query.filter(PortfolioStats.origem == origem)
+        all_portfolios = (
+            portfolio_query
             .order_by(PortfolioStats.empreendimento_id, PortfolioStats.ref_month.desc())
             .all()
         )
@@ -288,13 +367,18 @@ def get_cash_flow(
         )
     else:
         # Individual filial - get portfolio stats for developments in this filial
-        all_portfolios = (
+        portfolio_query = (
             db.query(PortfolioStats)
             .join(Development, PortfolioStats.empreendimento_id == Development.id)
             .filter(
                 Development.filial_id == filial_id,
                 PortfolioStats.ref_month <= period_dates[-1].strftime("%Y-%m"),
             )
+        )
+        if origem:
+            portfolio_query = portfolio_query.filter(PortfolioStats.origem == origem)
+        all_portfolios = (
+            portfolio_query
             .order_by(PortfolioStats.empreendimento_id, PortfolioStats.ref_month.desc())
             .all()
         )
@@ -364,6 +448,7 @@ def get_portfolio_performance(
     end_date: Optional[str] = Query(None, description="Data final (YYYY-MM-DD ou YYYY-MM)"),
     development_id: Optional[int] = Query(None, description="ID do empreendimento (omitir para consolidado)"),
     filial_id: Optional[int] = Query(None, description="ID da filial (omitir para consolidado)"),
+    origem: Optional[str] = Query(None, description="Filtrar por origem: mega ou uau"),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
 ) -> PortfolioPerformanceResponse:
@@ -374,8 +459,11 @@ def get_portfolio_performance(
     - **end_date**: Data final do período (default: start_date)
     - **development_id**: Filtrar por empreendimento específico (omitir para consolidado)
     - **filial_id**: Filtrar por filial específica (omitir para consolidado)
+    - **origem**: Filtrar por origem (mega = ABecker, uau = JVF)
     """
     from starke.domain.services.development_service import DevelopmentService
+
+    origem = _validate_origem(origem)
 
     try:
         start = normalize_ref_date(_parse_date(start_date))
@@ -387,7 +475,7 @@ def get_portfolio_performance(
         raise HTTPException(status_code=400, detail=f"Formato de data inválido: {str(e)}")
 
     dev_service = DevelopmentService(db)
-    all_developments = dev_service.get_all_developments(active_only=True)
+    all_developments = dev_service.get_all_developments(active_only=True, origem=origem)
     is_consolidated = development_id is None and filial_id is None
     filter_by_filial = filial_id is not None and development_id is None
 
@@ -397,40 +485,50 @@ def get_portfolio_performance(
 
     if is_consolidated:
         # Batch queries for consolidated view
-        portfolio_snapshot_records = (
+        portfolio_snapshot_query = (
             db.query(PortfolioStats)
             .join(Development, PortfolioStats.empreendimento_id == Development.id)
             .filter(Development.is_active == True, PortfolioStats.ref_month == snapshot_date.strftime("%Y-%m"))
-            .all()
         )
+        if origem:
+            portfolio_snapshot_query = portfolio_snapshot_query.filter(PortfolioStats.origem == origem)
+        portfolio_snapshot_records = portfolio_snapshot_query.all()
 
-        all_cash_in = (
+        cash_in_query = (
             db.query(CashIn)
             .join(Development, CashIn.empreendimento_id == Development.id)
             .filter(Development.is_active == True, CashIn.ref_month.in_(month_strings))
-            .all()
         )
+        if origem:
+            cash_in_query = cash_in_query.filter(CashIn.origem == origem)
+        all_cash_in = cash_in_query.all()
 
-        all_cash_out = (
+        cash_out_query = (
             db.query(CashOut)
             .join(Development, CashOut.filial_id == Development.id)
             .filter(Development.is_active == True, CashOut.mes_referencia.in_(month_strings))
-            .all()
         )
+        if origem:
+            cash_out_query = cash_out_query.filter(CashOut.origem == origem)
+        all_cash_out = cash_out_query.all()
 
-        all_portfolio_temporal = (
+        portfolio_temporal_query = (
             db.query(PortfolioStats)
             .join(Development, PortfolioStats.empreendimento_id == Development.id)
             .filter(Development.is_active == True, PortfolioStats.ref_month.in_(month_strings))
-            .all()
         )
+        if origem:
+            portfolio_temporal_query = portfolio_temporal_query.filter(PortfolioStats.origem == origem)
+        all_portfolio_temporal = portfolio_temporal_query.all()
 
-        all_delinquency = (
+        delinquency_query = (
             db.query(Delinquency)
             .join(Development, Delinquency.empreendimento_id == Development.id)
             .filter(Development.is_active == True, Delinquency.ref_month.in_(month_strings))
-            .all()
         )
+        if origem:
+            delinquency_query = delinquency_query.filter(Delinquency.origem == origem)
+        all_delinquency = delinquency_query.all()
 
         # Process aggregated metrics
         total_vp = Decimal("0")
@@ -587,38 +685,48 @@ def get_portfolio_performance(
         filial_dev_ids = [d.id for d in filial_developments]
 
         # Batch queries filtered by filial
-        portfolio_snapshot_records = (
+        portfolio_snapshot_query = (
             db.query(PortfolioStats)
             .filter(
                 PortfolioStats.empreendimento_id.in_(filial_dev_ids),
                 PortfolioStats.ref_month == snapshot_date.strftime("%Y-%m"),
             )
-            .all()
         )
+        if origem:
+            portfolio_snapshot_query = portfolio_snapshot_query.filter(PortfolioStats.origem == origem)
+        portfolio_snapshot_records = portfolio_snapshot_query.all()
 
-        all_cash_in = (
+        cash_in_query = (
             db.query(CashIn)
             .filter(CashIn.empreendimento_id.in_(filial_dev_ids), CashIn.ref_month.in_(month_strings))
-            .all()
         )
+        if origem:
+            cash_in_query = cash_in_query.filter(CashIn.origem == origem)
+        all_cash_in = cash_in_query.all()
 
-        all_cash_out = (
+        cash_out_query = (
             db.query(CashOut)
             .filter(CashOut.filial_id == filial_id, CashOut.mes_referencia.in_(month_strings))
-            .all()
         )
+        if origem:
+            cash_out_query = cash_out_query.filter(CashOut.origem == origem)
+        all_cash_out = cash_out_query.all()
 
-        all_portfolio_temporal = (
+        portfolio_temporal_query = (
             db.query(PortfolioStats)
             .filter(PortfolioStats.empreendimento_id.in_(filial_dev_ids), PortfolioStats.ref_month.in_(month_strings))
-            .all()
         )
+        if origem:
+            portfolio_temporal_query = portfolio_temporal_query.filter(PortfolioStats.origem == origem)
+        all_portfolio_temporal = portfolio_temporal_query.all()
 
-        all_delinquency = (
+        delinquency_query = (
             db.query(Delinquency)
             .filter(Delinquency.empreendimento_id.in_(filial_dev_ids), Delinquency.ref_month.in_(month_strings))
-            .all()
         )
+        if origem:
+            delinquency_query = delinquency_query.filter(Delinquency.origem == origem)
+        all_delinquency = delinquency_query.all()
 
         # Process aggregated metrics (same logic as consolidated)
         total_vp = Decimal("0")
@@ -771,14 +879,16 @@ def get_portfolio_performance(
         if not development:
             raise HTTPException(status_code=404, detail="Empreendimento não encontrado")
 
-        portfolio_record = (
+        portfolio_query = (
             db.query(PortfolioStats)
             .filter(
                 PortfolioStats.empreendimento_id == development_id,
                 PortfolioStats.ref_month == snapshot_date.strftime("%Y-%m"),
             )
-            .first()
         )
+        if origem:
+            portfolio_query = portfolio_query.filter(PortfolioStats.origem == origem)
+        portfolio_record = portfolio_query.first()
 
         total_monthly_receipts = Decimal("0")
         total_forecast = Decimal("0")
@@ -786,11 +896,13 @@ def get_portfolio_performance(
 
         for period_date in period_dates:
             month_str = period_date.strftime("%Y-%m")
-            cash_in_records = (
+            cash_in_query = (
                 db.query(CashIn)
                 .filter(CashIn.empreendimento_id == development_id, CashIn.ref_month == month_str)
-                .all()
             )
+            if origem:
+                cash_in_query = cash_in_query.filter(CashIn.origem == origem)
+            cash_in_records = cash_in_query.all()
             total_monthly_receipts += sum(Decimal(str(r.actual)) for r in cash_in_records)
             total_forecast += sum(Decimal(str(r.forecast)) for r in cash_in_records)
             total_actual += sum(Decimal(str(r.actual)) for r in cash_in_records)
@@ -828,25 +940,31 @@ def get_portfolio_performance(
             month_str = period_date.strftime("%Y-%m")
             month_label = f"{month_names_pt[period_date.month - 1]} {period_date.year}"
 
-            cash_in_records = (
+            cash_in_query = (
                 db.query(CashIn)
                 .filter(CashIn.empreendimento_id == development_id, CashIn.ref_month == month_str)
-                .all()
             )
+            if origem:
+                cash_in_query = cash_in_query.filter(CashIn.origem == origem)
+            cash_in_records = cash_in_query.all()
             month_receipts_total = sum(Decimal(str(r.actual)) for r in cash_in_records)
 
-            cash_out_records = (
+            cash_out_query = (
                 db.query(CashOut)
                 .filter(CashOut.filial_id == development_id, CashOut.mes_referencia == month_str)
-                .all()
             )
+            if origem:
+                cash_out_query = cash_out_query.filter(CashOut.origem == origem)
+            cash_out_records = cash_out_query.all()
             month_deductions = sum(Decimal(str(r.realizado)) for r in cash_out_records)
 
-            portfolio_month = (
+            portfolio_month_query = (
                 db.query(PortfolioStats)
                 .filter(PortfolioStats.empreendimento_id == development_id, PortfolioStats.ref_month == month_str)
-                .first()
             )
+            if origem:
+                portfolio_month_query = portfolio_month_query.filter(PortfolioStats.origem == origem)
+            portfolio_month = portfolio_month_query.first()
             month_vp = Decimal(str(portfolio_month.vp)) if portfolio_month else Decimal("0")
 
             month_net_receipts = month_receipts_total - month_deductions
@@ -864,11 +982,13 @@ def get_portfolio_performance(
             )
 
             # Delinquency for individual development
-            delinquency_record = (
+            delinquency_query = (
                 db.query(Delinquency)
                 .filter(Delinquency.empreendimento_id == development_id, Delinquency.ref_month == month_str)
-                .first()
             )
+            if origem:
+                delinquency_query = delinquency_query.filter(Delinquency.origem == origem)
+            delinquency_record = delinquency_query.first()
 
             if delinquency_record:
                 details = delinquency_record.details or {}
@@ -913,6 +1033,7 @@ def get_portfolio_performance(
 @router.get("/evolution-data", response_model=EvolutionDataResponse)
 def get_evolution_data(
     filial_id: Optional[int] = Query(None, description="ID da filial (omitir para consolidado)"),
+    origem: Optional[str] = Query(None, description="Filtrar por origem: mega ou uau"),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
 ) -> EvolutionDataResponse:
@@ -920,7 +1041,9 @@ def get_evolution_data(
     Retorna dados de evolução do fluxo de caixa dos últimos 12 meses.
 
     - **filial_id**: Filtrar por filial específica (omitir para visão consolidada)
+    - **origem**: Filtrar por origem (mega = ABecker, uau = JVF)
     """
+    origem = _validate_origem(origem)
     # Calculate last 12 months period
     today = date.today()
     end_date = date(today.year, today.month, 1)
@@ -934,54 +1057,60 @@ def get_evolution_data(
     month_names_pt = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
 
     if is_consolidated:
-        cash_in_query = (
+        cash_in_base = (
             db.query(CashIn.ref_month, func.sum(CashIn.actual).label("total_actual"))
             .join(Development, CashIn.empreendimento_id == Development.id)
             .join(Filial, Development.filial_id == Filial.id)
             .filter(Filial.is_active == True, CashIn.ref_month.in_(year_months))
-            .group_by(CashIn.ref_month)
-            .all()
         )
+        if origem:
+            cash_in_base = cash_in_base.filter(CashIn.origem == origem)
+        cash_in_query = cash_in_base.group_by(CashIn.ref_month).all()
 
-        cash_out_query = (
+        cash_out_base = (
             db.query(CashOut.mes_referencia, func.sum(CashOut.realizado).label("total_actual"))
             .join(Filial, CashOut.filial_id == Filial.id)
             .filter(Filial.is_active == True, CashOut.mes_referencia.in_(year_months))
-            .group_by(CashOut.mes_referencia)
-            .all()
         )
+        if origem:
+            cash_out_base = cash_out_base.filter(CashOut.origem == origem)
+        cash_out_query = cash_out_base.group_by(CashOut.mes_referencia).all()
 
-        portfolio_query = (
+        portfolio_base = (
             db.query(PortfolioStats.ref_month, func.sum(PortfolioStats.vp).label("total_vp"))
             .join(Development, PortfolioStats.empreendimento_id == Development.id)
             .join(Filial, Development.filial_id == Filial.id)
             .filter(Filial.is_active == True, PortfolioStats.ref_month.in_(year_months))
-            .group_by(PortfolioStats.ref_month)
-            .all()
         )
+        if origem:
+            portfolio_base = portfolio_base.filter(PortfolioStats.origem == origem)
+        portfolio_query = portfolio_base.group_by(PortfolioStats.ref_month).all()
     else:
-        cash_in_query = (
+        cash_in_base = (
             db.query(CashIn.ref_month, func.sum(CashIn.actual).label("total_actual"))
             .join(Development, CashIn.empreendimento_id == Development.id)
             .filter(Development.filial_id == filial_id, CashIn.ref_month.in_(year_months))
-            .group_by(CashIn.ref_month)
-            .all()
         )
+        if origem:
+            cash_in_base = cash_in_base.filter(CashIn.origem == origem)
+        cash_in_query = cash_in_base.group_by(CashIn.ref_month).all()
 
-        cash_out_query = (
+        cash_out_base = (
             db.query(CashOut.mes_referencia, func.sum(CashOut.realizado).label("total_actual"))
             .filter(CashOut.filial_id == filial_id, CashOut.mes_referencia.in_(year_months))
-            .group_by(CashOut.mes_referencia)
-            .all()
         )
+        if origem:
+            cash_out_base = cash_out_base.filter(CashOut.origem == origem)
+        cash_out_query = cash_out_base.group_by(CashOut.mes_referencia).all()
 
-        portfolio_query = (
+        portfolio_base = (
             db.query(PortfolioStats.ref_month, func.sum(PortfolioStats.vp).label("total_vp"))
             .join(Development, PortfolioStats.empreendimento_id == Development.id)
             .filter(Development.filial_id == filial_id, PortfolioStats.ref_month.in_(year_months))
-            .group_by(PortfolioStats.ref_month)
-            .all()
         )
+        if origem:
+            portfolio_base = portfolio_base.filter(PortfolioStats.origem == origem)
+        portfolio_query = portfolio_base.group_by(PortfolioStats.ref_month).all()
 
     # Build dictionaries
     cash_in_by_month = {row.ref_month: row.total_actual for row in cash_in_query}

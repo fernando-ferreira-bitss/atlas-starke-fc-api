@@ -16,11 +16,13 @@ class DevelopmentService:
         """Initialize service with database session."""
         self.db = db
 
-    def get_all_developments(self, active_only: bool = False) -> List[Development]:
+    def get_all_developments(self, active_only: bool = False, origem: Optional[str] = None) -> List[Development]:
         """Get all developments from database."""
         query = self.db.query(Development)
         if active_only:
             query = query.filter(Development.is_active == True)  # noqa: E712
+        if origem:
+            query = query.filter(Development.origem == origem)
         return query.order_by(Development.name).all()
 
     def get_development_by_id(self, development_id: int) -> Optional[Development]:
