@@ -8,7 +8,6 @@ from starke.core.logging import get_logger
 from starke.domain.entities.cash_flow import CashOutData
 from starke.domain.services.cash_flow_service import CashFlowService
 from starke.domain.services.development_service import DevelopmentService
-from starke.domain.services.ingestion_service import IngestionService
 from starke.infrastructure.database.base import get_session
 from starke.infrastructure.database.models import Run
 from starke.infrastructure.external_apis.mega_client import MegaAPIClient
@@ -140,18 +139,10 @@ class Orchestrator:
                 return summary
 
         # Step 1: Data Ingestion (if not skipped)
+        # NOTE: IngestionService was removed - data ingestion is now handled by sync services
         if not skip_ingestion:
-            logger.info("Step 1: Data ingestion")
-            with MegaAPIClient() as api_client:
-                ingestion_service = IngestionService(session, api_client)
-
-                ingestion_summary = ingestion_service.ingest_all_for_date(
-                    empreendimento_ids, ref_date
-                )
-
-                summary["total_contracts"] = ingestion_summary.get("total_contracts", 0)
-                summary["total_installments"] = ingestion_summary.get("total_installments", 0)
-                summary["errors"].extend(ingestion_summary.get("errors", []))
+            logger.info("Step 1: Data ingestion - using sync services")
+            # TODO: Implement data ingestion using MegaSyncService or UauSyncService
         else:
             logger.info("Step 1: Data ingestion skipped")
 

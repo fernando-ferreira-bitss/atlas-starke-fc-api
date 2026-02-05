@@ -9,7 +9,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from starke.api.middleware.audit import AuditMiddleware
 from starke.api.v1.router import api_router as v1_router
 from starke.infrastructure.database.base import SessionLocal
 from starke.core.scheduler import start_scheduler, stop_scheduler
@@ -53,18 +52,12 @@ class TrailingSlashMiddleware(BaseHTTPMiddleware):
 # Create FastAPI app
 app = FastAPI(
     title="Starke API",
-    description="API for Starke - Cash Flow and Patrimony Management System",
+    description="API for Starke - Cash Flow Management System",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
     lifespan=lifespan,
     redirect_slashes=False,  # Disable automatic trailing slash redirects
-)
-
-# Add audit middleware for logging all requests
-app.add_middleware(
-    AuditMiddleware,
-    db_session_factory=SessionLocal,
 )
 
 # Add trailing slash middleware

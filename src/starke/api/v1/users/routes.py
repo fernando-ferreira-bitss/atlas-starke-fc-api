@@ -6,26 +6,19 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from starke.api.dependencies.database import get_db
-from starke.api.dependencies.auth import require_permission, require_role
+from starke.api.dependencies.auth import require_permission
 from sqlalchemy import func
 
 from starke.api.v1.auth.schemas import UserCreate, UserUpdate, UserResponse, UserListResponse
 from starke.domain.permissions.screens import Screen
 from starke.domain.services.auth_service import AuthService
 from starke.infrastructure.database.models import User, UserRole
-from starke.infrastructure.database.patrimony.client import PatClient
 
 router = APIRouter()
 
 
-def _get_user_client(db: Session, user_id: int) -> Optional[PatClient]:
-    """Get the client linked to a user."""
-    return db.query(PatClient).filter(PatClient.user_id == user_id).first()
-
-
-def _build_user_response(user: User, db: Session) -> UserResponse:
-    """Build UserResponse with client info if available."""
-    client = _get_user_client(db, user.id)
+def _build_user_response(user: User) -> UserResponse:
+    """Build UserResponse."""
     return UserResponse(
         id=user.id,
         email=user.email,
@@ -33,8 +26,8 @@ def _build_user_response(user: User, db: Session) -> UserResponse:
         role=user.role,
         is_active=user.is_active,
         is_superuser=user.is_superuser,
-        client_id=client.id if client else None,
-        client_name=client.name if client else None,
+        client_id=None,
+        client_name=None,
         created_at=user.created_at,
         updated_at=user.updated_at,
     )
@@ -76,7 +69,7 @@ def list_users(
     items = query.order_by(User.created_at.desc()).offset(offset).limit(per_page).all()
 
     return UserListResponse(
-        items=[_build_user_response(user, db) for user in items],
+        items=[_build_user_response(user) for user in items],
         total=total,
         page=page,
         per_page=per_page,
@@ -93,7 +86,6 @@ def create_user(
     """Create a new user.
 
     Requires USERS_CREATE permission.
-    When role=client, client_id is required and will link the user to the client.
     """
     auth_service = AuthService(db)
 
@@ -104,21 +96,6 @@ def create_user(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email already registered",
         )
-
-    # If role is client, validate client exists and is not already linked
-    client = None
-    if user_data.role == UserRole.CLIENT.value:
-        client = db.query(PatClient).filter(PatClient.id == user_data.client_id).first()
-        if not client:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Cliente não encontrado: {user_data.client_id}",
-            )
-        if client.user_id is not None:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Este cliente já está vinculado a outro usuário",
-            )
 
     # Create user
     user = User(
@@ -131,16 +108,10 @@ def create_user(
     )
 
     db.add(user)
-    db.flush()  # Get the user ID
-
-    # Link client to user if role is client
-    if client:
-        client.user_id = user.id
-
     db.commit()
     db.refresh(user)
 
-    return _build_user_response(user, db)
+    return _build_user_response(user)
 
 
 @router.get("/{user_id}", response_model=UserResponse)
@@ -161,7 +132,7 @@ def get_user(
             detail="User not found",
         )
 
-    return _build_user_response(user, db)
+    return _build_user_response(user)
 
 
 @router.put("/{user_id}", response_model=UserResponse)
@@ -174,7 +145,6 @@ def update_user(
     """Update a user.
 
     Requires USERS_EDIT permission.
-    When changing role to/from client, handles client linking/unlinking.
     """
     user = db.query(User).filter(User.id == user_id).first()
 
@@ -190,45 +160,6 @@ def update_user(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Cannot modify admin users",
         )
-
-    # Get current client linked to user
-    current_client = _get_user_client(db, user.id)
-
-    # Determine final role
-    new_role = user_data.role if user_data.role is not None else user.role
-
-    # Validate role change and client_id
-    if new_role == UserRole.CLIENT.value:
-        # If changing to client role or updating client
-        if user_data.client_id is not None:
-            # Changing/setting client
-            new_client = db.query(PatClient).filter(PatClient.id == user_data.client_id).first()
-            if not new_client:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail=f"Cliente não encontrado: {user_data.client_id}",
-                )
-            if new_client.user_id is not None and new_client.user_id != user.id:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Este cliente já está vinculado a outro usuário",
-                )
-            # Unlink old client if exists
-            if current_client and current_client.id != user_data.client_id:
-                current_client.user_id = None
-            # Link new client
-            new_client.user_id = user.id
-        elif user.role != UserRole.CLIENT.value and not current_client:
-            # Changing TO client role but no client_id provided and no existing link
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="client_id é obrigatório ao alterar role para client",
-            )
-    else:
-        # Changing FROM client role to another role
-        if user.role == UserRole.CLIENT.value and current_client:
-            # Unlink the client
-            current_client.user_id = None
 
     # Update fields
     if user_data.email is not None:
@@ -267,7 +198,7 @@ def update_user(
     db.commit()
     db.refresh(user)
 
-    return _build_user_response(user, db)
+    return _build_user_response(user)
 
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
