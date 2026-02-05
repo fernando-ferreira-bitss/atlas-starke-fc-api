@@ -5,7 +5,7 @@ services:
   # Starke API - Uses GHCR image from CI/CD
   # ============================================
   starke-api:
-    image: ghcr.io/fernando-ferreira-bitss/atlas-starke:dev
+    image: ghcr.io/fernando-ferreira-bitss/atlas-starke-fc-api:latest
     container_name: starke-api
     environment:
       # Python path
