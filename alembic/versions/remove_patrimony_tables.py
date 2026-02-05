@@ -20,28 +20,19 @@ depends_on = None
 
 
 def upgrade():
-    # Drop patrimony tables (in correct order due to foreign keys)
-
-    # First drop tables that may have foreign keys to others
-    op.execute("DROP TABLE IF EXISTS documents CASCADE")
-    op.execute("DROP TABLE IF EXISTS monthly_positions CASCADE")
-    op.execute("DROP TABLE IF EXISTS assets CASCADE")
-    op.execute("DROP TABLE IF EXISTS liabilities CASCADE")
-    op.execute("DROP TABLE IF EXISTS accounts CASCADE")
-    op.execute("DROP TABLE IF EXISTS clients CASCADE")
-    op.execute("DROP TABLE IF EXISTS institutions CASCADE")
-    op.execute("DROP TABLE IF EXISTS audit_logs CASCADE")
-    op.execute("DROP TABLE IF EXISTS import_history CASCADE")
+    # Drop patrimony tables (all have pat_ prefix)
+    op.execute("DROP TABLE IF EXISTS pat_documents CASCADE")
+    op.execute("DROP TABLE IF EXISTS pat_monthly_positions CASCADE")
+    op.execute("DROP TABLE IF EXISTS pat_assets CASCADE")
+    op.execute("DROP TABLE IF EXISTS pat_liabilities CASCADE")
+    op.execute("DROP TABLE IF EXISTS pat_accounts CASCADE")
+    op.execute("DROP TABLE IF EXISTS pat_clients CASCADE")
+    op.execute("DROP TABLE IF EXISTS pat_institutions CASCADE")
+    op.execute("DROP TABLE IF EXISTS pat_audit_logs CASCADE")
     op.execute("DROP TABLE IF EXISTS pat_import_history CASCADE")
 
-    # Other tables that may not be needed
-    op.execute("DROP TABLE IF EXISTS report_access_tokens CASCADE")
-    op.execute("DROP TABLE IF EXISTS user_preferences CASCADE")
+    # Drop impersonation logs (not needed for cash flow)
     op.execute("DROP TABLE IF EXISTS impersonation_logs CASCADE")
-
-    # Role/permission tables if not needed
-    op.execute("DROP TABLE IF EXISTS role_permissions CASCADE")
-    op.execute("DROP TABLE IF EXISTS roles CASCADE")
 
 
 def downgrade():

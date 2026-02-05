@@ -20,16 +20,17 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     # Drop monthly aggregation tables (no longer needed - using main tables grouped by ref_month)
-    op.drop_table('monthly_cash_flow')
-    op.drop_table('monthly_balance')
-    op.drop_table('monthly_portfolio_stats')
-    op.drop_table('monthly_delinquency')
+    # Using IF EXISTS to handle cases where tables don't exist (fresh database)
+    op.execute("DROP TABLE IF EXISTS monthly_cash_flow CASCADE")
+    op.execute("DROP TABLE IF EXISTS monthly_balance CASCADE")
+    op.execute("DROP TABLE IF EXISTS monthly_portfolio_stats CASCADE")
+    op.execute("DROP TABLE IF EXISTS monthly_delinquency CASCADE")
 
     # Drop email_recipients table (email functionality removed)
-    op.drop_table('email_recipients')
+    op.execute("DROP TABLE IF EXISTS email_recipients CASCADE")
 
     # Drop report_access_tokens table (public report access removed)
-    op.drop_table('report_access_tokens')
+    op.execute("DROP TABLE IF EXISTS report_access_tokens CASCADE")
 
 
 def downgrade() -> None:
