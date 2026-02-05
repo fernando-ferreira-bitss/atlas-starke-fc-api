@@ -1,0 +1,26 @@
+[Unit]
+Description=Starke Cash Flow Report Generator
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=oneshot
+User=starke
+Group=starke
+WorkingDirectory=/opt/starke
+Environment="PATH=/opt/starke/.venv/bin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=/opt/starke/.venv/bin/poetry run starke run
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=starke
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/starke/data /opt/starke/logs
+ReadOnlyPaths=/opt/starke/secrets
+
+[Install]
+WantedBy=multi-user.target

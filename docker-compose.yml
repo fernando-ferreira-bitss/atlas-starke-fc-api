@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  starke:
+    build:
+      context: .
+      target: development
+    container_name: starke-app
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+      - ./secrets:/app/secrets
+      - ./logs:/app/logs
+      - ./.env:/app/.env
+    environment:
+      - ENVIRONMENT=development
+      - DATABASE_URL=postgresql://starke:starke@postgres:5432/starke
+    depends_on:
+      - postgres
+    networks:
+      - starke-network
+    restart: unless-stopped
+    command: tail -f /dev/null  # Keep container running for development
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: starke-postgres
+    environment:
+      POSTGRES_USER: starke
+      POSTGRES_PASSWORD: starke
+      POSTGRES_DB: starke
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - starke-network
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U starke"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Optional: PGAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: starke-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@starke.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    networks:
+      - starke-network
+    depends_on:
+      - postgres
+    profiles:
+      - tools
+
+volumes:
+  postgres-data:
+
+networks:
+  starke-network:
+    driver: bridge

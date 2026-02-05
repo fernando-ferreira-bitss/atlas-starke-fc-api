@@ -1,0 +1,3820 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Contabilidade Lan�amentos Server",
+    "description": "Mega Sistemas",
+    "version": "1.3.1.0"
+  },
+  "paths": {
+    "/api/contabilidadelancamentos/lancamento/item/{Id}": {
+      "post": {
+        "tags": [
+          "Item"
+        ],
+        "summary": "Insere um item contábil",
+        "description": "Insere um item em um lançamento contábil já existente, através de um Id definido no Header",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Id do lançamento em que os itens serão incluídos, formado pelo código da organização, sequencia e código do lançamento codificados em Base64",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Itens a serem incluídos na contabilidade",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Item"
+        ],
+        "summary": "Altera um item contábil",
+        "description": "Altera um item ou rateio de um lançamento contábil já existente, através de um Id definido no Header",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Id do lançamento em que os itens serão alterados, formado pelo código da organização, sequencia e código do lançamento codificados em Base64",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Itens a serem alterados na contabilidade",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Item"
+        ],
+        "summary": "Exclui um item contábil",
+        "description": "Exclui um item de um lançamento contábil já existente, através de um Id definido no Header",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Id do lançamento em que os itens serão excluídos, formado pelo código da organização, sequencia e código do lançamento codificados em Base64",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Itens a serem excluídos na contabilidade",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contabilidadelancamentos/lancamento/{Id}": {
+      "get": {
+        "tags": [
+          "Lancamento"
+        ],
+        "summary": "Retorna um lançamento contábil",
+        "description": "Retorna um lançamento contábil pelo seu id",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Id do lançamento, formado pelo código da organização, sequencia e código do lançamento codificados em Base64",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Expand",
+            "in": "query",
+            "description": "Parâmetro de expansão de informações",
+            "schema": {
+              "enum": [
+                "Organizacao",
+                "Indice",
+                "Acao",
+                "AcaoMovimento",
+                "Lote",
+                "Status",
+                "Totais",
+                "Sistema",
+                "Tipo",
+                "SequenciaAnoMes",
+                "DataImportacao",
+                "TipoContabilidade",
+                "Itens",
+                "Itens.Filial",
+                "Itens.Contas",
+                "Itens.Historico",
+                "Itens.TipoDocumento",
+                "Itens.Documento",
+                "Itens.Agente",
+                "Itens.DataConversao",
+                "Itens.DataOrcamento",
+                "Itens.ContraPartida",
+                "Itens.InteracaoUsuario",
+                "Itens.RegrasRateio",
+                "Itens.ContasAnteriores",
+                "RateiosCentroCusto",
+                "RateiosCentroCusto.CentroCusto",
+                "RateiosCentroCusto.InteracaoUsuario",
+                "RateiosCentroCusto.CentroCustoAnterior",
+                "RateiosProjeto",
+                "RateiosProjeto.Projeto",
+                "RateiosProjeto.InteracaoUsuario"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Lancamento"
+        ],
+        "summary": "Altera um lançamento contábil",
+        "description": "Altera o cabeçalho de um lançamento contábil já existente, através de um Id definido no Header",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Id do lançamento a ser alterado, formado pelo código da organização, sequencia e código do lançamento codificados em Base64",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Lançamento contábil a ser alterado na contabilidade",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Lancamento"
+        ],
+        "summary": "Exclui um lançamento contábil",
+        "description": "Exclui um lançamento contábil já existente, através de um Id definido no Header",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Id do lançamento a ser excluído, formado pelo código da organização, sequencia e código do lançamento codificados em Base64",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Lançamento contábil a ser excluído na contabilidade",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contabilidadelancamentos/lancamento": {
+      "get": {
+        "tags": [
+          "Lancamento"
+        ],
+        "summary": "Retorna uma lista de lançamentos contábeis",
+        "description": "Retorna uma lista de lançamentos contábeis através de um filtro",
+        "parameters": [
+          {
+            "name": "Expand",
+            "in": "query",
+            "description": "Parâmetro de expansão de informações",
+            "schema": {
+              "enum": [
+                "Organizacao",
+                "Indice",
+                "Acao",
+                "AcaoMovimento",
+                "Lote",
+                "Status",
+                "Totais",
+                "Sistema",
+                "Tipo",
+                "SequenciaAnoMes",
+                "DataImportacao",
+                "TipoContabilidade",
+                "Itens",
+                "Itens.Filial",
+                "Itens.Contas",
+                "Itens.Historico",
+                "Itens.TipoDocumento",
+                "Itens.Documento",
+                "Itens.Agente",
+                "Itens.DataConversao",
+                "Itens.DataOrcamento",
+                "Itens.ContraPartida",
+                "Itens.InteracaoUsuario",
+                "Itens.RegrasRateio",
+                "Itens.ContasAnteriores",
+                "RateiosCentroCusto",
+                "RateiosCentroCusto.CentroCusto",
+                "RateiosCentroCusto.InteracaoUsuario",
+                "RateiosCentroCusto.CentroCustoAnterior",
+                "RateiosProjeto",
+                "RateiosProjeto.Projeto",
+                "RateiosProjeto.InteracaoUsuario"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Organizacao",
+            "in": "query",
+            "description": "Organização consolidadora do lançamento. Pode-se usar o código Id ou o CNPJ",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Lote",
+            "in": "query",
+            "description": "Lote contábil do lançamento. Pode-se usar o código Id ou o código do lote",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "LancamentoInicial",
+            "in": "query",
+            "description": "Número de lançamento dentro do mês",
+            "schema": {
+              "type": "Int"
+            }
+          },
+          {
+            "name": "LancamentoFinal",
+            "in": "query",
+            "description": "Número de lançamento dentro do mês",
+            "schema": {
+              "type": "Int"
+            }
+          },
+          {
+            "name": "DataInicial",
+            "in": "query",
+            "description": "Data inicial do intervalo de datas de lançamento",
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "DataFinal",
+            "in": "query",
+            "description": "Data final do intervalo de datas de lançamento",
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "description": "Status do lançamento, indicando se o lançamento possui os valores de débito e crédito igualados",
+            "schema": {
+              "enum": [
+                "Atualizado",
+                "NãoAtualizado",
+                "Bloqueado"
+              ],
+              "type": "String"
+            }
+          },
+          {
+            "name": "Tipo",
+            "in": "query",
+            "description": "Tipo do lançamento",
+            "schema": {
+              "enum": [
+                "Digitado",
+                "Encerramento",
+                "Abertura",
+                "Importação",
+                "AberturaDigitada",
+                "Redistribuição",
+                "SaldoAnteriorDigitado",
+                "AjusteValorPresente",
+                "AjusteValorPresenteEstorno",
+                "EquivalênciaPatrimonial"
+              ],
+              "type": "String"
+            }
+          },
+          {
+            "name": "Filial",
+            "in": "query",
+            "description": "Filial do item do lançamento. Pode-se usar o código Id ou o CNPJ",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "ItemInicial",
+            "in": "query",
+            "description": "Sequencial do item dentro do lançamento",
+            "schema": {
+              "type": "Int"
+            }
+          },
+          {
+            "name": "ItemFinal",
+            "in": "query",
+            "description": "Sequencial do item dentro do lançamento",
+            "schema": {
+              "type": "Int"
+            }
+          },
+          {
+            "name": "Conta",
+            "in": "query",
+            "description": "Plano de contas do lançamento. Este irá considerar tanto as contas crédito quanto as contas débito. Pode-se usar o código Id, o extenso ou reduzido da conta",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Historico",
+            "in": "query",
+            "description": "Histórico do lançamento. Pode-se usar o código Id, o extenso ou reduzido do histórico",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Complemento",
+            "in": "query",
+            "description": "Texto complemento do lançamento",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "ValorInicial",
+            "in": "query",
+            "description": "Valor inicial do intervalo de valores de itens de lançamento",
+            "schema": {
+              "type": "Double"
+            }
+          },
+          {
+            "name": "ValorFinal",
+            "in": "query",
+            "description": "Valor final do intervalo de valores de itens de lançamento",
+            "schema": {
+              "type": "Double"
+            }
+          },
+          {
+            "name": "Documento",
+            "in": "query",
+            "description": "Número do documento do lançamento",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Agente",
+            "in": "query",
+            "description": "Agente do lançamento. Pode-se usar o código do agente ou CNPJ",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "CentroCusto",
+            "in": "query",
+            "description": "Centro de custo do rateio do lançamento. Pode-se usar o código Id, o extenso ou reduzido do centro de custo",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Projeto",
+            "in": "query",
+            "description": "Projeto do rateio do lançamento. Pode-se usar o código Id, o extenso ou reduzido do projeto",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Página referente aos lançamentos de retorno",
+            "schema": {
+              "type": "Int",
+              "default": "1 (Primeira página)"
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "description": "Quantidade de lançamentos por página",
+            "schema": {
+              "type": "Int",
+              "default": "100 lançamentos"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Lancamento"
+        ],
+        "summary": "Insere um lançamento contábil",
+        "description": "Insere um novo lançamento contábil",
+        "requestBody": {
+          "description": "Lançamento contábil a ser incluído na contabilidade",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Lancamento"
+        ],
+        "summary": "Altera um lançamento contábil",
+        "description": "Altera o cabeçalho de um lançamento contábil já existente, através de um Id definido no Body",
+        "requestBody": {
+          "description": "Lançamento contábil a ser alterado na contabilidade",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Lancamento"
+        ],
+        "summary": "Exclui um lançamento contábil",
+        "description": "Exclui um lançamento contábil já existente, através de um Id definido no Body",
+        "requestBody": {
+          "description": "Lançamento contábil a ser excluído na contabilidade",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contabilidadelancamentos/saldo/conta": {
+      "get": {
+        "tags": [
+          "Saldo"
+        ],
+        "summary": "Retorna uma lista de saldos contábeis por conta",
+        "description": "Retorna uma lista de saldos contábeis agrupados por conta",
+        "parameters": [
+          {
+            "name": "Expand",
+            "in": "query",
+            "description": "Parâmetro de expansão de informações",
+            "schema": {
+              "enum": [
+                "Conta",
+                "CentroCusto",
+                "Projeto"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filial",
+            "in": "query",
+            "description": "Filial do saldo. Pode-se usar o código Id ou o CNPJ",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "DataInicial",
+            "in": "query",
+            "description": "Data inicial do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "DataFinal",
+            "in": "query",
+            "description": "Data final do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "Tipo",
+            "in": "query",
+            "description": "Tipo de consulta de saldo",
+            "schema": {
+              "enum": [
+                "Mensal",
+                "Diário",
+                "Acumulado"
+              ],
+              "type": "String",
+              "default": "Mensal"
+            }
+          },
+          {
+            "name": "Conta",
+            "in": "query",
+            "description": "Plano de contas do saldo. Pode-se usar o código Id, o extenso ou reduzido da conta",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Agente",
+            "in": "query",
+            "description": "Agente do saldo. Pode-se usar o código do agente ou CNPJ",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Criterio",
+            "in": "query",
+            "description": "Critério de saldo",
+            "schema": {
+              "type": "String",
+              "default": "0 - Moeda Corrente"
+            }
+          },
+          {
+            "name": "Encerramento",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de encerramento",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Redistribuicao",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de redistribuição",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Analiticas",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar o resultado em contas analíticas",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "PeriodoZerado",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar os períodos com valores de débito e crédito zerados",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "TipoContabilidade",
+            "in": "query",
+            "description": "Tipo de contabilidades dos saldos",
+            "schema": {
+              "enum": [
+                "ComumTodos",
+                "Societário",
+                "Fiscal",
+                "IFRS"
+              ],
+              "type": "String",
+              "default": "Societário"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contabilidadelancamentos/saldo/conta/centrocusto": {
+      "get": {
+        "tags": [
+          "Saldo"
+        ],
+        "summary": "Retorna uma lista de saldos contábeis por conta e centro de custo",
+        "description": "Retorna uma lista de saldos contábeis agrupados por conta e centro de custo",
+        "parameters": [
+          {
+            "name": "Expand",
+            "in": "query",
+            "description": "Parâmetro de expansão de informações",
+            "schema": {
+              "enum": [
+                "Conta",
+                "CentroCusto",
+                "Projeto"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filial",
+            "in": "query",
+            "description": "Filial do saldo. Pode-se usar o código Id ou o CNPJ",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "DataInicial",
+            "in": "query",
+            "description": "Data inicial do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "DataFinal",
+            "in": "query",
+            "description": "Data final do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "Tipo",
+            "in": "query",
+            "description": "Tipo de consulta de saldo",
+            "schema": {
+              "enum": [
+                "Mensal",
+                "Diário",
+                "Acumulado"
+              ],
+              "type": "String",
+              "default": "Mensal"
+            }
+          },
+          {
+            "name": "Conta",
+            "in": "query",
+            "description": "Plano de contas do saldo. Pode-se usar o código Id, o extenso ou reduzido da conta",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "CentroCusto",
+            "in": "query",
+            "description": "Centro de custo do saldo. Pode-se usar o código Id, o extenso ou reduzido do centro de custo",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Agente",
+            "in": "query",
+            "description": "Agente do saldo. Pode-se usar o código do agente ou CNPJ",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Criterio",
+            "in": "query",
+            "description": "Critério de saldo",
+            "schema": {
+              "type": "String",
+              "default": "0 - Moeda Corrente"
+            }
+          },
+          {
+            "name": "Encerramento",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de encerramento",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Redistribuicao",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de redistribuição",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Analiticas",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar o resultado em contas analíticas",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "PeriodoZerado",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar os períodos com valores de débito e crédito zerados",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "TipoContabilidade",
+            "in": "query",
+            "description": "Tipo de contabilidades dos saldos",
+            "schema": {
+              "enum": [
+                "ComumTodos",
+                "Societário",
+                "Fiscal",
+                "IFRS"
+              ],
+              "type": "String",
+              "default": "Societário"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contabilidadelancamentos/saldo/conta/centrocusto/projeto": {
+      "get": {
+        "tags": [
+          "Saldo"
+        ],
+        "summary": "Retorna uma lista de saldos contábeis por conta, centro de custo e projeto",
+        "description": "Retorna uma lista de saldos contábeis agrupados por conta, centro de custo e projeto",
+        "parameters": [
+          {
+            "name": "Expand",
+            "in": "query",
+            "description": "Parâmetro de expansão de informações",
+            "schema": {
+              "enum": [
+                "Conta",
+                "CentroCusto",
+                "Projeto"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filial",
+            "in": "query",
+            "description": "Filial do saldo. Pode-se usar o código Id ou o CNPJ",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "DataInicial",
+            "in": "query",
+            "description": "Data inicial do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "DataFinal",
+            "in": "query",
+            "description": "Data final do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "Tipo",
+            "in": "query",
+            "description": "Tipo de consulta de saldo",
+            "schema": {
+              "enum": [
+                "Mensal",
+                "Diário",
+                "Acumulado"
+              ],
+              "type": "String",
+              "default": "Mensal"
+            }
+          },
+          {
+            "name": "Conta",
+            "in": "query",
+            "description": "Plano de contas do saldo. Pode-se usar o código Id, o extenso ou reduzido da conta",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "CentroCusto",
+            "in": "query",
+            "description": "Centro de custo do saldo. Pode-se usar o código Id, o extenso ou reduzido do centro de custo",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Projeto",
+            "in": "query",
+            "description": "Projeto do saldo. Pode-se usar o código Id, o extenso ou reduzido do projeto",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Agente",
+            "in": "query",
+            "description": "Agente do saldo. Pode-se usar o código do agente ou CNPJ",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Criterio",
+            "in": "query",
+            "description": "Critério de saldo",
+            "schema": {
+              "type": "String",
+              "default": "0 - Moeda Corrente"
+            }
+          },
+          {
+            "name": "Encerramento",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de encerramento",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Redistribuicao",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de redistribuição",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Analiticas",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar o resultado em contas analíticas",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "PeriodoZerado",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar os períodos com valores de débito e crédito zerados",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "TipoContabilidade",
+            "in": "query",
+            "description": "Tipo de contabilidades dos saldos",
+            "schema": {
+              "enum": [
+                "ComumTodos",
+                "Societário",
+                "Fiscal",
+                "IFRS"
+              ],
+              "type": "String",
+              "default": "Societário"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contabilidadelancamentos/saldo/conta/projeto": {
+      "get": {
+        "tags": [
+          "Saldo"
+        ],
+        "summary": "Retorna uma lista de saldos contábeis por conta e projeto",
+        "description": "Retorna uma lista de saldos contábeis agrupados por conta e projeto",
+        "parameters": [
+          {
+            "name": "Expand",
+            "in": "query",
+            "description": "Parâmetro de expansão de informações",
+            "schema": {
+              "enum": [
+                "Conta",
+                "CentroCusto",
+                "Projeto"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filial",
+            "in": "query",
+            "description": "Filial do saldo. Pode-se usar o código Id ou o CNPJ",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "DataInicial",
+            "in": "query",
+            "description": "Data inicial do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "DataFinal",
+            "in": "query",
+            "description": "Data final do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "Tipo",
+            "in": "query",
+            "description": "Tipo de consulta de saldo",
+            "schema": {
+              "enum": [
+                "Mensal",
+                "Diário",
+                "Acumulado"
+              ],
+              "type": "String",
+              "default": "Mensal"
+            }
+          },
+          {
+            "name": "Conta",
+            "in": "query",
+            "description": "Plano de contas do saldo. Pode-se usar o código Id, o extenso ou reduzido da conta",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Projeto",
+            "in": "query",
+            "description": "Projeto do saldo. Pode-se usar o código Id, o extenso ou reduzido do projeto",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Agente",
+            "in": "query",
+            "description": "Agente do saldo. Pode-se usar o código do agente ou CNPJ",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Criterio",
+            "in": "query",
+            "description": "Critério de saldo",
+            "schema": {
+              "type": "String",
+              "default": "0 - Moeda Corrente"
+            }
+          },
+          {
+            "name": "Encerramento",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de encerramento",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Redistribuicao",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de redistribuição",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Analiticas",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar o resultado em contas analíticas",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "PeriodoZerado",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar os períodos com valores de débito e crédito zerados",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "TipoContabilidade",
+            "in": "query",
+            "description": "Tipo de contabilidades dos saldos",
+            "schema": {
+              "enum": [
+                "ComumTodos",
+                "Societário",
+                "Fiscal",
+                "IFRS"
+              ],
+              "type": "String",
+              "default": "Societário"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contabilidadelancamentos/saldo/centrocusto": {
+      "get": {
+        "tags": [
+          "Saldo"
+        ],
+        "summary": "Retorna uma lista de saldos contábeis por centro de custo",
+        "description": "Retorna uma lista de saldos contábeis agrupados por centro de custo",
+        "parameters": [
+          {
+            "name": "Expand",
+            "in": "query",
+            "description": "Parâmetro de expansão de informações",
+            "schema": {
+              "enum": [
+                "Conta",
+                "CentroCusto",
+                "Projeto"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filial",
+            "in": "query",
+            "description": "Filial do saldo. Pode-se usar o código Id ou o CNPJ",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "DataInicial",
+            "in": "query",
+            "description": "Data inicial do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "DataFinal",
+            "in": "query",
+            "description": "Data final do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "Tipo",
+            "in": "query",
+            "description": "Tipo de consulta de saldo",
+            "schema": {
+              "enum": [
+                "Mensal",
+                "Diário",
+                "Acumulado"
+              ],
+              "type": "String",
+              "default": "Mensal"
+            }
+          },
+          {
+            "name": "CentroCusto",
+            "in": "query",
+            "description": "Centro de custo do saldo. Pode-se usar o código Id, o extenso ou reduzido do centro de custo",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Agente",
+            "in": "query",
+            "description": "Agente do saldo. Pode-se usar o código do agente ou CNPJ",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Criterio",
+            "in": "query",
+            "description": "Critério de saldo",
+            "schema": {
+              "type": "String",
+              "default": "0 - Moeda Corrente"
+            }
+          },
+          {
+            "name": "Encerramento",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de encerramento",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Redistribuicao",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de redistribuição",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Analiticas",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar o resultado em contas analíticas",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "PeriodoZerado",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar os períodos com valores de débito e crédito zerados",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "TipoContabilidade",
+            "in": "query",
+            "description": "Tipo de contabilidades dos saldos",
+            "schema": {
+              "enum": [
+                "ComumTodos",
+                "Societário",
+                "Fiscal",
+                "IFRS"
+              ],
+              "type": "String",
+              "default": "Societário"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contabilidadelancamentos/saldo/centrocusto/projeto": {
+      "get": {
+        "tags": [
+          "Saldo"
+        ],
+        "summary": "Retorna uma lista de saldos contábeis por centro de custo e projeto",
+        "description": "Retorna uma lista de saldos contábeis agrupados por centro de custo e projeto",
+        "parameters": [
+          {
+            "name": "Expand",
+            "in": "query",
+            "description": "Parâmetro de expansão de informações",
+            "schema": {
+              "enum": [
+                "Conta",
+                "CentroCusto",
+                "Projeto"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filial",
+            "in": "query",
+            "description": "Filial do saldo. Pode-se usar o código Id ou o CNPJ",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "DataInicial",
+            "in": "query",
+            "description": "Data inicial do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "DataFinal",
+            "in": "query",
+            "description": "Data final do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "Tipo",
+            "in": "query",
+            "description": "Tipo de consulta de saldo",
+            "schema": {
+              "enum": [
+                "Mensal",
+                "Diário",
+                "Acumulado"
+              ],
+              "type": "String",
+              "default": "Mensal"
+            }
+          },
+          {
+            "name": "CentroCusto",
+            "in": "query",
+            "description": "Centro de custo do saldo. Pode-se usar o código Id, o extenso ou reduzido do centro de custo",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Projeto",
+            "in": "query",
+            "description": "Projeto do saldo. Pode-se usar o código Id, o extenso ou reduzido do projeto",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Agente",
+            "in": "query",
+            "description": "Agente do saldo. Pode-se usar o código do agente ou CNPJ",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Criterio",
+            "in": "query",
+            "description": "Critério de saldo",
+            "schema": {
+              "type": "String",
+              "default": "0 - Moeda Corrente"
+            }
+          },
+          {
+            "name": "Encerramento",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de encerramento",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Redistribuicao",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de redistribuição",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Analiticas",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar o resultado em contas analíticas",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "PeriodoZerado",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar os períodos com valores de débito e crédito zerados",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "TipoContabilidade",
+            "in": "query",
+            "description": "Tipo de contabilidades dos saldos",
+            "schema": {
+              "enum": [
+                "ComumTodos",
+                "Societário",
+                "Fiscal",
+                "IFRS"
+              ],
+              "type": "String",
+              "default": "Societário"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contabilidadelancamentos/saldo/projeto": {
+      "get": {
+        "tags": [
+          "Saldo"
+        ],
+        "summary": "Retorna uma lista de saldos contábeis por projeto",
+        "description": "Retorna uma lista de saldos contábeis agrupados por projeto",
+        "parameters": [
+          {
+            "name": "Expand",
+            "in": "query",
+            "description": "Parâmetro de expansão de informações",
+            "schema": {
+              "enum": [
+                "Conta",
+                "CentroCusto",
+                "Projeto"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filial",
+            "in": "query",
+            "description": "Filial do saldo. Pode-se usar o código Id ou o CNPJ",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "DataInicial",
+            "in": "query",
+            "description": "Data inicial do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "DataFinal",
+            "in": "query",
+            "description": "Data final do intervalo de datas de saldo",
+            "required": true,
+            "schema": {
+              "type": "DateTime"
+            }
+          },
+          {
+            "name": "Tipo",
+            "in": "query",
+            "description": "Tipo de consulta de saldo",
+            "schema": {
+              "enum": [
+                "Mensal",
+                "Diário",
+                "Acumulado"
+              ],
+              "type": "String",
+              "default": "Mensal"
+            }
+          },
+          {
+            "name": "Projeto",
+            "in": "query",
+            "description": "Projeto do saldo. Pode-se usar o código Id, o extenso ou reduzido do projeto",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Agente",
+            "in": "query",
+            "description": "Agente do saldo. Pode-se usar o código do agente ou CNPJ",
+            "schema": {
+              "type": "String"
+            }
+          },
+          {
+            "name": "Criterio",
+            "in": "query",
+            "description": "Critério de saldo",
+            "schema": {
+              "type": "String",
+              "default": "0 - Moeda Corrente"
+            }
+          },
+          {
+            "name": "Encerramento",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de encerramento",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Redistribuicao",
+            "in": "query",
+            "description": "Indica se a consulta de saldos deve considerar os saldos de redistribuição",
+            "schema": {
+              "enum": [
+                "Antes",
+                "Depois"
+              ],
+              "type": "String",
+              "default": "Depois"
+            }
+          },
+          {
+            "name": "Analiticas",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar o resultado em contas analíticas",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "PeriodoZerado",
+            "in": "query",
+            "description": "Indica se a consulta de saldos irá retornar os períodos com valores de débito e crédito zerados",
+            "schema": {
+              "enum": [
+                "Sim",
+                "Não"
+              ],
+              "type": "String",
+              "default": "Não"
+            }
+          },
+          {
+            "name": "TipoContabilidade",
+            "in": "query",
+            "description": "Tipo de contabilidades dos saldos",
+            "schema": {
+              "enum": [
+                "ComumTodos",
+                "Societário",
+                "Fiscal",
+                "IFRS"
+              ],
+              "type": "String",
+              "default": "Societário"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Mega.Erp.Contabilidade.Cadastros.Common.Enum.NaturezaContabilEnum": {
+        "enum": [
+          "Crédito",
+          "Débito"
+        ],
+        "type": "string"
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Enum.SimNaoEnum": {
+        "enum": [
+          "Sim",
+          "Não"
+        ],
+        "type": "string"
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Enum.TipoContabilidadeEnum": {
+        "enum": [
+          "ComumTodos",
+          "Societário",
+          "Fiscal",
+          "IFRS"
+        ],
+        "type": "string"
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Models.Historico": {
+        "type": "object",
+        "properties": {
+          "Padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "Reduzido": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Extenso": {
+            "type": "string",
+            "nullable": true
+          },
+          "Descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "Id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Models.Lote": {
+        "type": "object",
+        "properties": {
+          "Organizacao": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          },
+          "Sequencia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "Id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas": {
+        "type": "object",
+        "properties": {
+          "Padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "Reduzido": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Extenso": {
+            "type": "string",
+            "nullable": true
+          },
+          "Descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "ObrigaCentroCusto": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Enum.SimNaoEnum"
+          },
+          "ObrigaProjeto": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Enum.SimNaoEnum"
+          },
+          "Id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Models.RegraRateio": {
+        "type": "object",
+        "properties": {
+          "Padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "Id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Models.TipoContabilidade": {
+        "type": "object",
+        "properties": {
+          "Geral": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Enum.TipoContabilidadeEnum"
+          },
+          "Usuario": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Enum.TipoContabilidadeEnum"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Lancamentos.Common.Enum.StatusLancamentoEnum": {
+        "enum": [
+          "Null",
+          "Atualizado",
+          "NãoAtualizado",
+          "Bloqueado"
+        ],
+        "type": "string"
+      },
+      "Mega.Erp.Contabilidade.Lancamentos.Common.Enum.TipoLancamentoEnum": {
+        "enum": [
+          "Digitado",
+          "Encerramento",
+          "Abertura",
+          "Importação",
+          "AberturaDigitada",
+          "Redistribuição",
+          "SaldoAnteriorDigitado",
+          "AjusteValorPresente",
+          "AjusteValorPresenteEstorno",
+          "EquivalênciaPatrimonial"
+        ],
+        "type": "string"
+      },
+      "Mega.Erp.Contabilidade.Lancamentos.Common.Models.InteracaoUsuario": {
+        "type": "object",
+        "properties": {
+          "Usuario": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.GrupoUsuario"
+          },
+          "Data": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Lancamentos.Common.Models.ItemLancamento": {
+        "type": "object",
+        "properties": {
+          "Codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Filial": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          },
+          "IdFilial": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DataConversao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "DataOrcamento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Valor": {
+            "type": "number",
+            "format": "double"
+          },
+          "ContaCredito": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+          },
+          "ReduzidoContaCredito": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ContaDebito": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+          },
+          "ReduzidoContaDebito": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ContraPartida": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+          },
+          "Inclusao": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.InteracaoUsuario"
+          },
+          "Alteracao": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.InteracaoUsuario"
+          },
+          "Historico": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Historico"
+          },
+          "ReduzidoHistorico": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Complemento": {
+            "type": "string",
+            "nullable": true
+          },
+          "TipoDocumento": {
+            "$ref": "#/components/schemas/Mega.Erp.Financeiro.Cadastros.Common.Models.TipoDocumento"
+          },
+          "Documento": {
+            "type": "string",
+            "nullable": true
+          },
+          "RegraRateioCredito": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.RegraRateio"
+          },
+          "RegraRateioDebito": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.RegraRateio"
+          },
+          "Agente": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Agente"
+          },
+          "ContaCreditoAnterior": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+          },
+          "ContaDebitoAnterior": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+          },
+          "RateiosCentroCusto": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.RateioCentroCusto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Lancamentos.Common.Models.Lancamento": {
+        "type": "object",
+        "properties": {
+          "Organizacao": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          },
+          "IdOrganizacao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Sequencia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Indice": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.IndiceFinanceiro"
+          },
+          "Acao": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.Acao"
+          },
+          "AcaoMovimento": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.AcaoMovimento"
+          },
+          "Lote": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Lote"
+          },
+          "CodigoLote": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Status": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Enum.StatusLancamentoEnum"
+          },
+          "Data": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "TotalCredito": {
+            "type": "number",
+            "format": "double"
+          },
+          "TotalDebito": {
+            "type": "number",
+            "format": "double"
+          },
+          "Sistema": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.Sistema"
+          },
+          "Tipo": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Enum.TipoLancamentoEnum"
+          },
+          "AnoMes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SequenciaAnoMes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DataImportacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "TipoContabilidade": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.TipoContabilidade"
+          },
+          "Itens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.ItemLancamento"
+            },
+            "nullable": true
+          },
+          "Parametros": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.ParametrosLancamento"
+          },
+          "Id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Lancamentos.Common.Models.ParametrosLancamento": {
+        "type": "object",
+        "properties": {
+          "Computador": {
+            "type": "string",
+            "nullable": true
+          },
+          "Usuario": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.GrupoUsuario"
+          },
+          "GravaNaoAtualizado": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Enum.SimNaoEnum"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Lancamentos.Common.Models.RateioCentroCusto": {
+        "type": "object",
+        "properties": {
+          "Natureza": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Enum.NaturezaContabilEnum"
+          },
+          "Sequencial": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CentroCusto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+          },
+          "ReduzidoCentroCusto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Valor": {
+            "type": "number",
+            "format": "double"
+          },
+          "Percentual": {
+            "type": "number",
+            "format": "double"
+          },
+          "Inclusao": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.InteracaoUsuario"
+          },
+          "Alteracao": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.InteracaoUsuario"
+          },
+          "CentroCustoAnterior": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+          },
+          "RateiosProjeto": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.RateioProjeto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Lancamentos.Common.Models.RateioProjeto": {
+        "type": "object",
+        "properties": {
+          "Natureza": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Enum.NaturezaContabilEnum"
+          },
+          "Sequencial": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Projeto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.Projeto"
+          },
+          "ReduzidoProjeto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Valor": {
+            "type": "number",
+            "format": "double"
+          },
+          "Percentual": {
+            "type": "number",
+            "format": "double"
+          },
+          "Inclusao": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.InteracaoUsuario"
+          },
+          "Alteracao": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.InteracaoUsuario"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Lancamentos.Common.Models.Saldo": {
+        "type": "object",
+        "properties": {
+          "GrupoConta": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+          },
+          "Conta": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+          },
+          "GrupoCentroCusto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+          },
+          "CentroCusto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+          },
+          "GrupoProjeto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.Projeto"
+          },
+          "Projeto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.Projeto"
+          },
+          "Ano": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Mes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Dia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SaldoAnterior": {
+            "type": "number",
+            "format": "double"
+          },
+          "Debito": {
+            "type": "number",
+            "format": "double"
+          },
+          "Credito": {
+            "type": "number",
+            "format": "double"
+          },
+          "SaldoAtual": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Lancamentos.Common.Rest.ItemRest": {
+        "type": "object",
+        "properties": {
+          "Itens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.ItemLancamento"
+            },
+            "nullable": true
+          },
+          "Parametros": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Lancamentos.Common.Models.ParametrosLancamento"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Lancamentos.Common.Result.LancamentoResult": {
+        "type": "object",
+        "properties": {
+          "IdOrganizacao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Sequencia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Itens": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "Id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Financeiro.Cadastros.Common.Models.TipoDocumento": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Agentes.Common.Enums.TiposAgente": {
+        "enum": [
+          "Cliente",
+          "Fornecedor",
+          "Representante",
+          "Contato",
+          "Transportadora",
+          "Organizacao",
+          "ContaFinanceira",
+          "Tributo",
+          "ObrigacaoSocial",
+          "Colaborador",
+          "Outro",
+          "Obra",
+          "Sindicato"
+        ],
+        "type": "string"
+      },
+      "Mega.Erp.Global.Agentes.Common.Models.Agente": {
+        "type": "object",
+        "properties": {
+          "Expand": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "Id": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "Padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Tipo": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Enums.TiposAgente"
+          },
+          "Nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "NomeFantasia": {
+            "type": "string",
+            "nullable": true
+          },
+          "Cnpj": {
+            "type": "string",
+            "nullable": true
+          },
+          "Consolidador": {
+            "type": "string",
+            "nullable": true
+          },
+          "Tipos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.AgenteTipo"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Agentes.Common.Models.AgenteTipo": {
+        "type": "object",
+        "properties": {
+          "Tipo": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Enums.TiposAgente"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Agentes.Common.Models.Organizacao": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "NomeFantasia": {
+            "type": "string",
+            "nullable": true
+          },
+          "Agente": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Agente"
+          },
+          "OrganizacaoPai": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.Acao": {
+        "type": "object",
+        "properties": {
+          "Padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "Id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.AcaoMovimento": {
+        "type": "object",
+        "properties": {
+          "Organizacao": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          },
+          "Sequencia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.CentroCusto": {
+        "type": "object",
+        "properties": {
+          "Padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "Reduzido": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Extenso": {
+            "type": "string",
+            "nullable": true
+          },
+          "Descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "Global": {
+            "type": "string"
+          },
+          "Usuarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.GrupoUsuario"
+            },
+            "nullable": true
+          },
+          "Id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.GrupoUsuario": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Usuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "Nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.IndiceFinanceiro": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Nome": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.Projeto": {
+        "type": "object",
+        "properties": {
+          "Padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "Reduzido": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Extenso": {
+            "type": "string",
+            "nullable": true
+          },
+          "Descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "Global": {
+            "type": "string"
+          },
+          "Usuarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.GrupoUsuario"
+            },
+            "nullable": true
+          },
+          "Id": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.Sistema": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Nome": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Microsoft.AspNetCore.Mvc.ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "Type": {
+            "type": "string",
+            "nullable": true
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "Instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      }
+    }
+  }
+}

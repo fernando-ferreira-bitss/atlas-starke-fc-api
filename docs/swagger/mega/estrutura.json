@@ -1,0 +1,2649 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Estruturas Server",
+    "description": "Mega Sistemas",
+    "version": "1.3.3.0"
+  },
+  "paths": {
+    "/api/globalestruturas/Empreendimentos": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Empreendimentos",
+        "description": "Retorna uma lista de empreendimentos.",
+        "parameters": [
+          {
+            "name": "filial",
+            "in": "query",
+            "description": "Código da filial",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 4
+          },
+          {
+            "name": "organizacao",
+            "in": "query",
+            "description": "Código da organização",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 3
+          },
+          {
+            "name": "tipoData",
+            "in": "query",
+            "description": "Tipo de data a ser considerada, data de criação ou data de alteração do empreendimento",
+            "schema": {
+              "type": "string"
+            },
+            "example": "C = Data de criação | A = Data de alteração"
+          },
+          {
+            "name": "operador",
+            "in": "query",
+            "description": "Operador a ser considerado no filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "MA = Maior ou igual a data inicial | ME = Menor ou igual a data inicial | EN = Entre a data inicial e data final"
+          },
+          {
+            "name": "dataInicial",
+            "in": "query",
+            "description": "Data inicial do filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "21/10/2021"
+          },
+          {
+            "name": "dataFinal",
+            "in": "query",
+            "description": "Data final do filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "21/10/2021"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com uma lista dos empreendimentos."
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/Filial": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Empreendimentos",
+        "description": "Retorna uma lista de empreendimentos.",
+        "parameters": [
+          {
+            "name": "filial",
+            "in": "query",
+            "description": "Código da filial",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 4
+          },
+          {
+            "name": "organizacao",
+            "in": "query",
+            "description": "Código da organização",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 3
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Opções para expandir",
+            "schema": {
+              "type": "string"
+            },
+            "example": "projeto,centrocusto"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com uma lista dos empreendimentos."
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/{id}": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Empreendimento Específico",
+        "description": "Retorna informações de um empreendimento especifico.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Código encriptado do empreendimento",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTPDuDHDuDPDuDE3MTQ1"
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com informações do empreendimento especificado",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoBasicDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoBasicDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoBasicDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/{id}/Blocos": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Blocos do Empreendimento",
+        "description": "Retorna as garagens de um determinado empreendimento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Código encriptado do empreendimento",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTPDuDHDuDPDuDE3MTQ1"
+          },
+          {
+            "name": "tipoData",
+            "in": "query",
+            "description": "Tipo de data a ser considerada, data de criação ou data de alteração do bloco",
+            "schema": {
+              "type": "string"
+            },
+            "example": "C = Data de criação | A = Data de alteração"
+          },
+          {
+            "name": "operador",
+            "in": "query",
+            "description": "Operador a ser considerado no filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "MA = Maior ou igual a data inicial | ME = Menor ou igual a data inicial | EN = Entre a data inicial e data final"
+          },
+          {
+            "name": "dataInicial",
+            "in": "query",
+            "description": "Data inicial do filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "21/10/2021"
+          },
+          {
+            "name": "dataFinal",
+            "in": "query",
+            "description": "Data final do filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "21/10/2021"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com uma lista dos blocos de um empreendimento especificado.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Bloco"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Bloco"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Bloco"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/Blocos/Filial/{idFilial}": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Retorna todos os Blocos filtrados pela Filial",
+        "description": "Retorna todos os Blocos filtrados pela Filial",
+        "parameters": [
+          {
+            "name": "idFilial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com uma lista dos blocos de uma filial especificada.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Bloco"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Bloco"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Bloco"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/{id}/Blocos/{idBloco}": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Bloco Específico",
+        "description": "Retorna as informações de um bloco específico.",
+        "parameters": [
+          {
+            "name": "idBloco",
+            "in": "path",
+            "description": "Código encriptado do bloco",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTPDuDHDuDPDuDE3MTQ3"
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com informações de um bloco especificado.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Bloco"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Bloco"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Bloco"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/{id}/Locais": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Locais do Empreendimento",
+        "description": "Retorna os locais de um determinado empreendimento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Código encriptado do empreendimento",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTPDuDHDuDPDuDE3MTQ1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com uma lista dos locais de um empreendimento especificado.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/{id}/Blocos/{idBloco}/Unidades": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Unidades do Bloco",
+        "description": "Retorna uma lista de unidades do bloco especificado.",
+        "parameters": [
+          {
+            "name": "idBloco",
+            "in": "path",
+            "description": "Código encriptado do bloco",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTPDuDHDuDPDuDE3MTQ3"
+          },
+          {
+            "name": "tipoData",
+            "in": "query",
+            "description": "Tipo de data a ser considerada, data de criação ou data de alteração da unidade",
+            "schema": {
+              "type": "string"
+            },
+            "example": "C = Data de criação | A = Data de alteração"
+          },
+          {
+            "name": "operador",
+            "in": "query",
+            "description": "Operador a ser considerado no filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "MA = Maior ou igual a data inicial | ME = Menor ou igual a data inicial | EN = Entre a data inicial e data final"
+          },
+          {
+            "name": "dataInicial",
+            "in": "query",
+            "description": "Data inicial do filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "21/10/2021"
+          },
+          {
+            "name": "dataFinal",
+            "in": "query",
+            "description": "Data final do filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "21/10/2021"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com uma lista de unidades do bloco especificado.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Garagem"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Garagem"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Garagem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/{id}/Blocos/{idBloco}/Locais": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Locais do Bloco",
+        "description": "Retorna os locais de um determinado bloco",
+        "parameters": [
+          {
+            "name": "idBloco",
+            "in": "path",
+            "description": "Código encriptado do bloco",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTPDuDHDuDPDuDE3MTQ3"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com uma lista dos locais de um bloco especificado.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/{id}/Blocos/{idBloco}/Unidades/{idUnidade}": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Unidade Específica",
+        "description": "Retorna as informações de uma unidade específica.",
+        "parameters": [
+          {
+            "name": "idUnidade",
+            "in": "path",
+            "description": "Código encriptado da unidade",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTPDuDHDuDPDuDE3MTUw"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idBloco",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com informações de uma unidade especificada.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Unidade"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Unidade"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Unidade"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/{id}/Blocos/{idBloco}/Unidades/{idUnidade}/Locais": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Locais da Unidade",
+        "description": "Retorna os locais de uma determinada unidade",
+        "parameters": [
+          {
+            "name": "idUnidade",
+            "in": "path",
+            "description": "Código encriptado da unidade",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTPDuDHDuDPDuDE3MTUw"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idBloco",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com uma lista dos locais de uma unidade especificada.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/{id}/Blocos/{idBloco}/Garagens": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Garagens do Bloco",
+        "description": "Retorna uma lista de garagens do bloco especificado.",
+        "parameters": [
+          {
+            "name": "idBloco",
+            "in": "path",
+            "description": "Código encriptado do bloco",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTPDuDHDuDPDuDE3MTQ3"
+          },
+          {
+            "name": "tipoData",
+            "in": "query",
+            "description": "Tipo de data a ser considerada, data de criação ou data de alteração da unidade",
+            "schema": {
+              "type": "string"
+            },
+            "example": "C = Data de criação | A = Data de alteração"
+          },
+          {
+            "name": "operador",
+            "in": "query",
+            "description": "Operador a ser considerado no filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "MA = Maior ou igual a data inicial | ME = Menor ou igual a data inicial | EN = Entre a data inicial e data final"
+          },
+          {
+            "name": "dataInicial",
+            "in": "query",
+            "description": "Data inicial do filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "21/10/2021"
+          },
+          {
+            "name": "dataFinal",
+            "in": "query",
+            "description": "Data final do filtro",
+            "schema": {
+              "type": "string"
+            },
+            "example": "21/10/2021"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com uma lista de garagens do bloco especificado.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Garagem"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Garagem"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Garagem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/{id}/Blocos/{idBloco}/Garagens/{idGaragem}": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Garagem Específica",
+        "description": "Retorna as informações de uma garagem específica.",
+        "parameters": [
+          {
+            "name": "idGaragem",
+            "in": "path",
+            "description": "Código encriptado da garagem",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTPDuDHDuDPDuDE3MTUw"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idBloco",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com informações de uma garagem especificada.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Garagem"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Garagem"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Garagem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/{id}/Blocos/{idBloco}/Garagens/{idGaragem}/Locais": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Locais da Garagem",
+        "description": "Retorna os locais de uma determinada garagem",
+        "parameters": [
+          {
+            "name": "idGaragem",
+            "in": "path",
+            "description": "Código encriptado da garagem",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTPDuDHDuDPDuDE3MTUw"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idBloco",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com uma lista dos locais de uma garagem especificada.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/Empreendimentos/Locais/{idLocal}": {
+      "get": {
+        "tags": [
+          "Empreendimentos"
+        ],
+        "summary": "Local Específico",
+        "description": "Retorna as informações de um local específico.",
+        "parameters": [
+          {
+            "name": "idLocal",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Json com informações de um local especificado.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/EmpreendimentoTerceiro/EmpreendimentoTerceiros/Filial/{idFilial}": {
+      "get": {
+        "tags": [
+          "Empreendimentos de Terceiros"
+        ],
+        "summary": "Empreendimento de Terceiros",
+        "description": "Retorna as informações referente aos Empreendimentos de Terceiros.",
+        "parameters": [
+          {
+            "name": "idFilial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informações Empreendimentos de Terceiros.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/EmpreendimentoTerceiro/EmpreendimentoTerceiros/{id}": {
+      "get": {
+        "tags": [
+          "Empreendimentos de Terceiros"
+        ],
+        "summary": "Empreendimento de Terceiro",
+        "description": "Retorna as informações referente ao Empreendimento de Terceiro.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informações Empreendimento de Terceiro.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/EmpreendimentoTerceiro/BlocoTerceiros/Filial/{idFilial}": {
+      "get": {
+        "tags": [
+          "Empreendimentos de Terceiros"
+        ],
+        "summary": "Blocos de Terceiros",
+        "description": "Retorna as informações referente aos blocos de Terceiros.",
+        "parameters": [
+          {
+            "name": "idFilial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informações blocos de Terceiros.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/EmpreendimentoTerceiro/BlocoTerceiros/{id}": {
+      "get": {
+        "tags": [
+          "Empreendimentos de Terceiros"
+        ],
+        "summary": "Bloco de Terceiro",
+        "description": "Retorna as informações referente ao bloco de Terceiro.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "informações bloco de Terceiro.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/globalestruturas/ParametrosGlobal/{id}": {
+      "get": {
+        "tags": [
+          "ParametrosGlobal"
+        ],
+        "summary": "Busca Parâmetros do Global Construção",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Código da filial",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Parâmetros do Global Construção",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.ParametrosGlobalBasicDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.ParametrosGlobalBasicDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.ParametrosGlobalBasicDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Filial não encontrada"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.Agente": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "agn_tab_in_codigo": {
+            "type": "integer",
+            "description": "C�digo da Tabela",
+            "format": "int32"
+          },
+          "agn_pad_in_codigo": {
+            "type": "integer",
+            "description": "C�digo Padr�o",
+            "format": "int32"
+          },
+          "agn_in_codigo": {
+            "type": "integer",
+            "description": "C�digo do Agente",
+            "format": "int32"
+          },
+          "agn_tau_st_codigo": {
+            "type": "string",
+            "description": "C�digo Extenso",
+            "nullable": true
+          },
+          "agn_st_fantasia": {
+            "type": "string",
+            "description": "Nome Fantasia",
+            "nullable": true
+          },
+          "agn_st_nome": {
+            "type": "string",
+            "description": "Nome",
+            "nullable": true
+          },
+          "agn_ch_tipo": {
+            "type": "string",
+            "description": "Tipo do Agente"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modelo de Agente"
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.Bloco": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "org_tab_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_pad_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_st_nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "blo_in_numunidades": {
+            "type": "number",
+            "format": "double"
+          },
+          "blo_in_numandares": {
+            "type": "number",
+            "format": "double"
+          },
+          "blo_re_areaterreno": {
+            "type": "number",
+            "format": "double"
+          },
+          "blo_re_areaconstruida": {
+            "type": "number",
+            "format": "double"
+          },
+          "blo_re_areamedia": {
+            "type": "number",
+            "format": "double"
+          },
+          "blo_re_valorm2": {
+            "type": "number",
+            "format": "double"
+          },
+          "blo_st_cei": {
+            "type": "string",
+            "nullable": true
+          },
+          "blo_dt_averbacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "blo_ch_natureza": {
+            "type": "string",
+            "nullable": true
+          },
+          "blo_ch_vagaautonoma": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_st_codigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_dt_cadastro": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_lancamento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "blo_bo_enderecoproprio": {
+            "type": "string",
+            "nullable": true
+          },
+          "data_criacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data_alteracao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fil_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Endereco"
+          },
+          "centroCusto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+          },
+          "projeto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.Projeto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.Empreendimento": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "org_tab_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_pad_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "filialCodigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_ch_tipoimovel": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_st_codigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_st_nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_st_nome_real": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_ch_status": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_bo_web": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_bo_app": {
+            "type": "string",
+            "nullable": true
+          },
+          "filialNome": {
+            "type": "string",
+            "nullable": true
+          },
+          "filialFantasia": {
+            "type": "string",
+            "nullable": true
+          },
+          "agn_st_cgc": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_dt_inicioobra": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_fimobra": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_habite": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_prevhabite": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_averbacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_instcondominio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_cadastro": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_lancamento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_vencdivida": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_conclusao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_entareacomum": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_re_areaterreno": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_re_areaequiv": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_re_areapriv": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_re_areatotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_re_construcaopref": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_re_construcaoequiv": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_re_construcaototal": {
+            "type": "number",
+            "format": "double"
+          },
+          "cus_in_reduzido": {
+            "type": "number",
+            "format": "double"
+          },
+          "cusc_pad_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "cusc_in_reduzido": {
+            "type": "number",
+            "format": "double"
+          },
+          "data_criacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data_alteracao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Endereco"
+          },
+          "centroCusto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+          },
+          "projeto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.Projeto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoBasicDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "codigoOrganizacao": {
+            "type": "number",
+            "format": "double"
+          },
+          "codigoFilial": {
+            "type": "number",
+            "format": "double"
+          },
+          "nomeFilial": {
+            "type": "string",
+            "nullable": true
+          },
+          "fantasiaFilial": {
+            "type": "string",
+            "nullable": true
+          },
+          "cnpjFilial": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigo_externo": {
+            "type": "string",
+            "nullable": true
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "nomeReal": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoImovel": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Enums.TipoImovel"
+          },
+          "disponivelPortalCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "disponivelHomepay": {
+            "type": "string",
+            "nullable": true
+          },
+          "inicioObra": {
+            "type": "string",
+            "nullable": true
+          },
+          "fimObra": {
+            "type": "string",
+            "nullable": true
+          },
+          "habite": {
+            "type": "string",
+            "nullable": true
+          },
+          "previsaoHabite": {
+            "type": "string",
+            "nullable": true
+          },
+          "averbacao": {
+            "type": "string",
+            "nullable": true
+          },
+          "instalacaoCondominio": {
+            "type": "string",
+            "nullable": true
+          },
+          "cadastro": {
+            "type": "string",
+            "nullable": true
+          },
+          "lancamento": {
+            "type": "string",
+            "nullable": true
+          },
+          "vencimentoDivida": {
+            "type": "string",
+            "nullable": true
+          },
+          "conclusaoPastaMae": {
+            "type": "string",
+            "nullable": true
+          },
+          "entregaAreaComum": {
+            "type": "string",
+            "nullable": true
+          },
+          "areaTerreno": {
+            "type": "number",
+            "format": "double"
+          },
+          "areaEquivalente": {
+            "type": "number",
+            "format": "double"
+          },
+          "areaPrivada": {
+            "type": "number",
+            "format": "double"
+          },
+          "areaTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "areaConstrucaoPrefeitura": {
+            "type": "number",
+            "format": "double"
+          },
+          "areaConstrucaoEquivalente": {
+            "type": "number",
+            "format": "double"
+          },
+          "areaConstrucaoTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "codigoCentroCustoComercial": {
+            "type": "number",
+            "format": "double"
+          },
+          "codigoPadraoCentroCustoCliente": {
+            "type": "number",
+            "format": "double"
+          },
+          "codigoCentroCustoCliente": {
+            "type": "number",
+            "format": "double"
+          },
+          "dataCriacao": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataAlteracao": {
+            "type": "string",
+            "nullable": true
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Endereco"
+          },
+          "centroCusto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+          },
+          "projeto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.Projeto"
+          },
+          "tabOrganizacao": {
+            "type": "number",
+            "format": "double"
+          },
+          "padraoOrganizacao": {
+            "type": "number",
+            "format": "double"
+          },
+          "expand": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.EmpreendimentoTerceiro": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataCadastro": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataFim": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tipoEstrutura": {
+            "type": "string",
+            "nullable": true
+          },
+          "areaEquivalente": {
+            "type": "number",
+            "format": "double"
+          },
+          "areaPrivada": {
+            "type": "number",
+            "format": "double"
+          },
+          "areaTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "centroCusto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+          },
+          "projeto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.Projeto"
+          },
+          "integracaoTerceiro": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.IntegracaoTerceiro"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.Endereco": {
+        "type": "object",
+        "properties": {
+          "cep": {
+            "type": "string",
+            "nullable": true
+          },
+          "pais": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "municipio": {
+            "type": "string",
+            "nullable": true
+          },
+          "bairro": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoLogradouro": {
+            "type": "string",
+            "nullable": true
+          },
+          "logradouro": {
+            "type": "string",
+            "nullable": true
+          },
+          "numero": {
+            "type": "string",
+            "nullable": true
+          },
+          "complemento": {
+            "type": "string",
+            "nullable": true
+          },
+          "referencia": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.Enums.ArredondaIptu": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.Enums.TipoImovel": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.Garagem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "org_tab_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_pad_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "gar_ch_status": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_st_codigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_st_nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_dt_cadastro": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_lancamento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gar_re_area": {
+            "type": "number",
+            "format": "double"
+          },
+          "gar_re_quota": {
+            "type": "number",
+            "format": "double"
+          },
+          "gar_re_peso": {
+            "type": "number",
+            "format": "double"
+          },
+          "gar_st_localizacao": {
+            "type": "string",
+            "nullable": true
+          },
+          "tpu_st_descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "tpu_st_estendida": {
+            "type": "string",
+            "nullable": true
+          },
+          "gar_in_andar": {
+            "type": "number",
+            "format": "double"
+          },
+          "data_criacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data_alteracao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fil_in_codigo": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.IntegracaoTerceiro": {
+        "type": "object",
+        "properties": {
+          "empreendimento": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Empreendimento"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.Local": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_st_codigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_st_descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_bo_tipo": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_bo_areacomum": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_bo_locapropriavel": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_bo_qualidade": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_bo_assisttecnica": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_bo_reuniaoseg": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_bo_pendfinanceiro": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_bo_pendjuridico": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_dt_habitese": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "loc_dt_entchaves": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data_criacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data_alteracao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id_usuario_criacao": {
+            "type": "number",
+            "format": "double"
+          },
+          "id_usuario_alteracao": {
+            "type": "number",
+            "format": "double"
+          },
+          "data_envio_movel": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id_integracao": {
+            "type": "string",
+            "nullable": true
+          },
+          "org_tab_in_codigo_imp": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_pad_in_codigo_imp": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_in_codigo_imp": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_tau_st_codigo_imp": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_in_codigo_imp": {
+            "type": "number",
+            "format": "double"
+          },
+          "tes_in_codigo_imp": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_tab_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_pad_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_tau_st_codigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "tes_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "loc_bo_composto": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_bo_contentobra": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_bo_personalizado": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_st_observacao": {
+            "type": "string",
+            "nullable": true
+          },
+          "loc_in_ordem": {
+            "type": "number",
+            "format": "double"
+          },
+          "agente": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Agente"
+          },
+          "pai": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.LocalPai"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.LocalPai": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "pai_codigoExterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "pai_nome": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.ParametrosGlobalBasicDto": {
+        "type": "object",
+        "properties": {
+          "codigoTabela": {
+            "type": "integer",
+            "description": "Código Tabela",
+            "format": "int32"
+          },
+          "codigoPadrao": {
+            "type": "integer",
+            "description": "Código Padrão",
+            "format": "int32"
+          },
+          "codigoFilial": {
+            "type": "integer",
+            "description": "Código Filial",
+            "format": "int32"
+          },
+          "codigoExtenso": {
+            "type": "string",
+            "description": "Código Extenso",
+            "nullable": true
+          },
+          "arredondarIptu": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Enums.ArredondaIptu"
+          },
+          "classeFinanceiraIptu": {
+            "$ref": "#/components/schemas/Mega.Erp.Financeiro.Cadastros.Common.Models.ClasseFinanceira"
+          },
+          "acaoIptu": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.Acao"
+          },
+          "centroCustoIptu": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+          },
+          "tipoDocumentoIptu": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.TipoDocumentoBasicDto"
+          },
+          "serieIptu": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.SerieBasicDto"
+          },
+          "condicaoPagamentoIptu": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CondicaoPagamento"
+          },
+          "serieApIptu": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.SerieApBasicDto"
+          },
+          "id": {
+            "type": "string",
+            "description": "Código Encriptado da chave de Parâmetros",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modelo DTO de Parâmetros do Global Construção"
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.SerieApBasicDto": {
+        "type": "object",
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "description": "Código",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "description": "Descrição",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Código Encriptado da chave de SerieAP",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modelo DTO de SerieAP"
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.SerieBasicDto": {
+        "type": "object",
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "description": "Código",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "description": "Descrição",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Código Encriptado da chave de Serie",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modelo DTO da Serie"
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.TipoDocumentoBasicDto": {
+        "type": "object",
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "description": "Código",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "description": "Descrição",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Código Encriptado do Tipo de Documento",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modelo DTO da chave do Tipo de Documento"
+      },
+      "Mega.Erp.Construcao.Global.Estruturas.Common.Models.Unidade": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "org_tab_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_pad_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "org_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "est_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_ch_status": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_st_codigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "est_st_nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "und_re_areaprivativa": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_re_areacomum": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_re_areatotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_re_areagaragem": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_re_areaoutros": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_re_areaterraco": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_re_areadeposito": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_re_quota": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_in_andar": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_re_peso": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_in_dependencias": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_in_quartos": {
+            "type": "number",
+            "format": "double"
+          },
+          "und_dt_matricula": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "und_dt_alvara": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_cadastro": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "est_dt_lancamento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "und_st_matricula": {
+            "type": "string",
+            "nullable": true
+          },
+          "und_st_localmatricula": {
+            "type": "string",
+            "nullable": true
+          },
+          "und_st_regmatricula": {
+            "type": "string",
+            "nullable": true
+          },
+          "und_st_alvara": {
+            "type": "string",
+            "nullable": true
+          },
+          "und_st_processo_alvara": {
+            "type": "string",
+            "nullable": true
+          },
+          "und_st_prefeitura_alvara": {
+            "type": "string",
+            "nullable": true
+          },
+          "und_st_insc_municipal": {
+            "type": "string",
+            "nullable": true
+          },
+          "und_st_indic_fiscal": {
+            "type": "string",
+            "nullable": true
+          },
+          "und_st_localdeposito": {
+            "type": "string",
+            "nullable": true
+          },
+          "und_bo_enderecoproprio": {
+            "type": "string",
+            "nullable": true
+          },
+          "und_st_box": {
+            "type": "string",
+            "nullable": true
+          },
+          "tpu_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "tpu_st_descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "tpu_st_estendida": {
+            "type": "string",
+            "nullable": true
+          },
+          "data_criacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data_alteracao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fil_in_codigo": {
+            "type": "number",
+            "format": "double"
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Endereco"
+          },
+          "centroCusto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+          },
+          "agente": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Construcao.Global.Estruturas.Common.Models.Agente"
+            },
+            "description": "Lista de Agentes",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Financeiro.Cadastros.Common.Models.ClasseFinanceira": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "reduzido": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.Acao": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.CentroCusto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "reduzido": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extenso": {
+            "type": "string",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "global": {
+            "type": "string"
+          },
+          "usuarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.GrupoUsuario"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.CondicaoPagamento": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.GrupoUsuario": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "usuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.Projeto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "reduzido": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extenso": {
+            "type": "string",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "global": {
+            "type": "string"
+          },
+          "usuarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.GrupoUsuario"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

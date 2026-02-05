@@ -1,0 +1,385 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Datawarehouse Server",
+    "description": "Mega Sistemas",
+    "version": "1.2.0.0"
+  },
+  "paths": {
+    "/api/datawarehouse/Fluxo": {
+      "post": {
+        "tags": [
+          "Fluxo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Datawarehouse.Common.Models.Fluxo"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Datawarehouse.Common.Models.Fluxo"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Datawarehouse.Common.Models.Fluxo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Fluxo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Datawarehouse.Common.Models.Fluxo"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Datawarehouse.Common.Models.Fluxo"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Erp.Datawarehouse.Common.Models.Fluxo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/datawarehouse/Fluxo/{id}": {
+      "delete": {
+        "tags": [
+          "Fluxo"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Mega.Erp.Datawarehouse.Common.Models.Fluxo": {
+        "type": "object",
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "valor": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorDeb": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorCre": {
+            "type": "number",
+            "format": "double"
+          },
+          "natureza": {
+            "type": "string",
+            "nullable": true
+          },
+          "observacao": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizacao": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          },
+          "filial": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          },
+          "agente": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Agente"
+          },
+          "classe": {
+            "$ref": "#/components/schemas/Mega.Erp.Financeiro.Cadastros.Common.Models.ClasseFinanceira"
+          },
+          "centroCusto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+          },
+          "projeto": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.Projeto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Financeiro.Cadastros.Common.Models.ClasseFinanceira": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "reduzido": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Agentes.Common.Enums.TiposAgente": {
+        "enum": [
+          "Cliente",
+          "Fornecedor",
+          "Representante",
+          "Contato",
+          "Transportadora",
+          "Organizacao",
+          "ContaFinanceira",
+          "Tributo",
+          "ObrigacaoSocial",
+          "Colaborador",
+          "Outro",
+          "Obra",
+          "Sindicato"
+        ],
+        "type": "string"
+      },
+      "Mega.Erp.Global.Agentes.Common.Models.Agente": {
+        "type": "object",
+        "properties": {
+          "expand": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tipo": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Enums.TiposAgente"
+          },
+          "idTipo": {
+            "type": "string",
+            "nullable": true
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "nomeFantasia": {
+            "type": "string",
+            "nullable": true
+          },
+          "cnpj": {
+            "type": "string",
+            "nullable": true
+          },
+          "consolidador": {
+            "type": "string",
+            "nullable": true
+          },
+          "agentePai": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Agente"
+          },
+          "tipos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.AgenteTipo"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Agentes.Common.Models.AgenteTipo": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Enums.TiposAgente"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Agentes.Common.Models.Organizacao": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "nomeFantasia": {
+            "type": "string",
+            "nullable": true
+          },
+          "agente": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Agente"
+          },
+          "organizacaoResponsavel": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          },
+          "organizacaoFiscalFinanceiro": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          },
+          "organizacaoPai": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.CentroCusto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "reduzido": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extenso": {
+            "type": "string",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "global": {
+            "type": "string"
+          },
+          "usuarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.GrupoUsuario"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.GrupoUsuario": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "usuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.Projeto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "reduzido": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extenso": {
+            "type": "string",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "global": {
+            "type": "string"
+          },
+          "usuarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.GrupoUsuario"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Custo Contábil Server",
+    "description": "Mega Sistemas",
+    "version": "1.2.0.0"
+  },
+  "paths": {
+    "/api/custocontabil/Periodo": {
+      "get": {
+        "tags": [
+          "Periodo"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/custocontabil/Periodo/{id}": {
+      "get": {
+        "tags": [
+          "Periodo"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/custocontabil/Saldo": {
+      "get": {
+        "tags": [
+          "Saldo"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/custocontabil/Saldo/{id}": {
+      "get": {
+        "tags": [
+          "Saldo"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/custocontabil/Saldo/organizacao/{codOrganizacao}/filial/{codFilial}/criterio/{criterioId}/custoproduto/{padProduto}/{codProduto}": {
+      "get": {
+        "tags": [
+          "Saldo"
+        ],
+        "parameters": [
+          {
+            "name": "codOrganizacao",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "codFilial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "criterioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "padProduto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "codProduto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/custocontabil/Saldo/organizacao/{codOrganizacao}/filial/{codFilial}/criterio/{criterioId}": {
+      "get": {
+        "tags": [
+          "Saldo"
+        ],
+        "parameters": [
+          {
+            "name": "codOrganizacao",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "codFilial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "criterioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": { }
+}

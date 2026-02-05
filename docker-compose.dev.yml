@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  # ============================================
+  # Starke API - Uses GHCR image from CI/CD
+  # ============================================
+  starke-api:
+    image: ghcr.io/fernando-ferreira-bitss/atlas-starke:dev
+    container_name: starke-api
+    environment:
+      # Python path
+      - PYTHONPATH=/app/src
+
+      # Environment
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+      - DEBUG=${DEBUG:-true}
+      - LOG_LEVEL=${LOG_LEVEL:-DEBUG}
+
+      # Database
+      - DATABASE_URL=${DATABASE_URL}
+
+      # Mega API
+      - MEGA_API_URL=${MEGA_API_URL:-https://rest.megaerp.online}
+      - MEGA_API_TENANT_ID=${MEGA_API_TENANT_ID}
+      - MEGA_API_USERNAME=${MEGA_API_USERNAME}
+      - MEGA_API_PASSWORD=${MEGA_API_PASSWORD}
+      - MEGA_API_TIMEOUT=${MEGA_API_TIMEOUT:-30}
+      - MEGA_API_MAX_RETRIES=${MEGA_API_MAX_RETRIES:-3}
+
+      # UAU API (Globaltec/Senior)
+      - UAU_API_URL=${UAU_API_URL:-https://gamma-api.seniorcloud.com.br:50801/uauAPI/api/v1.0}
+      - UAU_INTEGRATION_TOKEN=${UAU_INTEGRATION_TOKEN}
+      - UAU_USERNAME=${UAU_USERNAME}
+      - UAU_PASSWORD=${UAU_PASSWORD}
+      - UAU_TIMEOUT=${UAU_TIMEOUT:-120}
+      - UAU_MAX_RETRIES=${UAU_MAX_RETRIES:-3}
+      - UAU_MAX_WORKERS=${UAU_MAX_WORKERS:-1}
+
+      # Email
+      - EMAIL_BACKEND=${EMAIL_BACKEND:-smtp}
+      - SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_USE_TLS=${SMTP_USE_TLS:-true}
+      - EMAIL_FROM_NAME=${EMAIL_FROM_NAME:-Relatórios Starke}
+      - EMAIL_FROM_ADDRESS=${EMAIL_FROM_ADDRESS}
+
+      # JWT
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - JWT_ALGORITHM=${JWT_ALGORITHM:-HS256}
+      - JWT_ACCESS_TOKEN_EXPIRE_MINUTES=${JWT_ACCESS_TOKEN_EXPIRE_MINUTES:-480}
+
+      # Encryption (for sensitive data like CPF/CNPJ)
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+
+      # Google Sheets (opcional)
+      - GOOGLE_SHEETS_USE_OAUTH=${GOOGLE_SHEETS_USE_OAUTH:-false}
+      - GOOGLE_SHEETS_SPREADSHEET_ID=${GOOGLE_SHEETS_SPREADSHEET_ID:-}
+      - GOOGLE_SHEETS_RANGE=${GOOGLE_SHEETS_RANGE:-Destinatarios!A2:B}
+
+      # Report
+      - REPORT_TIMEZONE=${REPORT_TIMEZONE:-America/Sao_Paulo}
+      - EXECUTION_TIME=${EXECUTION_TIME:-08:00}
+      - DATE_FORMAT=${DATE_FORMAT:-%Y-%m-%d}
+      - ALERT_EMAIL_RECIPIENTS=${ALERT_EMAIL_RECIPIENTS:-}
+
+      # Testing
+      - TEST_MODE=${TEST_MODE:-false}
+      - TEST_EMAIL_RECIPIENT=${TEST_EMAIL_RECIPIENT:-}
+
+      # Storage & AWS S3 (for document uploads)
+      - STORAGE_TYPE=${STORAGE_TYPE:-local}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-}
+
+      # CORS
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-https://starke.brainitsolutions.com.br}
+    ports:
+      - "8002:8000"
+    networks:
+      - starke-network
+      - n8n_traefik_proxy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=n8n_traefik_proxy"
+      - "traefik.http.routers.starke-api.rule=Host(`api-starke.brainitsolutions.com.br`)"
+      - "traefik.http.routers.starke-api.entrypoints=websecure"
+      - "traefik.http.routers.starke-api.tls.certresolver=le"
+      - "traefik.http.services.starke-api.loadbalancer.server.port=8000"
+      # Traefik health check
+      - "traefik.http.services.starke-api.loadbalancer.healthcheck.path=/health"
+      - "traefik.http.services.starke-api.loadbalancer.healthcheck.interval=10s"
+      - "traefik.http.services.starke-api.loadbalancer.healthcheck.timeout=5s"
+      - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  starke-network:
+    driver: bridge
+  n8n_traefik_proxy:
+    external: true

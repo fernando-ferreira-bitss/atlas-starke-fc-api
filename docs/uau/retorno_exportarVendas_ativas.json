@@ -1,0 +1,866 @@
+{
+  "?xml": {
+    "@version": "1.0",
+    "@encoding": "UTF-8"
+  },
+  "Vendas": {
+    "Venda": [
+      {
+        "Empresa": "93",
+        "Obra": "001",
+        "Numero": "189",
+        "CodigoVendedor": "25835",
+        "CpfCnpjVendedor": "22712946000113",
+        "PercentualJurosAtraso": "0",
+        "Multa": "0.000000",
+        "Desconto": "0.000000",
+        "Usuario": "ADRIANA",
+        "DataDaVenda": "2020-06-02",
+        "StatusVenda": "0",
+        "Acrescimo": "0.000000",
+        "ContinuarCobrandoJurosContratualAoAtrasarParcela": "0",
+        "PossuiReajusteAnual": "0",
+        "GerarResiduo": "0",
+        "CarenciaAtraso": "0",
+        "QuantidadeMesesRetroagirCorrecao": "0",
+        "DataBaseResiduo": "2020-06-02",
+        "PossuiCorrecaoPorAtraso": "0",
+        "PossuiCorrecaoProRata": "0",
+        "CobrarTaxaDeBoleto": "0",
+        "DataDeCadastro": "2026-01-09",
+        "TipoDeVenda": "0",
+        "DiaDoRepasse": "0",
+        "ValorProvisaoCurto": "18439.630000",
+        "ValorProvisaoLongo": "0.000000",
+        "CapProvisaoCurto": "101.1.29",
+        "CapProvisaoLongo": "101.1.29",
+        "DiasCarenciaCorrecaoPorAtraso": "0",
+        "AnteciparCorrecao": "0",
+        "CobrarJurosPosChave": "0",
+        "DataInicioContrato": "2020-06-02",
+        "DataFimContrato": "2020-06-02",
+        "TipoDeFianca": "1",
+        "ValorDaFianca": "0.000000",
+        "ValorSeguroIncendio": "0.000000",
+        "CobrarMultaFracionada": "0",
+        "AnteciparJurosLinear": "0",
+        "ValorDescontoImposto": "0.000000",
+        "PeriodoDeReajuste": "12",
+        "HistoricoLancamentoContabilVenda": "COMISSAO 471 E 477",
+        "HistoricoLancamentoContabilParcela": "COMISSAO 471 E 477",
+        "HistoricoLancamentoContabilJurosCorrecao": "COMISSAO 471 E 477",
+        "ZerarCorrecaoNegativa": "0",
+        "CobrarJurosPorAtrasoMensal": "0",
+        "CorrecaoCrescente": "0",
+        "EnviarSpedPisCofins": "1",
+        "Atividade": "0",
+        "ValorProvisaoCurtoBaixa": "0.000000",
+        "ValorProvisaoLongoBaixa": "0.000000",
+        "ValorProvisaoCurtoCessao": "0.000000",
+        "ValorProvisaoLongoCessao": "0.000000",
+        "CobrarCorrecaoMaisProrataMesRecebimento": "0",
+        "CobrarJurosAnual": "0",
+        "PeriodoCobrancaDeJuros": "12",
+        "ValorPrestacaoDeServicos": "0.000000",
+        "AnteciparCorrecaoProximoPeriodo": "0",
+        "TributadoPeloRet": "0",
+        "UtilizarDescontoUltimaParcela": "1",
+        "Clientes": {
+          "Cliente": {
+            "CodigoCliente": "25835",
+            "CpfCnpjDoCliente": "22712946000113",
+            "EmitirBoleto": "1",
+            "PercentualDoTitular": "100.000000",
+            "TipoDeCliente": "0",
+            "Principal": "1"
+          }
+        },
+        "Itens": {
+          "Item": {
+            "CodigoProduto": "999",
+            "CodigoPersonalizacao": "-1",
+            "Preco": "18439.630000",
+            "Quantidade": "1.000000",
+            "Contrato": "1",
+            "ValorComissaoDireta": "0.000000",
+            "PercentualComissao": "0.000000",
+            "NumeroItem": "1",
+            "UnicoItemDimob": "0"
+          }
+        },
+        "Parcelas": {
+          "Parcela": [
+            {
+              "NumeroParcela": "2",
+              "NumeroParcelaGeral": "2",
+              "ParcelaRecebida": "0",
+              "OrigemParcela": "1",
+              "TotalParcelasDoGrupo": "1",
+              "TotalParcelasDoGrupoInformado": "1",
+              "TipoParcela": "P",
+              "ValorPrincipal": "10564.900000",
+              "ValorResiduo": "0.000000",
+              "DataVencimento": "2020-06-02",
+              "DataPrimeiraParcelaGrupo": "2020-06-02",
+              "DataProrrogacao": "2025-06-24",
+              "Amortizacao": "0",
+              "BeginEndPrice": "1",
+              "FrequenciaVencimento": "04",
+              "DataInicioPrimeiroJuros": "2020-06-02",
+              "TaxaPrimeiroJuros": "0",
+              "TaxaSegundoJuros": "0",
+              "DataInicioReajuste": "2020-06-02",
+              "IndiceReajuste": "R$",
+              "GrupoPlanoIndexador": "1",
+              "CobrarJurosPrimeiroPeriodo": "0",
+              "DiasCarenciaMultaJurosAtraso": "0",
+              "DiasCarenciaCorrecaoAtraso": "0",
+              "CobrarJurosProRata": "0",
+              "CobrarJurosProRataPrimeiroMes": "0",
+              "MeioRecebimentoPreferencial": "0",
+              "NumNFVinculada": "0",
+              "CapPrincipal": "101.1.29",
+              "CapAcrescimo": "101.1.29",
+              "CapCorrecao": "101.1.29",
+              "CapCorrecaoAtraso": "101.1.29",
+              "CapDesconto": "101.1.29",
+              "CapDescontoAntecipacao": "101.1.29",
+              "CapDescontoCondicional": "101.1.29",
+              "CapDescontoCusta": "101.1.29",
+              "CapJuros": "101.1.29",
+              "CapJurosAtraso": "101.1.29",
+              "CapMulta": "101.1.29",
+              "CapRepasse": "101.1.29",
+              "CapTaxaBoleto": "101.1.29",
+              "TipoDaCusta": "0",
+              "OrigemCusta": "0",
+              "CobrarMultaCusta": "1",
+              "CobrarJurosAtrasoCusta": "1",
+              "CobrarTaxaAdministracaoCusta": "0",
+              "CobrarImpostoCusta": "0",
+              "CobrarCorrecaoCusta": "1",
+              "RepassarValorLocadorCusta": "0",
+              "PadraoCobranca": "2",
+              "TipoSeguro": "0",
+              "ValorDescontoCondicional": "0",
+              "ValorDescontoCondicionalConfirmado": "0",
+              "ValorPrincipalConfirmado": "0",
+              "ValorAcrescimo": "0",
+              "ValorAcrescimoConfirmado": "0",
+              "ValorDesconto": "0",
+              "ValorDescontoConfirmado": "0",
+              "ValorCorrecaoAtraso": "0",
+              "ValorCorrecaoAtrasoConfirmado": "0",
+              "ValorCorrecaoEmbutida": "0",
+              "ValorCorrecaoEmbutidaConfirmado": "0",
+              "ValorJurosAtraso": "0",
+              "ValorJurosAtrasoConfirmado": "0",
+              "ValorJurosContrato": "0",
+              "ValorJurosContratoConfirmado": "0",
+              "ValorJurosContratoEmbutido": "0",
+              "ValorJurosContratoEmbutidoConfirmado": "0",
+              "ValorMulta": "0",
+              "ValorMultaConfirmado": "0",
+              "ValorCorrecao": "0",
+              "ValorCorrecaoConfirmado": "0",
+              "ValorDescontoAdiantamento": "0",
+              "ValorDescontoAdiantamentoConfirmado": "0"
+            },
+            {
+              "NumeroParcela": "1",
+              "NumeroParcelaGeral": "1",
+              "ParcelaRecebida": "1",
+              "OrigemParcela": "1",
+              "TotalParcelasDoGrupo": "1",
+              "TotalParcelasDoGrupoInformado": "1",
+              "TipoParcela": "P",
+              "DataRecebimento": "2020-06-02",
+              "DataCalculoReajuste": "2020-06-02",
+              "ValorPrincipal": "0.000000",
+              "ValorResiduo": "0.000000",
+              "DataVencimento": "2020-06-02",
+              "DataPrimeiraParcelaGrupo": "2020-06-02",
+              "Amortizacao": "0",
+              "BeginEndPrice": "1",
+              "FrequenciaVencimento": "04",
+              "DataInicioPrimeiroJuros": "2020-06-02",
+              "TaxaPrimeiroJuros": "0",
+              "TaxaSegundoJuros": "0",
+              "DataInicioReajuste": "2020-06-02",
+              "IndiceReajuste": "R$",
+              "GrupoPlanoIndexador": "1",
+              "CobrarJurosPrimeiroPeriodo": "0",
+              "DiasCarenciaMultaJurosAtraso": "0",
+              "DiasCarenciaCorrecaoAtraso": "0",
+              "CobrarJurosProRata": "0",
+              "CobrarJurosProRataPrimeiroMes": "0",
+              "MeioRecebimentoPreferencial": "0",
+              "NumNFVinculada": "0",
+              "CapPrincipal": "101.1.29",
+              "CapAcrescimo": "101.1.29",
+              "CapCorrecao": "101.1.29",
+              "CapCorrecaoAtraso": "101.1.29",
+              "CapDesconto": "101.1.29",
+              "CapDescontoAntecipacao": "101.1.29",
+              "CapDescontoCondicional": "101.1.29",
+              "CapDescontoCusta": "101.1.29",
+              "CapJuros": "101.1.29",
+              "CapJurosAtraso": "101.1.29",
+              "CapMulta": "101.1.29",
+              "CapRepasse": "101.1.29",
+              "CapTaxaBoleto": "101.1.29",
+              "TipoDaCusta": "0",
+              "OrigemCusta": "0",
+              "CobrarMultaCusta": "1",
+              "CobrarJurosAtrasoCusta": "1",
+              "CobrarTaxaAdministracaoCusta": "0",
+              "CobrarImpostoCusta": "0",
+              "CobrarCorrecaoCusta": "1",
+              "RepassarValorLocadorCusta": "0",
+              "PadraoCobranca": "2",
+              "TipoSeguro": "0",
+              "ValorDescontoCondicional": "0.000000",
+              "ValorDescontoCondicionalConfirmado": "0.000000",
+              "ValorPrincipalConfirmado": "7874.730000",
+              "ValorAcrescimo": "0.000000",
+              "ValorAcrescimoConfirmado": "0.000000",
+              "ValorDesconto": "0.000000",
+              "ValorDescontoConfirmado": "0.000000",
+              "ValorCorrecaoAtraso": "0.000000",
+              "ValorCorrecaoAtrasoConfirmado": "0.000000",
+              "ValorCorrecaoEmbutida": "0.000000",
+              "ValorCorrecaoEmbutidaConfirmado": "0.000000",
+              "ValorJurosAtraso": "0.000000",
+              "ValorJurosAtrasoConfirmado": "0.000000",
+              "ValorJurosContrato": "0.000000",
+              "ValorJurosContratoConfirmado": "0.000000",
+              "ValorJurosContratoEmbutido": "0.000000",
+              "ValorJurosContratoEmbutidoConfirmado": "0.000000",
+              "ValorMulta": "0.000000",
+              "ValorMultaConfirmado": "0.000000",
+              "ValorCorrecao": "0.000000",
+              "ValorCorrecaoConfirmado": "0.000000",
+              "ValorDescontoAdiantamento": "0",
+              "ValorDescontoAdiantamentoConfirmado": "0",
+              "Recebimentos": {
+                "Recebimento": {
+                  "Tipo": "E",
+                  "BancoDeposito": "756",
+                  "AgenciaDeposito": "3299-9",
+                  "ContaDeposito": "9165-0",
+                  "DataDeposito": "2020-06-02",
+                  "Depositado": "1",
+                  "Conciliado": "1",
+                  "DataConciliacao": "2020-06-02",
+                  "ChequeNumero": "0",
+                  "ChequeAgencia": "0",
+                  "ChequeConta": "0",
+                  "Data": "2020-06-02",
+                  "DataCadastro": "2020-06-05",
+                  "UsuarioResponsavel": "ADRIANA",
+                  "Descricao": " AR PGTO CRED. ELETRONICO",
+                  "ValorPercentualDoPrincipal": "7874.730000",
+                  "ValorPercentualDeCorrecao": "0.000000",
+                  "ValorPercentualDeCorrecaoEmbutido": "0.000000",
+                  "ValorPercentualDaCorrecaoPorAtraso": "0.000000",
+                  "ValorPercentualDoJuros": "0.000000",
+                  "ValorPercentualDoJurosEmbutido": "0.000000",
+                  "ValorPercentualDoJurosAtraso": "0.000000",
+                  "ValorPercentualDaMultaPorAtraso": "0.000000",
+                  "ValorPercentualDoAcrescimo": "0.000000",
+                  "ValorPercentualDoDesconto": "0.000000",
+                  "ValorPercentualDoDescontoPorAntecipacao": "0.000000",
+                  "ValorPercentualDoDescontoDeCustas": "0.000000",
+                  "ValorPercentualDoDescontoDeImposto": "0.000000",
+                  "ValorPercentualDoDescontoCondicional": "0.000000",
+                  "ValorPercentualDaTaxaBoleto": "0.000000",
+                  "HistoricoContabil": "COMISSAO 471 E 477",
+                  "MeioRecebimento": {
+                    "@xsi:nil": "true",
+                    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance"
+                  }
+                }
+              },
+              "UsuarioRecebeu": "ADRIANA"
+            }
+          ]
+        },
+        "Comentarios": {
+          "Comentario": [
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap desc. antec.: 101.1.18, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap taxa boleto: 101.1.19, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap desc. custa: 101.1.22, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap repasse: 101.1.25, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap desc. condicional: 101.1.28, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap desconto: 101.1.16, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap acrescimo: 101.1.15, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap juros atraso: 101.1.14, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap multa: 101.1.13, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap correcao: 101.1.12, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap juros: 101.1.11, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap corr. atraso: 101.1.17, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap Principal: 101.1.10, Novo Valor: 101.1.99"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-23",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap desc. condicional: 101.1.29, Novo Valor: 101.1.28"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-19",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap repasse: 101.1.29, Novo Valor: 101.1.25"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-19",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap desc. custa: 101.1.29, Novo Valor: 101.1.22"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-19",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap taxa boleto: 101.1.29, Novo Valor: 101.1.19"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap desc. antec.: 101.1.29, Novo Valor: 101.1.18"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap desconto: 101.1.29, Novo Valor: 101.1.16"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap acrescimo: 101.1.29, Novo Valor: 101.1.15"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap juros atraso: 101.1.29, Novo Valor: 101.1.14"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap multa: 101.1.29, Novo Valor: 101.1.13"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap correcao: 101.1.29, Novo Valor: 101.1.12"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap juros: 101.1.29, Novo Valor: 101.1.11"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap corr. atraso: 101.1.29, Novo Valor: 101.1.17"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 403 do banco 756 e conta 9165 0 referente a venda 189 do empreendimento 001 tendo como seu titular PEROLA DOS TAPAJOS EMPREENDIMENTOS IMOB LTDA\r\n\r\nCap Principal: 101.1.29, Novo Valor: 101.1.10"
+            },
+            {
+              "Usuario": "ADRIANA",
+              "Data": "2020-06-18",
+              "Comentario": "Parcela de n. 2, foi criada a partir de uma devolucao ou exclusao de um tipo de recebimento\r\n     Detalhe     \r\nN. recebimento   : 11636\r\nN. cheque        : 0\r\nConta            : 0\r\nAgencia          : 0\r\nParcela ligada ao cheque  : 1\r\nPrincipal da parcela      :  18439.63\r\nvalor da nova parcela     :  10564.9"
+            }
+          ]
+        },
+        "ConfiguracoesRecebiveis": {
+          "TipoContrato": "0",
+          "TipoAmortizacao": "0",
+          "IndicePreObra": "0",
+          "IndicePosObra": "0",
+          "JurosAnual": "0",
+          "AplicacaoJuros": "0"
+        }
+      },
+      {
+        "Empresa": "93",
+        "Obra": "001",
+        "Numero": "109",
+        "CodigoVendedor": "17924",
+        "CpfCnpjVendedor": "24818609000130",
+        "PercentualJurosAtraso": "0",
+        "Multa": "0.000000",
+        "Desconto": "0.000000",
+        "Usuario": "ADRIANA",
+        "DataDaVenda": "2019-12-23",
+        "StatusVenda": "0",
+        "Acrescimo": "0.000000",
+        "ContinuarCobrandoJurosContratualAoAtrasarParcela": "0",
+        "PossuiReajusteAnual": "0",
+        "GerarResiduo": "0",
+        "CarenciaAtraso": "0",
+        "QuantidadeMesesRetroagirCorrecao": "0",
+        "DataBaseResiduo": "2019-12-23",
+        "PossuiCorrecaoPorAtraso": "0",
+        "PossuiCorrecaoProRata": "0",
+        "CobrarTaxaDeBoleto": "0",
+        "DataDeCadastro": "2026-01-09",
+        "TipoDeVenda": "0",
+        "DiaDoRepasse": "0",
+        "ValorProvisaoCurto": "35886.040000",
+        "ValorProvisaoLongo": "0.000000",
+        "CapProvisaoCurto": "101.1.29",
+        "CapProvisaoLongo": "101.1.29",
+        "DiasCarenciaCorrecaoPorAtraso": "0",
+        "AnteciparCorrecao": "0",
+        "CobrarJurosPosChave": "0",
+        "DataInicioContrato": "2019-12-23",
+        "DataFimContrato": "2019-12-23",
+        "TipoDeFianca": "1",
+        "ValorDaFianca": "0.000000",
+        "ValorSeguroIncendio": "0.000000",
+        "CobrarMultaFracionada": "0",
+        "AnteciparJurosLinear": "0",
+        "ValorDescontoImposto": "0.000000",
+        "PeriodoDeReajuste": "12",
+        "HistoricoLancamentoContabilVenda": "NF 383 COMISSAO",
+        "HistoricoLancamentoContabilParcela": "NF 383 COMISSAO",
+        "HistoricoLancamentoContabilJurosCorrecao": "NF 383 COMISSAO",
+        "ZerarCorrecaoNegativa": "0",
+        "CobrarJurosPorAtrasoMensal": "0",
+        "CorrecaoCrescente": "0",
+        "EnviarSpedPisCofins": "1",
+        "Atividade": "0",
+        "ValorProvisaoCurtoBaixa": "0.000000",
+        "ValorProvisaoLongoBaixa": "0.000000",
+        "ValorProvisaoCurtoCessao": "0.000000",
+        "ValorProvisaoLongoCessao": "0.000000",
+        "CobrarCorrecaoMaisProrataMesRecebimento": "0",
+        "CobrarJurosAnual": "0",
+        "PeriodoCobrancaDeJuros": "12",
+        "ValorPrestacaoDeServicos": "0.000000",
+        "AnteciparCorrecaoProximoPeriodo": "0",
+        "TributadoPeloRet": "0",
+        "UtilizarDescontoUltimaParcela": "1",
+        "Clientes": {
+          "Cliente": {
+            "CodigoCliente": "17924",
+            "CpfCnpjDoCliente": "24818609000130",
+            "EmitirBoleto": "1",
+            "PercentualDoTitular": "100.000000",
+            "TipoDeCliente": "0",
+            "Principal": "1"
+          }
+        },
+        "Itens": {
+          "Item": {
+            "CodigoProduto": "999",
+            "CodigoPersonalizacao": "-1",
+            "Preco": "35886.040000",
+            "Quantidade": "1.000000",
+            "Contrato": "1",
+            "ValorComissaoDireta": "0.000000",
+            "PercentualComissao": "0.000000",
+            "NumeroItem": "1",
+            "UnicoItemDimob": "0"
+          }
+        },
+        "Parcelas": {
+          "Parcela": [
+            {
+              "NumeroParcela": "2",
+              "NumeroParcelaGeral": "2",
+              "ParcelaRecebida": "0",
+              "OrigemParcela": "1",
+              "TotalParcelasDoGrupo": "1",
+              "TotalParcelasDoGrupoInformado": "1",
+              "TipoParcela": "P",
+              "ValorPrincipal": "886.040000",
+              "ValorResiduo": "0.000000",
+              "DataVencimento": "2019-12-23",
+              "DataPrimeiraParcelaGrupo": "2019-12-23",
+              "DataProrrogacao": "2025-06-24",
+              "Amortizacao": "0",
+              "BeginEndPrice": "1",
+              "FrequenciaVencimento": "04",
+              "DataInicioPrimeiroJuros": "2019-12-23",
+              "TaxaPrimeiroJuros": "0",
+              "TaxaSegundoJuros": "0",
+              "DataInicioReajuste": "2019-12-23",
+              "IndiceReajuste": "R$",
+              "GrupoPlanoIndexador": "1",
+              "CobrarJurosPrimeiroPeriodo": "0",
+              "DiasCarenciaMultaJurosAtraso": "0",
+              "DiasCarenciaCorrecaoAtraso": "0",
+              "CobrarJurosProRata": "0",
+              "CobrarJurosProRataPrimeiroMes": "0",
+              "MeioRecebimentoPreferencial": "0",
+              "NumNFVinculada": "0",
+              "CapPrincipal": "101.1.29",
+              "CapAcrescimo": "101.1.29",
+              "CapCorrecao": "101.1.29",
+              "CapCorrecaoAtraso": "101.1.29",
+              "CapDesconto": "101.1.29",
+              "CapDescontoAntecipacao": "101.1.29",
+              "CapDescontoCondicional": "101.1.29",
+              "CapDescontoCusta": "101.1.29",
+              "CapJuros": "101.1.29",
+              "CapJurosAtraso": "101.1.29",
+              "CapMulta": "101.1.29",
+              "CapRepasse": "101.1.29",
+              "CapTaxaBoleto": "101.1.29",
+              "TipoDaCusta": "0",
+              "OrigemCusta": "0",
+              "CobrarMultaCusta": "1",
+              "CobrarJurosAtrasoCusta": "1",
+              "CobrarTaxaAdministracaoCusta": "0",
+              "CobrarImpostoCusta": "0",
+              "CobrarCorrecaoCusta": "1",
+              "RepassarValorLocadorCusta": "0",
+              "PadraoCobranca": "2",
+              "TipoSeguro": "0",
+              "ValorDescontoCondicional": "0",
+              "ValorDescontoCondicionalConfirmado": "0",
+              "ValorPrincipalConfirmado": "0",
+              "ValorAcrescimo": "0",
+              "ValorAcrescimoConfirmado": "0",
+              "ValorDesconto": "0",
+              "ValorDescontoConfirmado": "0",
+              "ValorCorrecaoAtraso": "0",
+              "ValorCorrecaoAtrasoConfirmado": "0",
+              "ValorCorrecaoEmbutida": "0",
+              "ValorCorrecaoEmbutidaConfirmado": "0",
+              "ValorJurosAtraso": "0",
+              "ValorJurosAtrasoConfirmado": "0",
+              "ValorJurosContrato": "0",
+              "ValorJurosContratoConfirmado": "0",
+              "ValorJurosContratoEmbutido": "0",
+              "ValorJurosContratoEmbutidoConfirmado": "0",
+              "ValorMulta": "0",
+              "ValorMultaConfirmado": "0",
+              "ValorCorrecao": "0",
+              "ValorCorrecaoConfirmado": "0",
+              "ValorDescontoAdiantamento": "0",
+              "ValorDescontoAdiantamentoConfirmado": "0"
+            },
+            {
+              "NumeroParcela": "1",
+              "NumeroParcelaGeral": "1",
+              "ParcelaRecebida": "1",
+              "OrigemParcela": "1",
+              "TotalParcelasDoGrupo": "1",
+              "TotalParcelasDoGrupoInformado": "1",
+              "TipoParcela": "P",
+              "DataRecebimento": "2019-12-23",
+              "DataCalculoReajuste": "2019-12-23",
+              "ValorPrincipal": "0.000000",
+              "ValorResiduo": "0.000000",
+              "DataVencimento": "2019-12-23",
+              "DataPrimeiraParcelaGrupo": "2019-12-23",
+              "Amortizacao": "0",
+              "BeginEndPrice": "1",
+              "FrequenciaVencimento": "04",
+              "DataInicioPrimeiroJuros": "2019-12-23",
+              "TaxaPrimeiroJuros": "0",
+              "TaxaSegundoJuros": "0",
+              "DataInicioReajuste": "2019-12-23",
+              "IndiceReajuste": "R$",
+              "GrupoPlanoIndexador": "1",
+              "CobrarJurosPrimeiroPeriodo": "0",
+              "DiasCarenciaMultaJurosAtraso": "0",
+              "DiasCarenciaCorrecaoAtraso": "0",
+              "CobrarJurosProRata": "0",
+              "CobrarJurosProRataPrimeiroMes": "0",
+              "MeioRecebimentoPreferencial": "0",
+              "NumNFVinculada": "0",
+              "CapPrincipal": "101.1.29",
+              "CapAcrescimo": "101.1.29",
+              "CapCorrecao": "101.1.29",
+              "CapCorrecaoAtraso": "101.1.29",
+              "CapDesconto": "101.1.29",
+              "CapDescontoAntecipacao": "101.1.29",
+              "CapDescontoCondicional": "101.1.29",
+              "CapDescontoCusta": "101.1.29",
+              "CapJuros": "101.1.29",
+              "CapJurosAtraso": "101.1.29",
+              "CapMulta": "101.1.29",
+              "CapRepasse": "101.1.29",
+              "CapTaxaBoleto": "101.1.29",
+              "TipoDaCusta": "0",
+              "OrigemCusta": "0",
+              "CobrarMultaCusta": "1",
+              "CobrarJurosAtrasoCusta": "1",
+              "CobrarTaxaAdministracaoCusta": "0",
+              "CobrarImpostoCusta": "0",
+              "CobrarCorrecaoCusta": "1",
+              "RepassarValorLocadorCusta": "0",
+              "PadraoCobranca": "2",
+              "TipoSeguro": "0",
+              "ValorDescontoCondicional": "0.000000",
+              "ValorDescontoCondicionalConfirmado": "0.000000",
+              "ValorPrincipalConfirmado": "35000.000000",
+              "ValorAcrescimo": "0.000000",
+              "ValorAcrescimoConfirmado": "0.000000",
+              "ValorDesconto": "0.000000",
+              "ValorDescontoConfirmado": "0.000000",
+              "ValorCorrecaoAtraso": "0.000000",
+              "ValorCorrecaoAtrasoConfirmado": "0.000000",
+              "ValorCorrecaoEmbutida": "0.000000",
+              "ValorCorrecaoEmbutidaConfirmado": "0.000000",
+              "ValorJurosAtraso": "0.000000",
+              "ValorJurosAtrasoConfirmado": "0.000000",
+              "ValorJurosContrato": "0.000000",
+              "ValorJurosContratoConfirmado": "0.000000",
+              "ValorJurosContratoEmbutido": "0.000000",
+              "ValorJurosContratoEmbutidoConfirmado": "0.000000",
+              "ValorMulta": "0.000000",
+              "ValorMultaConfirmado": "0.000000",
+              "ValorCorrecao": "0.000000",
+              "ValorCorrecaoConfirmado": "0.000000",
+              "ValorDescontoAdiantamento": "0",
+              "ValorDescontoAdiantamentoConfirmado": "0",
+              "Recebimentos": {
+                "Recebimento": {
+                  "Tipo": "E",
+                  "BancoDeposito": "237",
+                  "AgenciaDeposito": "3767",
+                  "ContaDeposito": "22332-8",
+                  "DataDeposito": "2019-12-23",
+                  "Depositado": "1",
+                  "Conciliado": "1",
+                  "DataConciliacao": "2019-12-23",
+                  "ChequeNumero": "0",
+                  "ChequeAgencia": "0",
+                  "ChequeConta": "0",
+                  "Data": "2019-12-23",
+                  "DataCadastro": "2020-01-02",
+                  "UsuarioResponsavel": "ADRIANA",
+                  "Descricao": " AR PGTO CRED. ELETRONICO",
+                  "ValorPercentualDoPrincipal": "35000.000000",
+                  "ValorPercentualDeCorrecao": "0.000000",
+                  "ValorPercentualDeCorrecaoEmbutido": "0.000000",
+                  "ValorPercentualDaCorrecaoPorAtraso": "0.000000",
+                  "ValorPercentualDoJuros": "0.000000",
+                  "ValorPercentualDoJurosEmbutido": "0.000000",
+                  "ValorPercentualDoJurosAtraso": "0.000000",
+                  "ValorPercentualDaMultaPorAtraso": "0.000000",
+                  "ValorPercentualDoAcrescimo": "0.000000",
+                  "ValorPercentualDoDesconto": "0.000000",
+                  "ValorPercentualDoDescontoPorAntecipacao": "0.000000",
+                  "ValorPercentualDoDescontoDeCustas": "0.000000",
+                  "ValorPercentualDoDescontoDeImposto": "0.000000",
+                  "ValorPercentualDoDescontoCondicional": "0.000000",
+                  "ValorPercentualDaTaxaBoleto": "0.000000",
+                  "HistoricoContabil": "NF 383 COMISSAO",
+                  "MeioRecebimento": {
+                    "@xsi:nil": "true",
+                    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance"
+                  }
+                }
+              },
+              "UsuarioRecebeu": "ADRIANA"
+            }
+          ]
+        },
+        "Comentarios": {
+          "Comentario": [
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap corr. atraso: 101.1.29, Novo Valor: 101.1.17"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap juros: 101.1.29, Novo Valor: 101.1.11"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap correcao: 101.1.29, Novo Valor: 101.1.12"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap multa: 101.1.29, Novo Valor: 101.1.13"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap juros atraso: 101.1.29, Novo Valor: 101.1.14"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap acrescimo: 101.1.29, Novo Valor: 101.1.15"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap desconto: 101.1.29, Novo Valor: 101.1.16"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap desc. antec.: 101.1.29, Novo Valor: 101.1.18"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-19",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap taxa boleto: 101.1.29, Novo Valor: 101.1.19"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-19",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap desc. custa: 101.1.29, Novo Valor: 101.1.22"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-19",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap repasse: 101.1.29, Novo Valor: 101.1.25"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-23",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap desc. condicional: 101.1.29, Novo Valor: 101.1.28"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap Principal: 101.1.10, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap corr. atraso: 101.1.17, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap juros: 101.1.11, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap correcao: 101.1.12, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap multa: 101.1.13, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap juros atraso: 101.1.14, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap acrescimo: 101.1.15, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap desconto: 101.1.16, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap desc. antec.: 101.1.18, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap taxa boleto: 101.1.19, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap desc. custa: 101.1.22, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap repasse: 101.1.25, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2022-03-08",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap desc. condicional: 101.1.28, Novo Valor: 101.1.92"
+            },
+            {
+              "Usuario": "ADRIANA",
+              "Data": "2020-04-17",
+              "Comentario": "Parcela de n. 2, foi criada a partir de uma devolucao ou exclusao de um tipo de recebimento\r\n     Detalhe     \r\nN. recebimento   : 6362\r\nN. cheque        : 0\r\nConta            : 0\r\nAgencia          : 0\r\nParcela ligada ao cheque  : 1\r\nPrincipal da parcela      :  35886.04\r\nvalor da nova parcela     :  886.04"
+            },
+            {
+              "Usuario": "RAMON",
+              "Data": "2020-10-16",
+              "Comentario": "Foi realizada alteracao de parametros do deposito de n. 19 do banco 237 e conta 22332 8 referente a venda 109 do empreendimento 001 tendo como seu titular EL SHADAI JARDIM EUROPA EMPREENDIMENTOS LTDA\r\n\r\nCap Principal: 101.1.29, Novo Valor: 101.1.10"
+            }
+          ]
+        },
+        "ConfiguracoesRecebiveis": {
+          "TipoContrato": "0",
+          "TipoAmortizacao": "0",
+          "IndicePreObra": "0",
+          "IndicePosObra": "0",
+          "JurosAnual": "0",
+          "AplicacaoJuros": "0"
+        }
+      }
+    ]
+  }
+}

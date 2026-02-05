@@ -1,0 +1,421 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Financeiro Server",
+    "description": "Mega Sistemas",
+    "version": "1.2.0.0"
+  },
+  "paths": {
+    "/api/FinanceiroMovimentacao/FaturaPagar/SaldoEmAberto/{venctoInicial}/{venctoFinal}": {
+      "get": {
+        "tags": [
+          "FaturaPagar"
+        ],
+        "summary": "Retorna os Saldos das parcelas em aberto do Contas a Pagar, conforme data vencimento",
+        "description": "Retorna os Saldos das parcelas em aberto do Contas a Pagar, conforme data vencimento inicial e final",
+        "parameters": [
+          {
+            "name": "venctoInicial",
+            "in": "path",
+            "description": "Data de vencimento inicial",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "venctoFinal",
+            "in": "path",
+            "description": "Data de vencimento final",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expandir os dados do saldo da parcela",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna uma listagem contendo as Pacelas a Pagar"
+          }
+        }
+      }
+    },
+    "/api/FinanceiroMovimentacao/FaturaPagar/Saldo/{venctoInicial}/{venctoFinal}": {
+      "get": {
+        "tags": [
+          "FaturaPagar"
+        ],
+        "summary": "Retorna os Saldos das parcelas do Contas a Pagar, conforme data vencimento",
+        "parameters": [
+          {
+            "name": "venctoInicial",
+            "in": "path",
+            "description": "Data de vencimento inicial",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "venctoFinal",
+            "in": "path",
+            "description": "Data de vencimento final",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expandir os dados do saldo da parcela",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna uma listagem contendo as Pacelas a Pagar"
+          }
+        }
+      }
+    },
+    "/api/FinanceiroMovimentacao/FaturaPagar/Saldo/Agente/{agente}/{venctoInicial}/{venctoFinal}": {
+      "get": {
+        "tags": [
+          "FaturaPagar"
+        ],
+        "summary": "Retorna os Saldos das parcelas do Contas a Pagar, conforme agente e data vencimento",
+        "parameters": [
+          {
+            "name": "agente",
+            "in": "path",
+            "description": "Código do Agente",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "venctoInicial",
+            "in": "path",
+            "description": "Data de vencimento inicial",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "venctoFinal",
+            "in": "path",
+            "description": "Data de vencimento final",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expandir os dados do saldo da parcela",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna uma listagem contendo as Parcelas a Pagar"
+          }
+        }
+      }
+    },
+    "/api/FinanceiroMovimentacao/FaturaPagar/Saldo/Filial/{filial}/{venctoInicial}/{venctoFinal}": {
+      "get": {
+        "tags": [
+          "FaturaPagar"
+        ],
+        "summary": "Retorna os Saldos das parcelas do Contas a Pagar, conforme filial e data vencimento",
+        "parameters": [
+          {
+            "name": "filial",
+            "in": "path",
+            "description": "Código do Agente",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "venctoInicial",
+            "in": "path",
+            "description": "Data de vencimento inicial",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "venctoFinal",
+            "in": "path",
+            "description": "Data de vencimento final",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expandir os dados do saldo da parcela",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna uma listagem contendo as Parcelas a Pagar"
+          }
+        }
+      }
+    },
+    "/api/FinanceiroMovimentacao/FaturaPagar/Saldo/AcaoSequencia/{acaoSequencia}": {
+      "get": {
+        "tags": [
+          "FaturaPagar"
+        ],
+        "summary": "Retorna os Saldos das parcelas do Contas a Pagar, conforme ação em sequência",
+        "parameters": [
+          {
+            "name": "acaoSequencia",
+            "in": "path",
+            "description": "Código do Ação em Sequência",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna uma listagem contendo as Parcelas a Pagar"
+          }
+        }
+      }
+    },
+    "/api/FinanceiroMovimentacao/FaturaReceber/SaldoEmAberto/{venctoInicial}/{venctoFinal}": {
+      "get": {
+        "tags": [
+          "FaturaReceber"
+        ],
+        "summary": "Retorna os Saldos das parcelas em aberto do Contas a Receber, conforme data vencimento",
+        "parameters": [
+          {
+            "name": "venctoInicial",
+            "in": "path",
+            "description": "Data de vencimento inicial",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "venctoFinal",
+            "in": "path",
+            "description": "Data de vencimento final",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expandir os dados do saldo da parcela",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna uma listagem contendo as Pacelas a Receber"
+          }
+        }
+      }
+    },
+    "/api/FinanceiroMovimentacao/FaturaReceber/Saldo/{venctoInicial}/{venctoFinal}": {
+      "get": {
+        "tags": [
+          "FaturaReceber"
+        ],
+        "summary": "Retorna os Saldos das parcelas do Contas a Receber, conforme data vencimento",
+        "parameters": [
+          {
+            "name": "venctoInicial",
+            "in": "path",
+            "description": "Data de vencimento inicial",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "venctoFinal",
+            "in": "path",
+            "description": "Data de vencimento final",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expandir os dados do saldo da parcela",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna uma listagem contendo as Pacelas a Receber"
+          }
+        }
+      }
+    },
+    "/api/FinanceiroMovimentacao/FaturaReceber/Saldo/Agente/{agente}/{venctoInicial}/{venctoFinal}": {
+      "get": {
+        "tags": [
+          "FaturaReceber"
+        ],
+        "summary": "Retorna os Saldos das parcelas do Contas a Receber, conforme agente e data vencimento",
+        "parameters": [
+          {
+            "name": "agente",
+            "in": "path",
+            "description": "Código do Agente",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "venctoInicial",
+            "in": "path",
+            "description": "Data de vencimento inicial",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "venctoFinal",
+            "in": "path",
+            "description": "Data de vencimento final",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expandir os dados do saldo da parcela",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna uma listagem contendo as Parcelas a Receber"
+          }
+        }
+      }
+    },
+    "/api/FinanceiroMovimentacao/FaturaReceber/Saldo/Filial/{filial}/{venctoInicial}/{venctoFinal}": {
+      "get": {
+        "tags": [
+          "FaturaReceber"
+        ],
+        "summary": "Retorna os Saldos das parcelas do Contas a Receber, conforme filial e data vencimento",
+        "parameters": [
+          {
+            "name": "filial",
+            "in": "path",
+            "description": "Código do Agente",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "venctoInicial",
+            "in": "path",
+            "description": "Data de vencimento inicial",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "venctoFinal",
+            "in": "path",
+            "description": "Data de vencimento final",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "description": "Expandir os dados do saldo da parcela",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna uma listagem contendo as Parcelas a Receber"
+          }
+        }
+      }
+    }
+  },
+  "components": { }
+}

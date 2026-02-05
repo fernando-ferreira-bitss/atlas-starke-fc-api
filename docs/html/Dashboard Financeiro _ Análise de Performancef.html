@@ -1,0 +1,2391 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://9b9e1114-3864-44aa-8823-73833d22ef3c.dev36.app-preview.com/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+		<script type="module" src="./Dashboard Financeiro _ Análise de Performancef_files/client"></script>
+
+		
+		<link rel="icon" type="image/svg+xml" href="https://9b9e1114-3864-44aa-8823-73833d22ef3c.dev36.app-preview.com/vite.svg">
+		<meta name="generator" content="Hostinger Horizons">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Dashboard Financeiro | Análise de Performance</title>
+		<style>
+  #root[data-edit-mode-enabled="true"] [data-edit-id] {
+    cursor: pointer; 
+    outline: 2px dashed #357DF9; 
+    outline-offset: 2px;
+    min-height: 1em;
+  }
+  #root[data-edit-mode-enabled="true"] img[data-edit-id] {
+    outline-offset: -2px;
+  }
+  #root[data-edit-mode-enabled="true"] {
+    cursor: pointer;
+  }
+  #root[data-edit-mode-enabled="true"] [data-edit-id]:hover {
+    background-color: #357DF933;
+    outline-color: #357DF9; 
+  }
+
+  @keyframes fadeInTooltip {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  #inline-editor-disabled-tooltip {
+    display: none; 
+    opacity: 0; 
+    position: absolute;
+    background-color: #1D1E20;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 8px;
+    z-index: 10001;
+    font-size: 14px;
+    border: 1px solid #3B3D4A;
+    max-width: 184px;
+    text-align: center;
+  }
+
+  #inline-editor-disabled-tooltip.tooltip-active {
+    display: block;
+    animation: fadeInTooltip 0.2s ease-out forwards;
+  }
+</style>
+		<script type="module">
+      const ALLOWED_PARENT_ORIGINS = [
+          "https://horizons.hostinger.com",
+          "https://horizons.hostinger.dev",
+          "https://horizons-frontend-local.hostinger.dev",
+      ];
+
+        // Check to see if the page is in an iframe
+        if (window.self !== window.top) {
+          const STORAGE_KEY = 'horizons-iframe-saved-route';
+
+          const getCurrentRoute = () => location.pathname + location.search + location.hash;
+
+          const save = () => {
+            try {
+              const currentRoute = getCurrentRoute();
+              sessionStorage.setItem(STORAGE_KEY, currentRoute);
+              window.parent.postMessage({message: 'route-changed', route: currentRoute}, '*');
+            } catch {}
+          };
+
+          const replaceHistoryState = (url) => {
+            try {
+              history.replaceState(null, '', url);
+              window.dispatchEvent(new PopStateEvent('popstate', { state: history.state }));
+              return true;
+            } catch {}
+            return false;
+          };
+
+          const restore = () => {
+            try {
+              const saved = sessionStorage.getItem(STORAGE_KEY);
+              if (!saved) return;
+
+              if (!saved.startsWith('/')) {
+                sessionStorage.removeItem(STORAGE_KEY);
+                return;
+              }
+
+              const current = getCurrentRoute();
+              if (current !== saved) {
+                if (!replaceHistoryState(saved)) {
+                  replaceHistoryState('/');
+                }
+
+                requestAnimationFrame(() => setTimeout(() => {
+                  try {
+                    const text = (document.body?.innerText || '').trim();
+
+                    // If the restored route results in too little content, assume it is invalid and navigate home
+                    if (text.length < 50) {
+                      replaceHistoryState('/');
+                    }
+                  } catch {}
+                }, 1000));
+              }
+            } catch {}
+          };
+
+          const originalPushState = history.pushState;
+          history.pushState = function(...args) {
+            originalPushState.apply(this, args);
+            save();
+          };
+
+          const originalReplaceState = history.replaceState;
+          history.replaceState = function(...args) {
+            originalReplaceState.apply(this, args);
+            save();
+          };
+
+          const getParentOrigin = () => {
+              if (
+                  window.location.ancestorOrigins &&
+                  window.location.ancestorOrigins.length > 0
+              ) {
+                  return window.location.ancestorOrigins[0];
+              }
+
+              if (document.referrer) {
+                  try {
+                      return new URL(document.referrer).origin;
+                  } catch (e) {
+                      console.warn("Invalid referrer URL:", document.referrer);
+                  }
+              }
+
+              return null;
+          };
+
+          window.addEventListener('popstate', save);
+          window.addEventListener('hashchange', save);
+          window.addEventListener("message", function (event) {
+              const parentOrigin = getParentOrigin();
+
+              if (event.data?.type === "redirect-home" && parentOrigin && ALLOWED_PARENT_ORIGINS.includes(parentOrigin)) {
+                const saved = sessionStorage.getItem(STORAGE_KEY);
+
+                if(saved && saved !== '/') {
+                  replaceHistoryState('/')
+                }
+              }
+          });
+
+          restore();
+        }
+      </script>
+		<script type="module">
+window.onerror = (message, source, lineno, colno, errorObj) => {
+	const errorDetails = errorObj ? JSON.stringify({
+		name: errorObj.name,
+		message: errorObj.message,
+		stack: errorObj.stack,
+		source,
+		lineno,
+		colno,
+	}) : null;
+
+	window.parent.postMessage({
+		type: 'horizons-runtime-error',
+		message,
+		error: errorDetails
+	}, '*');
+};
+</script>
+		<script type="module">
+const observer = new MutationObserver((mutations) => {
+	for (const mutation of mutations) {
+		for (const addedNode of mutation.addedNodes) {
+			if (
+				addedNode.nodeType === Node.ELEMENT_NODE &&
+				(
+					addedNode.tagName?.toLowerCase() === 'vite-error-overlay' ||
+					addedNode.classList?.contains('backdrop')
+				)
+			) {
+				handleViteOverlay(addedNode);
+			}
+		}
+	}
+});
+
+observer.observe(document.documentElement, {
+	childList: true,
+	subtree: true
+});
+
+function handleViteOverlay(node) {
+	if (!node.shadowRoot) {
+		return;
+	}
+
+	const backdrop = node.shadowRoot.querySelector('.backdrop');
+
+	if (backdrop) {
+		const overlayHtml = backdrop.outerHTML;
+		const parser = new DOMParser();
+		const doc = parser.parseFromString(overlayHtml, 'text/html');
+		const messageBodyElement = doc.querySelector('.message-body');
+		const fileElement = doc.querySelector('.file');
+		const messageText = messageBodyElement ? messageBodyElement.textContent.trim() : '';
+		const fileText = fileElement ? fileElement.textContent.trim() : '';
+		const error = messageText + (fileText ? ' File:' + fileText : '');
+
+		window.parent.postMessage({
+			type: 'horizons-vite-error',
+			error,
+		}, '*');
+	}
+}
+</script>
+		<script type="module">
+const originalConsoleError = console.error;
+console.error = function(...args) {
+	originalConsoleError.apply(console, args);
+
+	let errorString = '';
+
+	for (let i = 0; i < args.length; i++) {
+		const arg = args[i];
+		if (arg instanceof Error) {
+			errorString = arg.stack || `${arg.name}: ${arg.message}`;
+			break;
+		}
+	}
+
+	if (!errorString) {
+		errorString = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' ');
+	}
+
+	window.parent.postMessage({
+		type: 'horizons-console-error',
+		error: errorString
+	}, '*');
+};
+</script>
+		<script type="module">
+const originalFetch = window.fetch;
+
+window.fetch = function(...args) {
+	const url = args[0] instanceof Request ? args[0].url : args[0];
+
+	// Skip WebSocket URLs
+	if (url.startsWith('ws:') || url.startsWith('wss:')) {
+		return originalFetch.apply(this, args);
+	}
+
+	return originalFetch.apply(this, args)
+		.then(async response => {
+			const contentType = response.headers.get('Content-Type') || '';
+
+			// Exclude HTML document responses
+			const isDocumentResponse =
+				contentType.includes('text/html') ||
+				contentType.includes('application/xhtml+xml');
+
+			if (!response.ok && !isDocumentResponse) {
+					const responseClone = response.clone();
+					const errorFromRes = await responseClone.text();
+					const requestUrl = response.url;
+					console.error(`Fetch error from ${requestUrl}: ${errorFromRes}`);
+			}
+
+			return response;
+		})
+		.catch(error => {
+			if (!url.match(/.html?$/i)) {
+				console.error(error);
+			}
+
+			throw error;
+		});
+};
+</script>
+		<script type="module">
+if (window.navigation && window.self !== window.top) {
+	window.navigation.addEventListener('navigate', (event) => {
+		const url = event.destination.url;
+
+		try {
+			const destinationUrl = new URL(url);
+			const destinationOrigin = destinationUrl.origin;
+			const currentOrigin = window.location.origin;
+
+			if (destinationOrigin === currentOrigin) {
+				return;
+			}
+		} catch (error) {
+			return;
+		}
+
+		window.parent.postMessage({
+			type: 'horizons-navigation-error',
+			url,
+		}, '*');
+	});
+}
+</script>
+	<style type="text/css" data-vite-dev-id="/home/u029550356/websites/2m0gtGOGJ/public_html/src/index.css">*, ::before, ::after {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
+}
+
+::backdrop {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
+}/*
+! tailwindcss v3.4.18 | MIT License | https://tailwindcss.com
+*//*
+1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
+2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
+*/
+
+*,
+::before,
+::after {
+  box-sizing: border-box; /* 1 */
+  border-width: 0; /* 2 */
+  border-style: solid; /* 2 */
+  border-color: #e5e7eb; /* 2 */
+}
+
+::before,
+::after {
+  --tw-content: '';
+}
+
+/*
+1. Use a consistent sensible line-height in all browsers.
+2. Prevent adjustments of font size after orientation changes in iOS.
+3. Use a more readable tab size.
+4. Use the user's configured `sans` font-family by default.
+5. Use the user's configured `sans` font-feature-settings by default.
+6. Use the user's configured `sans` font-variation-settings by default.
+7. Disable tap highlights on iOS
+*/
+
+html,
+:host {
+  line-height: 1.5; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+  -moz-tab-size: 4; /* 3 */
+  -o-tab-size: 4;
+     tab-size: 4; /* 3 */
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
+  font-feature-settings: normal; /* 5 */
+  font-variation-settings: normal; /* 6 */
+  -webkit-tap-highlight-color: transparent; /* 7 */
+}
+
+/*
+1. Remove the margin in all browsers.
+2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
+*/
+
+body {
+  margin: 0; /* 1 */
+  line-height: inherit; /* 2 */
+}
+
+/*
+1. Add the correct height in Firefox.
+2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
+3. Ensure horizontal rules are visible by default.
+*/
+
+hr {
+  height: 0; /* 1 */
+  color: inherit; /* 2 */
+  border-top-width: 1px; /* 3 */
+}
+
+/*
+Add the correct text decoration in Chrome, Edge, and Safari.
+*/
+
+abbr:where([title]) {
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
+}
+
+/*
+Remove the default font size and weight for headings.
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/*
+Reset links to optimize for opt-in styling instead of opt-out.
+*/
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/*
+Add the correct font weight in Edge and Safari.
+*/
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/*
+1. Use the user's configured `mono` font-family by default.
+2. Use the user's configured `mono` font-feature-settings by default.
+3. Use the user's configured `mono` font-variation-settings by default.
+4. Correct the odd `em` font sizing in all browsers.
+*/
+
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; /* 1 */
+  font-feature-settings: normal; /* 2 */
+  font-variation-settings: normal; /* 3 */
+  font-size: 1em; /* 4 */
+}
+
+/*
+Add the correct font size in all browsers.
+*/
+
+small {
+  font-size: 80%;
+}
+
+/*
+Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+*/
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/*
+1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
+2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
+3. Remove gaps between table borders by default.
+*/
+
+table {
+  text-indent: 0; /* 1 */
+  border-color: inherit; /* 2 */
+  border-collapse: collapse; /* 3 */
+}
+
+/*
+1. Change the font styles in all browsers.
+2. Remove the margin in Firefox and Safari.
+3. Remove default padding in all browsers.
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-feature-settings: inherit; /* 1 */
+  font-variation-settings: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  font-weight: inherit; /* 1 */
+  line-height: inherit; /* 1 */
+  letter-spacing: inherit; /* 1 */
+  color: inherit; /* 1 */
+  margin: 0; /* 2 */
+  padding: 0; /* 3 */
+}
+
+/*
+Remove the inheritance of text transform in Edge and Firefox.
+*/
+
+button,
+select {
+  text-transform: none;
+}
+
+/*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Remove default button styles.
+*/
+
+button,
+input:where([type='button']),
+input:where([type='reset']),
+input:where([type='submit']) {
+  -webkit-appearance: button; /* 1 */
+  background-color: transparent; /* 2 */
+  background-image: none; /* 2 */
+}
+
+/*
+Use the modern Firefox focus style for all focusable elements.
+*/
+
+:-moz-focusring {
+  outline: auto;
+}
+
+/*
+Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
+*/
+
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+/*
+Add the correct vertical alignment in Chrome and Firefox.
+*/
+
+progress {
+  vertical-align: baseline;
+}
+
+/*
+Correct the cursor style of increment and decrement buttons in Safari.
+*/
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/*
+1. Correct the odd appearance in Chrome and Safari.
+2. Correct the outline style in Safari.
+*/
+
+[type='search'] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/*
+Remove the inner padding in Chrome and Safari on macOS.
+*/
+
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Change font properties to `inherit` in Safari.
+*/
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/*
+Add the correct display in Chrome and Safari.
+*/
+
+summary {
+  display: list-item;
+}
+
+/*
+Removes the default spacing and border for appropriate elements.
+*/
+
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+figure,
+p,
+pre {
+  margin: 0;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+Reset default styling for dialogs.
+*/
+dialog {
+  padding: 0;
+}
+
+/*
+Prevent resizing textareas horizontally by default.
+*/
+
+textarea {
+  resize: vertical;
+}
+
+/*
+1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
+2. Set the default placeholder color to the user's configured gray 400 color.
+*/
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  opacity: 1; /* 1 */
+  color: #9ca3af; /* 2 */
+}
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1; /* 1 */
+  color: #9ca3af; /* 2 */
+}
+
+/*
+Set the default cursor for buttons.
+*/
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+/*
+Make sure disabled buttons don't get the pointer cursor.
+*/
+:disabled {
+  cursor: default;
+}
+
+/*
+1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
+2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
+   This can trigger a poorly considered lint error in some tools but is included by design.
+*/
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block; /* 1 */
+  vertical-align: middle; /* 2 */
+}
+
+/*
+Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
+*/
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Make elements with the HTML hidden attribute stay hidden by default */
+[hidden]:where(:not([hidden="until-found"])) {
+  display: none;
+}
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+.pointer-events-auto {
+  pointer-events: auto;
+}
+.visible {
+  visibility: visible;
+}
+.fixed {
+  position: fixed;
+}
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
+.sticky {
+  position: sticky;
+}
+.left-2 {
+  left: 0.5rem;
+}
+.right-0 {
+  right: 0px;
+}
+.right-2 {
+  right: 0.5rem;
+}
+.top-0 {
+  top: 0px;
+}
+.top-2 {
+  top: 0.5rem;
+}
+.z-40 {
+  z-index: 40;
+}
+.z-50 {
+  z-index: 50;
+}
+.z-\[100\] {
+  z-index: 100;
+}
+.-mx-1 {
+  margin-left: -0.25rem;
+  margin-right: -0.25rem;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+.-mt-3 {
+  margin-top: -0.75rem;
+}
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+.mb-8 {
+  margin-bottom: 2rem;
+}
+.ml-1 {
+  margin-left: 0.25rem;
+}
+.mt-0\.5 {
+  margin-top: 0.125rem;
+}
+.mt-1 {
+  margin-top: 0.25rem;
+}
+.mt-2 {
+  margin-top: 0.5rem;
+}
+.mt-4 {
+  margin-top: 1rem;
+}
+.mt-6 {
+  margin-top: 1.5rem;
+}
+.flex {
+  display: flex;
+}
+.inline-flex {
+  display: inline-flex;
+}
+.table {
+  display: table;
+}
+.grid {
+  display: grid;
+}
+.hidden {
+  display: none;
+}
+.h-10 {
+  height: 2.5rem;
+}
+.h-11 {
+  height: 2.75rem;
+}
+.h-3 {
+  height: 0.75rem;
+}
+.h-3\.5 {
+  height: 0.875rem;
+}
+.h-4 {
+  height: 1rem;
+}
+.h-5 {
+  height: 1.25rem;
+}
+.h-6 {
+  height: 1.5rem;
+}
+.h-7 {
+  height: 1.75rem;
+}
+.h-8 {
+  height: 2rem;
+}
+.h-9 {
+  height: 2.25rem;
+}
+.h-\[var\(--radix-select-trigger-height\)\] {
+  height: var(--radix-select-trigger-height);
+}
+.h-full {
+  height: 100%;
+}
+.h-px {
+  height: 1px;
+}
+.max-h-screen {
+  max-height: 100vh;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+.w-10 {
+  width: 2.5rem;
+}
+.w-3 {
+  width: 0.75rem;
+}
+.w-3\.5 {
+  width: 0.875rem;
+}
+.w-4 {
+  width: 1rem;
+}
+.w-5 {
+  width: 1.25rem;
+}
+.w-6 {
+  width: 1.5rem;
+}
+.w-7 {
+  width: 1.75rem;
+}
+.w-\[140px\] {
+  width: 140px;
+}
+.w-\[180px\] {
+  width: 180px;
+}
+.w-full {
+  width: 100%;
+}
+.min-w-\[100px\] {
+  min-width: 100px;
+}
+.min-w-\[200px\] {
+  min-width: 200px;
+}
+.min-w-\[8rem\] {
+  min-width: 8rem;
+}
+.min-w-\[var\(--radix-select-trigger-width\)\] {
+  min-width: var(--radix-select-trigger-width);
+}
+.max-w-2xl {
+  max-width: 42rem;
+}
+.max-w-7xl {
+  max-width: 80rem;
+}
+.max-w-lg {
+  max-width: 32rem;
+}
+.max-w-md {
+  max-width: 28rem;
+}
+.flex-1 {
+  flex: 1 1 0%;
+}
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+.shrink-0 {
+  flex-shrink: 0;
+}
+.flex-grow {
+  flex-grow: 1;
+}
+.cursor-default {
+  cursor: default;
+}
+.select-none {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-col-reverse {
+  flex-direction: column-reverse;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.items-start {
+  align-items: flex-start;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-1 {
+  gap: 0.25rem;
+}
+.gap-2 {
+  gap: 0.5rem;
+}
+.gap-3 {
+  gap: 0.75rem;
+}
+.gap-4 {
+  gap: 1rem;
+}
+.gap-6 {
+  gap: 1.5rem;
+}
+.gap-8 {
+  gap: 2rem;
+}
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+.space-y-8 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-x-auto {
+  overflow-x: auto;
+}
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+.rounded {
+  border-radius: 0.25rem;
+}
+.rounded-full {
+  border-radius: 9999px;
+}
+.rounded-lg {
+  border-radius: var(--radius);
+}
+.rounded-md {
+  border-radius: calc(var(--radius) - 2px);
+}
+.rounded-sm {
+  border-radius: calc(var(--radius) - 4px);
+}
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+.rounded-l-lg {
+  border-top-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius);
+}
+.border {
+  border-width: 1px;
+}
+.border-b {
+  border-bottom-width: 1px;
+}
+.border-blue-100 {
+  --tw-border-opacity: 1;
+  border-color: rgb(219 234 254 / var(--tw-border-opacity, 1));
+}
+.border-blue-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(191 219 254 / var(--tw-border-opacity, 1));
+}
+.border-destructive {
+  border-color: hsl(var(--destructive));
+}
+.border-green-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(187 247 208 / var(--tw-border-opacity, 1));
+}
+.border-input {
+  border-color: hsl(var(--input));
+}
+.border-red-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(254 202 202 / var(--tw-border-opacity, 1));
+}
+.border-slate-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(226 232 240 / var(--tw-border-opacity, 1));
+}
+.border-slate-300 {
+  --tw-border-opacity: 1;
+  border-color: rgb(203 213 225 / var(--tw-border-opacity, 1));
+}
+.border-yellow-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(254 240 138 / var(--tw-border-opacity, 1));
+}
+.bg-background {
+  background-color: hsl(var(--background));
+}
+.bg-blue-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(219 234 254 / var(--tw-bg-opacity, 1));
+}
+.bg-blue-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 246 255 / var(--tw-bg-opacity, 1));
+}
+.bg-blue-50\/50 {
+  background-color: rgb(239 246 255 / 0.5);
+}
+.bg-blue-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1));
+}
+.bg-destructive {
+  background-color: hsl(var(--destructive));
+}
+.bg-green-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 252 231 / var(--tw-bg-opacity, 1));
+}
+.bg-green-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 253 244 / var(--tw-bg-opacity, 1));
+}
+.bg-green-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 197 94 / var(--tw-bg-opacity, 1));
+}
+.bg-primary {
+  background-color: hsl(var(--primary));
+}
+.bg-purple-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(168 85 247 / var(--tw-bg-opacity, 1));
+}
+.bg-red-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity, 1));
+}
+.bg-red-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 242 242 / var(--tw-bg-opacity, 1));
+}
+.bg-red-50\/60 {
+  background-color: rgb(254 242 242 / 0.6);
+}
+.bg-red-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1));
+}
+.bg-secondary {
+  background-color: hsl(var(--secondary));
+}
+.bg-sky-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(14 165 233 / var(--tw-bg-opacity, 1));
+}
+.bg-slate-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity, 1));
+}
+.bg-slate-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity, 1));
+}
+.bg-slate-200\/80 {
+  background-color: rgb(226 232 240 / 0.8);
+}
+.bg-slate-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1));
+}
+.bg-transparent {
+  background-color: transparent;
+}
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+.bg-white\/80 {
+  background-color: rgb(255 255 255 / 0.8);
+}
+.bg-yellow-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 252 232 / var(--tw-bg-opacity, 1));
+}
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+.from-blue-600 {
+  --tw-gradient-from: #2563eb var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(37 99 235 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.from-slate-50 {
+  --tw-gradient-from: #f8fafc var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(248 250 252 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.via-blue-50 {
+  --tw-gradient-to: rgb(239 246 255 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), #eff6ff var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+.to-indigo-700 {
+  --tw-gradient-to: #4338ca var(--tw-gradient-to-position);
+}
+.to-slate-100 {
+  --tw-gradient-to: #f1f5f9 var(--tw-gradient-to-position);
+}
+.p-1 {
+  padding: 0.25rem;
+}
+.p-2 {
+  padding: 0.5rem;
+}
+.p-3 {
+  padding: 0.75rem;
+}
+.p-4 {
+  padding: 1rem;
+}
+.p-5 {
+  padding: 1.25rem;
+}
+.p-6 {
+  padding: 1.5rem;
+}
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.py-0\.5 {
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+}
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.py-1\.5 {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+}
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.pl-8 {
+  padding-left: 2rem;
+}
+.pr-2 {
+  padding-right: 0.5rem;
+}
+.pr-8 {
+  padding-right: 2rem;
+}
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.font-bold {
+  font-weight: 700;
+}
+.font-medium {
+  font-weight: 500;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.text-blue-600 {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity, 1));
+}
+.text-blue-700 {
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity, 1));
+}
+.text-blue-900 {
+  --tw-text-opacity: 1;
+  color: rgb(30 58 138 / var(--tw-text-opacity, 1));
+}
+.text-destructive-foreground {
+  color: hsl(var(--destructive-foreground));
+}
+.text-foreground\/50 {
+  color: hsl(var(--foreground) / 0.5);
+}
+.text-green-600 {
+  --tw-text-opacity: 1;
+  color: rgb(22 163 74 / var(--tw-text-opacity, 1));
+}
+.text-green-700 {
+  --tw-text-opacity: 1;
+  color: rgb(21 128 61 / var(--tw-text-opacity, 1));
+}
+.text-green-900 {
+  --tw-text-opacity: 1;
+  color: rgb(20 83 45 / var(--tw-text-opacity, 1));
+}
+.text-primary {
+  color: hsl(var(--primary));
+}
+.text-primary-foreground {
+  color: hsl(var(--primary-foreground));
+}
+.text-purple-300 {
+  --tw-text-opacity: 1;
+  color: rgb(216 180 254 / var(--tw-text-opacity, 1));
+}
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity, 1));
+}
+.text-red-700 {
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity, 1));
+}
+.text-red-900 {
+  --tw-text-opacity: 1;
+  color: rgb(127 29 29 / var(--tw-text-opacity, 1));
+}
+.text-secondary-foreground {
+  color: hsl(var(--secondary-foreground));
+}
+.text-slate-500 {
+  --tw-text-opacity: 1;
+  color: rgb(100 116 139 / var(--tw-text-opacity, 1));
+}
+.text-slate-600 {
+  --tw-text-opacity: 1;
+  color: rgb(71 85 105 / var(--tw-text-opacity, 1));
+}
+.text-slate-700 {
+  --tw-text-opacity: 1;
+  color: rgb(51 65 85 / var(--tw-text-opacity, 1));
+}
+.text-slate-800 {
+  --tw-text-opacity: 1;
+  color: rgb(30 41 59 / var(--tw-text-opacity, 1));
+}
+.text-slate-900 {
+  --tw-text-opacity: 1;
+  color: rgb(15 23 42 / var(--tw-text-opacity, 1));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+.text-yellow-600 {
+  --tw-text-opacity: 1;
+  color: rgb(202 138 4 / var(--tw-text-opacity, 1));
+}
+.text-yellow-700 {
+  --tw-text-opacity: 1;
+  color: rgb(161 98 7 / var(--tw-text-opacity, 1));
+}
+.underline-offset-4 {
+  text-underline-offset: 4px;
+}
+.opacity-0 {
+  opacity: 0;
+}
+.opacity-50 {
+  opacity: 0.5;
+}
+.opacity-90 {
+  opacity: 0.9;
+}
+.shadow-lg {
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow-md {
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow-sm {
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.outline-none {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+.outline {
+  outline-style: solid;
+}
+.ring-offset-background {
+  --tw-ring-offset-color: hsl(var(--background));
+}
+.ring-offset-white {
+  --tw-ring-offset-color: #fff;
+}
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+.backdrop-blur-lg {
+  --tw-backdrop-blur: blur(16px);
+  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.transition-opacity {
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.transition-shadow {
+  transition-property: box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+@keyframes enter {
+
+  from {
+    opacity: var(--tw-enter-opacity, 1);
+    transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
+  }
+}
+@keyframes exit {
+
+  to {
+    opacity: var(--tw-exit-opacity, 1);
+    transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
+  }
+}
+
+body {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1));
+  --tw-text-opacity: 1;
+  color: rgb(15 23 42 / var(--tw-text-opacity, 1));
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+.placeholder\:text-slate-500::-moz-placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(100 116 139 / var(--tw-text-opacity, 1));
+}
+
+.placeholder\:text-slate-500::placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(100 116 139 / var(--tw-text-opacity, 1));
+}
+
+.last\:border-0:last-child {
+  border-width: 0px;
+}
+
+.hover\:bg-accent:hover {
+  background-color: hsl(var(--accent));
+}
+
+.hover\:bg-destructive\/90:hover {
+  background-color: hsl(var(--destructive) / 0.9);
+}
+
+.hover\:bg-primary\/90:hover {
+  background-color: hsl(var(--primary) / 0.9);
+}
+
+.hover\:bg-secondary:hover {
+  background-color: hsl(var(--secondary));
+}
+
+.hover\:bg-secondary\/80:hover {
+  background-color: hsl(var(--secondary) / 0.8);
+}
+
+.hover\:text-accent-foreground:hover {
+  color: hsl(var(--accent-foreground));
+}
+
+.hover\:text-foreground:hover {
+  color: hsl(var(--foreground));
+}
+
+.hover\:underline:hover {
+  text-decoration-line: underline;
+}
+
+.hover\:shadow-md:hover {
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.focus\:bg-slate-100:focus {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity, 1));
+}
+
+.focus\:text-slate-900:focus {
+  --tw-text-opacity: 1;
+  color: rgb(15 23 42 / var(--tw-text-opacity, 1));
+}
+
+.focus\:opacity-100:focus {
+  opacity: 1;
+}
+
+.focus\:outline-none:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus\:ring-2:focus {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.focus\:ring-blue-500:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity, 1));
+}
+
+.focus\:ring-ring:focus {
+  --tw-ring-color: hsl(var(--ring));
+}
+
+.focus\:ring-offset-2:focus {
+  --tw-ring-offset-width: 2px;
+}
+
+.focus-visible\:outline-none:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus-visible\:ring-2:focus-visible {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.focus-visible\:ring-ring:focus-visible {
+  --tw-ring-color: hsl(var(--ring));
+}
+
+.focus-visible\:ring-slate-950:focus-visible {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(2 6 23 / var(--tw-ring-opacity, 1));
+}
+
+.focus-visible\:ring-offset-2:focus-visible {
+  --tw-ring-offset-width: 2px;
+}
+
+.disabled\:pointer-events-none:disabled {
+  pointer-events: none;
+}
+
+.disabled\:cursor-not-allowed:disabled {
+  cursor: not-allowed;
+}
+
+.disabled\:opacity-50:disabled {
+  opacity: 0.5;
+}
+
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1;
+}
+
+.group.destructive .group-\[\.destructive\]\:border-destructive\/30 {
+  border-color: hsl(var(--destructive) / 0.3);
+}
+
+.group.destructive .group-\[\.destructive\]\:text-red-300 {
+  --tw-text-opacity: 1;
+  color: rgb(252 165 165 / var(--tw-text-opacity, 1));
+}
+
+.group.destructive .group-\[\.destructive\]\:hover\:border-destructive\/30:hover {
+  border-color: hsl(var(--destructive) / 0.3);
+}
+
+.group.destructive .group-\[\.destructive\]\:hover\:bg-destructive:hover {
+  background-color: hsl(var(--destructive));
+}
+
+.group.destructive .group-\[\.destructive\]\:hover\:text-destructive-foreground:hover {
+  color: hsl(var(--destructive-foreground));
+}
+
+.group.destructive .group-\[\.destructive\]\:hover\:text-red-50:hover {
+  --tw-text-opacity: 1;
+  color: rgb(254 242 242 / var(--tw-text-opacity, 1));
+}
+
+.group.destructive .group-\[\.destructive\]\:focus\:ring-destructive:focus {
+  --tw-ring-color: hsl(var(--destructive));
+}
+
+.group.destructive .group-\[\.destructive\]\:focus\:ring-red-400:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(248 113 113 / var(--tw-ring-opacity, 1));
+}
+
+.group.destructive .group-\[\.destructive\]\:focus\:ring-offset-red-600:focus {
+  --tw-ring-offset-color: #dc2626;
+}
+
+.data-\[disabled\]\:pointer-events-none[data-disabled] {
+  pointer-events: none;
+}
+
+.data-\[side\=bottom\]\:translate-y-1[data-side="bottom"] {
+  --tw-translate-y: 0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.data-\[side\=left\]\:-translate-x-1[data-side="left"] {
+  --tw-translate-x: -0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.data-\[side\=right\]\:translate-x-1[data-side="right"] {
+  --tw-translate-x: 0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.data-\[side\=top\]\:-translate-y-1[data-side="top"] {
+  --tw-translate-y: -0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.data-\[swipe\=cancel\]\:translate-x-0[data-swipe="cancel"] {
+  --tw-translate-x: 0px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.data-\[swipe\=end\]\:translate-x-\[var\(--radix-toast-swipe-end-x\)\][data-swipe="end"] {
+  --tw-translate-x: var(--radix-toast-swipe-end-x);
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.data-\[swipe\=move\]\:translate-x-\[var\(--radix-toast-swipe-move-x\)\][data-swipe="move"] {
+  --tw-translate-x: var(--radix-toast-swipe-move-x);
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.data-\[state\=active\]\:bg-white[data-state="active"] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+
+.data-\[state\=active\]\:text-slate-900[data-state="active"] {
+  --tw-text-opacity: 1;
+  color: rgb(15 23 42 / var(--tw-text-opacity, 1));
+}
+
+.data-\[disabled\]\:opacity-50[data-disabled] {
+  opacity: 0.5;
+}
+
+.data-\[state\=active\]\:shadow-md[data-state="active"] {
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.data-\[state\=active\]\:shadow-sm[data-state="active"] {
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.data-\[swipe\=move\]\:transition-none[data-swipe="move"] {
+  transition-property: none;
+}
+
+.data-\[state\=open\]\:animate-in[data-state="open"] {
+  animation-name: enter;
+  animation-duration: 150ms;
+  --tw-enter-opacity: initial;
+  --tw-enter-scale: initial;
+  --tw-enter-rotate: initial;
+  --tw-enter-translate-x: initial;
+  --tw-enter-translate-y: initial;
+}
+
+.data-\[state\=closed\]\:animate-out[data-state="closed"] {
+  animation-name: exit;
+  animation-duration: 150ms;
+  --tw-exit-opacity: initial;
+  --tw-exit-scale: initial;
+  --tw-exit-rotate: initial;
+  --tw-exit-translate-x: initial;
+  --tw-exit-translate-y: initial;
+}
+
+.data-\[swipe\=end\]\:animate-out[data-swipe="end"] {
+  animation-name: exit;
+  animation-duration: 150ms;
+  --tw-exit-opacity: initial;
+  --tw-exit-scale: initial;
+  --tw-exit-rotate: initial;
+  --tw-exit-translate-x: initial;
+  --tw-exit-translate-y: initial;
+}
+
+.data-\[state\=closed\]\:fade-out-0[data-state="closed"] {
+  --tw-exit-opacity: 0;
+}
+
+.data-\[state\=closed\]\:fade-out-80[data-state="closed"] {
+  --tw-exit-opacity: 0.8;
+}
+
+.data-\[state\=open\]\:fade-in-0[data-state="open"] {
+  --tw-enter-opacity: 0;
+}
+
+.data-\[state\=closed\]\:zoom-out-95[data-state="closed"] {
+  --tw-exit-scale: .95;
+}
+
+.data-\[state\=open\]\:zoom-in-95[data-state="open"] {
+  --tw-enter-scale: .95;
+}
+
+.data-\[side\=bottom\]\:slide-in-from-top-2[data-side="bottom"] {
+  --tw-enter-translate-y: -0.5rem;
+}
+
+.data-\[side\=left\]\:slide-in-from-right-2[data-side="left"] {
+  --tw-enter-translate-x: 0.5rem;
+}
+
+.data-\[side\=right\]\:slide-in-from-left-2[data-side="right"] {
+  --tw-enter-translate-x: -0.5rem;
+}
+
+.data-\[side\=top\]\:slide-in-from-bottom-2[data-side="top"] {
+  --tw-enter-translate-y: 0.5rem;
+}
+
+.data-\[state\=closed\]\:slide-out-to-right-full[data-state="closed"] {
+  --tw-exit-translate-x: 100%;
+}
+
+.data-\[state\=open\]\:slide-in-from-top-full[data-state="open"] {
+  --tw-enter-translate-y: -100%;
+}
+
+.dark\:bg-slate-800:is(.dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 41 59 / var(--tw-bg-opacity, 1));
+}
+
+.dark\:text-slate-400:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(148 163 184 / var(--tw-text-opacity, 1));
+}
+
+.dark\:ring-offset-slate-950:is(.dark *) {
+  --tw-ring-offset-color: #020617;
+}
+
+.dark\:focus-visible\:ring-slate-300:focus-visible:is(.dark *) {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(203 213 225 / var(--tw-ring-opacity, 1));
+}
+
+.dark\:data-\[state\=active\]\:bg-slate-950[data-state="active"]:is(.dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(2 6 23 / var(--tw-bg-opacity, 1));
+}
+
+.dark\:data-\[state\=active\]\:text-slate-50[data-state="active"]:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(248 250 252 / var(--tw-text-opacity, 1));
+}
+
+@media (min-width: 640px) {
+
+  .sm\:bottom-0 {
+    bottom: 0px;
+  }
+
+  .sm\:right-0 {
+    right: 0px;
+  }
+
+  .sm\:top-auto {
+    top: auto;
+  }
+
+  .sm\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sm\:flex-col {
+    flex-direction: column;
+  }
+
+  .sm\:px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .data-\[state\=open\]\:sm\:slide-in-from-bottom-full[data-state="open"] {
+    --tw-enter-translate-y: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+
+  .md\:max-w-\[420px\] {
+    max-width: 420px;
+  }
+
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  .lg\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .lg\:flex-row {
+    flex-direction: row;
+  }
+
+  .lg\:items-center {
+    align-items: center;
+  }
+
+  .lg\:justify-between {
+    justify-content: space-between;
+  }
+
+  .lg\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+</style><meta name="description" content="Dashboard profissional para análise de fluxo de caixa e performance de carteira, com indicadores financeiros, gráficos interativos e relatórios detalhados." data-react-helmet="true"></head>
+	<body>
+		<div id="root"><div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100"><header class="bg-white/80 backdrop-blur-lg border-b border-slate-200 shadow-sm sticky top-0 z-40"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4"><div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4"><div class="flex items-center gap-4"><div class="p-3 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg shadow-lg"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7 text-white"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg></div><div><h1 class="text-2xl font-bold text-slate-900" data-edit-id="src/components/Header.jsx:29:15">Fluxo de Caixa</h1><p class="text-sm font-medium text-slate-600" data-edit-disabled="true">Grupo Consolidado XYZ</p></div></div><div class="flex flex-wrap items-center gap-3"><div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-slate-500"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg><button type="button" role="combobox" aria-controls="radix-:r0:" aria-expanded="false" aria-autocomplete="none" dir="ltr" data-state="closed" class="flex h-10 items-center justify-between rounded-md border border-slate-300 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[180px] bg-white"><span style="pointer-events: none;">Consolidado</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-50" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></div><div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-slate-500"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg><button type="button" role="combobox" aria-controls="radix-:r1:" aria-expanded="false" aria-autocomplete="none" dir="ltr" data-state="closed" class="flex h-10 items-center justify-between rounded-md border border-slate-300 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[140px] bg-white"><span style="pointer-events: none;">Mensal</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-50" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></div><div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-slate-500"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg><button type="button" role="combobox" aria-controls="radix-:r2:" aria-expanded="false" aria-autocomplete="none" dir="ltr" data-state="closed" class="flex h-10 items-center justify-between rounded-md border border-slate-300 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[140px] bg-white"><span style="pointer-events: none;">Dez 2024</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-50" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></div></div></div></div></header><main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><div dir="ltr" data-orientation="horizontal" class="w-full"><div role="tablist" aria-orientation="horizontal" class="h-10 items-center justify-center rounded-md p-1 text-slate-500 dark:bg-slate-800 dark:text-slate-400 grid w-full grid-cols-2 max-w-md mx-auto mb-8 bg-slate-200/80" tabindex="0" data-orientation="horizontal" style="outline: none;"><button type="button" role="tab" aria-selected="true" aria-controls="radix-:r3:-content-cash-flow" data-state="active" id="radix-:r3:-trigger-cash-flow" class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-slate-900 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 dark:data-[state=active]:bg-slate-950 dark:data-[state=active]:text-slate-50 data-[state=active]:bg-white data-[state=active]:shadow-md" tabindex="-1" data-orientation="horizontal" data-radix-collection-item="">Fluxo de Caixa</button><button type="button" role="tab" aria-selected="false" aria-controls="radix-:r3:-content-portfolio" data-state="inactive" id="radix-:r3:-trigger-portfolio" class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-slate-900 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 dark:data-[state=active]:bg-slate-950 dark:data-[state=active]:text-slate-50 data-[state=active]:bg-white data-[state=active]:shadow-md" tabindex="-1" data-orientation="horizontal" data-radix-collection-item="">Performance da Carteira</button></div><div data-state="active" data-orientation="horizontal" role="tabpanel" aria-labelledby="radix-:r3:-trigger-cash-flow" id="radix-:r3:-content-cash-flow" tabindex="0" class="mt-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300" style="animation-duration: 0s;"><div class="space-y-8" style="opacity: 1;"><div style="opacity: 1; transform: none;"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"><div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow" style="opacity: 1; transform: none;"><div class="flex items-start justify-between"><div class="flex-1"><p class="text-sm font-medium text-slate-600 mb-1" data-edit-disabled="true">Entradas Totais</p><h3 class="text-2xl font-bold text-slate-900 mb-2" data-edit-disabled="true">R$ 2.847.500</h3><div class="flex items-center gap-1 text-sm text-green-600"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg><span class="font-medium" data-edit-disabled="true">+12,5%</span></div></div><div class="p-3 rounded-lg bg-green-50"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-green-600"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></div></div></div><div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow" style="opacity: 1; transform: none;"><div class="flex items-start justify-between"><div class="flex-1"><p class="text-sm font-medium text-slate-600 mb-1" data-edit-disabled="true">Saídas Totais</p><h3 class="text-2xl font-bold text-slate-900 mb-2" data-edit-disabled="true">R$ 1.923.400</h3><div class="flex items-center gap-1 text-sm text-red-600"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"></polyline><polyline points="16 17 22 17 22 11"></polyline></svg><span class="font-medium" data-edit-disabled="true">+8,3%</span></div></div><div class="p-3 rounded-lg bg-red-50"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-red-600"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"></polyline><polyline points="16 17 22 17 22 11"></polyline></svg></div></div></div><div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow" style="opacity: 1; transform: none;"><div class="flex items-start justify-between"><div class="flex-1"><p class="text-sm font-medium text-slate-600 mb-1" data-edit-disabled="true">Saldo Final</p><h3 class="text-2xl font-bold text-slate-900 mb-2" data-edit-disabled="true">R$ 1.456.800</h3><div class="flex items-center gap-1 text-sm text-green-600"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg><span class="font-medium" data-edit-disabled="true">+15,7%</span></div></div><div class="p-3 rounded-lg bg-green-50"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-green-600"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div></div></div><div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow" style="opacity: 1; transform: none;"><div class="flex items-start justify-between"><div class="flex-1"><p class="text-sm font-medium text-slate-600 mb-1" data-edit-disabled="true">Variação do Saldo</p><h3 class="text-2xl font-bold text-slate-900 mb-2" data-edit-disabled="true">15.7%</h3><div class="flex items-center gap-1 text-sm text-green-600"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg><span class="font-medium" data-edit-disabled="true">vs. mês anterior</span></div></div><div class="p-3 rounded-lg bg-green-50"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-green-600"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg></div></div></div></div></div><div style="opacity: 1; transform: none;"><div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200"><div class="mb-6"><h2 class="text-xl font-bold text-slate-900 mb-2" data-edit-id="src/components/CashFlowChart.jsx:9:9">Evolução do Fluxo de Caixa</h2><p class="text-sm text-slate-600" data-edit-id="src/components/CashFlowChart.jsx:10:9">Histórico dos últimos 12 meses</p></div><div class="recharts-responsive-container" style="width: 100%; height: 400px; min-width: 0px;"><div class="recharts-wrapper" style="position: relative; cursor: default; width: 100%; height: 100%; max-height: 400px; max-width: 835px;"><svg class="recharts-surface" width="835" height="400" viewBox="0 0 835 400" style="width: 100%; height: 100%;"><title></title><desc></desc><defs><clippath id="recharts1-clip"><rect x="65" y="5" height="336" width="765"></rect></clippath></defs><defs><lineargradient id="colorInflows" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stop-color="#10b981" stop-opacity="0.3"></stop><stop offset="95%" stop-color="#10b981" stop-opacity="0"></stop></lineargradient><lineargradient id="colorOutflows" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stop-color="#ef4444" stop-opacity="0.3"></stop><stop offset="95%" stop-color="#ef4444" stop-opacity="0"></stop></lineargradient><lineargradient id="colorBalance" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stop-color="#3b82f6" stop-opacity="0.3"></stop><stop offset="95%" stop-color="#3b82f6" stop-opacity="0"></stop></lineargradient></defs><g class="recharts-cartesian-grid"><g class="recharts-cartesian-grid-horizontal"><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="65" y1="341" x2="830" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="65" y1="257" x2="830" y2="257"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="65" y1="173" x2="830" y2="173"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="65" y1="89" x2="830" y2="89"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="65" y1="5" x2="830" y2="5"></line></g><g class="recharts-cartesian-grid-vertical"><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="65" y1="5" x2="65" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="134.54545454545456" y1="5" x2="134.54545454545456" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="204.0909090909091" y1="5" x2="204.0909090909091" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="273.6363636363636" y1="5" x2="273.6363636363636" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="343.1818181818182" y1="5" x2="343.1818181818182" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="412.72727272727275" y1="5" x2="412.72727272727275" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="482.27272727272725" y1="5" x2="482.27272727272725" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="551.8181818181818" y1="5" x2="551.8181818181818" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="621.3636363636364" y1="5" x2="621.3636363636364" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="690.9090909090909" y1="5" x2="690.9090909090909" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="760.4545454545455" y1="5" x2="760.4545454545455" y2="341"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="336" x1="830" y1="5" x2="830" y2="341"></line></g></g><g class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-line" fill="none" x1="65" y1="341" x2="830" y2="341" style="font-size: 12px;"></line><g class="recharts-cartesian-axis-ticks"><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="65" y1="347" x2="65" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="65" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="65" dy="0.71em">Jan</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="134.54545454545456" y1="347" x2="134.54545454545456" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="134.54545454545456" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="134.54545454545456" dy="0.71em">Fev</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="204.0909090909091" y1="347" x2="204.0909090909091" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="204.0909090909091" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="204.0909090909091" dy="0.71em">Mar</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="273.6363636363636" y1="347" x2="273.6363636363636" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="273.6363636363636" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="273.6363636363636" dy="0.71em">Abr</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="343.1818181818182" y1="347" x2="343.1818181818182" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="343.1818181818182" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="343.1818181818182" dy="0.71em">Mai</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="412.72727272727275" y1="347" x2="412.72727272727275" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="412.72727272727275" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="412.72727272727275" dy="0.71em">Jun</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="482.27272727272725" y1="347" x2="482.27272727272725" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="482.27272727272725" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="482.27272727272725" dy="0.71em">Jul</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="551.8181818181818" y1="347" x2="551.8181818181818" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="551.8181818181818" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="551.8181818181818" dy="0.71em">Ago</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="621.3636363636364" y1="347" x2="621.3636363636364" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="621.3636363636364" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="621.3636363636364" dy="0.71em">Set</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="690.9090909090909" y1="347" x2="690.9090909090909" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="690.9090909090909" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="690.9090909090909" dy="0.71em">Out</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="760.4545454545455" y1="347" x2="760.4545454545455" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="760.4545454545455" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="760.4545454545455" dy="0.71em">Nov</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="341" class="recharts-cartesian-axis-tick-line" fill="none" x1="830" y1="347" x2="830" y2="341" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="824.9375" y="349" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="824.9375" dy="0.71em">Dez</tspan></text></g></g></g><g class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"><line orientation="left" width="60" height="336" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-line" fill="none" x1="65" y1="5" x2="65" y2="341" style="font-size: 12px;"></line><g class="recharts-cartesian-axis-ticks"><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="336" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-tick-line" fill="none" x1="59" y1="341" x2="65" y2="341" style="font-size: 12px;"></line><text orientation="left" width="60" height="336" stroke="none" x="57" y="341" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#64748b" style="font-size: 12px;"><tspan x="57" dy="0.355em">R$ 0k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="336" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-tick-line" fill="none" x1="59" y1="257" x2="65" y2="257" style="font-size: 12px;"></line><text orientation="left" width="60" height="336" stroke="none" x="57" y="257" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#64748b" style="font-size: 12px;"><tspan x="57" dy="0.355em">R$ 750k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="336" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-tick-line" fill="none" x1="59" y1="173" x2="65" y2="173" style="font-size: 12px;"></line><text orientation="left" width="60" height="336" stroke="none" x="57" y="173" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#64748b" style="font-size: 12px;"><tspan x="57" dy="0.355em">R$ 1500k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="336" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-tick-line" fill="none" x1="59" y1="89" x2="65" y2="89" style="font-size: 12px;"></line><text orientation="left" width="60" height="336" stroke="none" x="57" y="89" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#64748b" style="font-size: 12px;"><tspan x="57" dy="0.355em">R$ 2250k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="336" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-tick-line" fill="none" x1="59" y1="5" x2="65" y2="5" style="font-size: 12px;"></line><text orientation="left" width="60" height="336" stroke="none" x="57" y="9" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#64748b" style="font-size: 12px;"><tspan x="57" dy="0.355em">R$ 3000k</tspan></text></g></g></g><g class="recharts-layer recharts-area"><g class="recharts-layer"><defs><clippath id="animationClipPath-recharts-area-4"><rect x="65" y="0" width="765" height="343"></rect></clippath></defs><g class="recharts-layer" clip-path="url(#animationClipPath-recharts-area-4)"><g class="recharts-layer"><path fill-opacity="1" fill="url(#colorInflows)" name="Entradas" stroke-width="2" width="765" height="336" stroke="none" class="recharts-curve recharts-area-area" d="M65,66.6C88.182,70.52,111.364,74.44,134.545,74.44C157.727,74.44,180.909,47.56,204.091,47.56C227.273,47.56,250.455,59.88,273.636,59.88C296.818,59.88,320,39.72,343.182,39.72C366.364,39.72,389.545,52.04,412.727,52.04C435.909,52.04,459.091,36.36,482.273,36.36C505.455,36.36,528.636,44.2,551.818,44.2C575,44.2,598.182,32.627,621.364,29.64C644.545,26.653,667.727,25.16,690.909,25.16C714.091,25.16,737.273,33,760.455,33C783.636,33,806.818,27.54,830,22.08L830,341C806.818,341,783.636,341,760.455,341C737.273,341,714.091,341,690.909,341C667.727,341,644.545,341,621.364,341C598.182,341,575,341,551.818,341C528.636,341,505.455,341,482.273,341C459.091,341,435.909,341,412.727,341C389.545,341,366.364,341,343.182,341C320,341,296.818,341,273.636,341C250.455,341,227.273,341,204.091,341C180.909,341,157.727,341,134.545,341C111.364,341,88.182,341,65,341Z"></path><path stroke="#10b981" fill-opacity="1" fill="none" name="Entradas" stroke-width="2" width="765" height="336" class="recharts-curve recharts-area-curve" d="M65,66.6C88.182,70.52,111.364,74.44,134.545,74.44C157.727,74.44,180.909,47.56,204.091,47.56C227.273,47.56,250.455,59.88,273.636,59.88C296.818,59.88,320,39.72,343.182,39.72C366.364,39.72,389.545,52.04,412.727,52.04C435.909,52.04,459.091,36.36,482.273,36.36C505.455,36.36,528.636,44.2,551.818,44.2C575,44.2,598.182,32.627,621.364,29.64C644.545,26.653,667.727,25.16,690.909,25.16C714.091,25.16,737.273,33,760.455,33C783.636,33,806.818,27.54,830,22.08"></path></g></g></g></g><g class="recharts-layer recharts-area"><g class="recharts-layer"><defs><clippath id="animationClipPath-recharts-area-5"><rect x="65" y="0" width="765" height="343"></rect></clippath></defs><g class="recharts-layer" clip-path="url(#animationClipPath-recharts-area-5)"><g class="recharts-layer"><path fill-opacity="1" fill="url(#colorOutflows)" name="Saídas" stroke-width="2" width="765" height="336" stroke="none" class="recharts-curve recharts-area-area" d="M65,133.8C88.182,129.88,111.364,125.96,134.545,125.96C157.727,125.96,180.909,141.64,204.091,141.64C227.273,141.64,250.455,129.32,273.636,129.32C296.818,129.32,320,137.16,343.182,137.16C366.364,137.16,389.545,122.6,412.727,122.6C435.909,122.6,459.091,131.56,482.273,131.56C505.455,131.56,528.636,127.08,551.818,127.08C575,127.08,598.182,134.92,621.364,134.92C644.545,134.92,667.727,128.2,690.909,128.2C714.091,128.2,737.273,130.44,760.455,130.44C783.636,130.44,806.818,128.01,830,125.579L830,341C806.818,341,783.636,341,760.455,341C737.273,341,714.091,341,690.909,341C667.727,341,644.545,341,621.364,341C598.182,341,575,341,551.818,341C528.636,341,505.455,341,482.273,341C459.091,341,435.909,341,412.727,341C389.545,341,366.364,341,343.182,341C320,341,296.818,341,273.636,341C250.455,341,227.273,341,204.091,341C180.909,341,157.727,341,134.545,341C111.364,341,88.182,341,65,341Z"></path><path stroke="#ef4444" fill-opacity="1" fill="none" name="Saídas" stroke-width="2" width="765" height="336" class="recharts-curve recharts-area-curve" d="M65,133.8C88.182,129.88,111.364,125.96,134.545,125.96C157.727,125.96,180.909,141.64,204.091,141.64C227.273,141.64,250.455,129.32,273.636,129.32C296.818,129.32,320,137.16,343.182,137.16C366.364,137.16,389.545,122.6,412.727,122.6C435.909,122.6,459.091,131.56,482.273,131.56C505.455,131.56,528.636,127.08,551.818,127.08C575,127.08,598.182,134.92,621.364,134.92C644.545,134.92,667.727,128.2,690.909,128.2C714.091,128.2,737.273,130.44,760.455,130.44C783.636,130.44,806.818,128.01,830,125.579"></path></g></g></g></g></svg><div class="recharts-legend-wrapper" style="position: absolute; width: 825px; height: auto; left: 5px; bottom: 5px;"><ul class="recharts-default-legend" style="padding: 0px; margin: 0px; text-align: center;"><li class="recharts-legend-item legend-item-0" style="display: inline-block; margin-right: 10px;"><svg class="recharts-surface" width="14" height="14" viewBox="0 0 32 32" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><title></title><desc></desc><path stroke-width="4" fill="none" stroke="#10b981" d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16" class="recharts-legend-icon"></path></svg><span class="recharts-legend-item-text" style="color: rgb(16, 185, 129);">Entradas</span></li><li class="recharts-legend-item legend-item-1" style="display: inline-block; margin-right: 10px;"><svg class="recharts-surface" width="14" height="14" viewBox="0 0 32 32" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><title></title><desc></desc><path stroke-width="4" fill="none" stroke="#ef4444" d="M0,16h10.666666666666666
+            A5.333333333333333,5.333333333333333,0,1,1,21.333333333333332,16
+            H32M21.333333333333332,16
+            A5.333333333333333,5.333333333333333,0,1,1,10.666666666666666,16" class="recharts-legend-icon"></path></svg><span class="recharts-legend-item-text" style="color: rgb(239, 68, 68);">Saídas</span></li></ul></div><div tabindex="-1" class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom" style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"><div class="recharts-default-tooltip" style="margin: 0px; padding: 10px; background-color: white; border: 1px solid rgb(226, 232, 240); white-space: nowrap; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px;"><p class="recharts-tooltip-label" style="margin: 0px;"></p></div></div></div></div></div></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div style="opacity: 1; transform: none;"><div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 h-full flex flex-col"><div class="mb-4"><h2 class="text-xl font-bold text-slate-900 mb-2" data-edit-id="src/components/ReceivablesSection.jsx:20:9">Entradas de Caixa (Recebimentos)</h2><p class="text-sm text-slate-600" data-edit-id="src/components/ReceivablesSection.jsx:21:9">Análise detalhada da carteira e recebimentos</p></div><div class="grid grid-cols-2 gap-4 mb-4"><div class="p-3 bg-slate-50 rounded-lg border border-slate-200"><div class="flex items-center gap-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-blue-600"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path></svg><span class="text-xs font-medium text-slate-600" data-edit-disabled="true">VP da Carteira</span></div><p class="text-base font-bold text-slate-900" data-edit-disabled="true">R$ 45.800.000</p></div><div class="p-3 bg-slate-50 rounded-lg border border-slate-200"><div class="flex items-center gap-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-blue-600"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg><span class="text-xs font-medium text-slate-600" data-edit-disabled="true">LTV Médio</span></div><p class="text-base font-bold text-slate-900" data-edit-disabled="true">72%</p></div><div class="p-3 bg-slate-50 rounded-lg border border-slate-200"><div class="flex items-center gap-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-blue-600"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span class="text-xs font-medium text-slate-600" data-edit-disabled="true">Prazo Médio</span></div><p class="text-base font-bold text-slate-900" data-edit-disabled="true">84 meses</p></div><div class="p-3 bg-slate-50 rounded-lg border border-slate-200"><div class="flex items-center gap-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-blue-600"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg><span class="text-xs font-medium text-slate-600" data-edit-disabled="true">Duration Média</span></div><p class="text-base font-bold text-slate-900" data-edit-disabled="true">4.2 anos</p></div></div><div class="flex-grow"><h3 class="text-sm font-semibold text-slate-700 mb-2" data-edit-id="src/components/ReceivablesSection.jsx:37:9">Distribuição por Origem</h3><div class="recharts-responsive-container" style="width: 100%; height: 200px; min-width: 0px;"><div class="recharts-wrapper" style="position: relative; cursor: default; width: 100%; height: 100%; max-height: 200px; max-width: 835px;"><svg class="recharts-surface" width="835" height="200" viewBox="0 0 835 200" style="width: 100%; height: 100%;"><title></title><desc></desc><defs><clippath id="recharts6-clip"><rect x="120" y="5" height="190" width="695"></rect></clippath></defs><g class="recharts-cartesian-grid"><g class="recharts-cartesian-grid-vertical"><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="120" y="5" width="695" height="190" x1="120" y1="5" x2="120" y2="195"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="120" y="5" width="695" height="190" x1="293.75" y1="5" x2="293.75" y2="195"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="120" y="5" width="695" height="190" x1="467.5" y1="5" x2="467.5" y2="195"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="120" y="5" width="695" height="190" x1="641.25" y1="5" x2="641.25" y2="195"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="120" y="5" width="695" height="190" x1="815" y1="5" x2="815" y2="195"></line></g></g><g class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"><g class="recharts-cartesian-axis-ticks"><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="left" width="110" height="190" stroke="none" font-size="12" x="112" y="28.75" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#666"><tspan x="112" dy="0.355em">Contratos Ativos</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="left" width="110" height="190" stroke="none" font-size="12" x="112" y="76.25" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#666"><tspan x="112" dy="0.355em">Recuperações</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="left" width="110" height="190" stroke="none" font-size="12" x="112" y="123.75" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#666"><tspan x="112" dy="0.355em">Antecipações</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><text orientation="left" width="110" height="190" stroke="none" font-size="12" x="112" y="171.25" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#666"><tspan x="112" dy="0.355em">Outras Entradas</tspan></text></g></g></g><g class="recharts-layer recharts-bar"><g class="recharts-layer recharts-bar-rectangles"><g class="recharts-layer"><g class="recharts-layer recharts-bar-rectangle"><path x="120" y="9.75" width="642.875" height="38" radius="0,8,8,0" name="Contratos Ativos" fill="#3b82f6" class="recharts-rectangle" d="M120,9.75L 754.875,9.75A 8,8,0,0,1,
+        762.875,17.75L 762.875,39.75A 8,8,0,0,1,
+        754.875,47.75L 120,47.75Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="120" y="57.25" width="180.7" height="38" radius="0,8,8,0" name="Recuperações" fill="#10b981" class="recharts-rectangle" d="M120,57.25L 292.7,57.25A 8,8,0,0,1,
+        300.7,65.25L 300.7,87.25A 8,8,0,0,1,
+        292.7,95.25L 120,95.25Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="120" y="104.75" width="111.19999999999999" height="38" radius="0,8,8,0" name="Antecipações" fill="#f59e0b" class="recharts-rectangle" d="M120,104.75L 223.2,104.75A 8,8,0,0,1,
+        231.2,112.75L 231.2,134.75A 8,8,0,0,1,
+        223.2,142.75L 120,142.75Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="120" y="152.25" width="54.73124999999999" height="38" radius="0,8,8,0" name="Outras Entradas" fill="#8b5cf6" class="recharts-rectangle" d="M120,152.25L 166.73125,152.25A 8,8,0,0,1,
+        174.73125,160.25L 174.73125,182.25A 8,8,0,0,1,
+        166.73125,190.25L 120,190.25Z"></path></g></g></g><g class="recharts-layer"></g></g></svg><div tabindex="-1" class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom" style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(120px, 10px);"><div class="recharts-default-tooltip" style="margin: 0px; padding: 10px; background-color: white; border: 1px solid rgb(226, 232, 240); white-space: nowrap; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px;"><p class="recharts-tooltip-label" style="margin: 0px;"></p></div></div></div></div></div><div class="mt-4 grid grid-cols-2 gap-4 p-4 bg-blue-50/50 rounded-lg border border-blue-100"><div><p class="text-sm text-slate-600 mb-1" data-edit-id="src/components/ReceivablesSection.jsx:64:11">Total Previsto</p><p class="text-lg font-bold text-slate-900" data-edit-disabled="true">R$ 2.950.000</p></div><div class="relative"><p class="text-sm text-slate-600 mb-1" data-edit-id="src/components/ReceivablesSection.jsx:68:11">Total Realizado</p><p class="text-lg font-bold text-green-600" data-edit-disabled="true">R$ 2.847.500</p><div class="absolute top-0 right-0 flex items-center gap-1 text-green-600 bg-green-100 px-2 py-0.5 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg><span class="text-xs font-bold" data-edit-disabled="true">96.5%</span></div></div></div></div></div><div style="opacity: 1; transform: none;"><div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 h-full flex flex-col"><div class="mb-4"><h2 class="text-xl font-bold text-slate-900 mb-2" data-edit-id="src/components/PaymentsSection.jsx:12:9">Saídas de Caixa (Pagamentos)</h2><p class="text-sm text-slate-600" data-edit-id="src/components/PaymentsSection.jsx:13:9">Análise comparativa por categoria</p></div><div class="grid grid-cols-2 gap-4 mb-4 p-3 bg-slate-50 rounded-lg border border-slate-200"><div><p class="text-xs font-medium text-slate-600" data-edit-id="src/components/PaymentsSection.jsx:18:11">Total Orçado</p><p class="text-base font-bold text-slate-900" data-edit-disabled="true">R$ 1.850.000</p></div><div class="relative"><p class="text-xs font-medium text-slate-600" data-edit-id="src/components/PaymentsSection.jsx:22:11">Total Realizado</p><p class="text-base font-bold text-red-600" data-edit-disabled="true">R$ 1.923.400</p></div></div><div class="flex-grow"><h3 class="text-sm font-semibold text-slate-700 mb-2" data-edit-id="src/components/PaymentsSection.jsx:28:9">Orçado vs. Realizado</h3><div class="recharts-responsive-container" style="width: 100%; height: 260px; min-width: 0px;"><div class="recharts-wrapper" style="position: relative; cursor: default; width: 100%; height: 100%; max-height: 260px; max-width: 835px;"><svg class="recharts-surface" width="835" height="260" viewBox="0 0 835 260" style="width: 100%; height: 100%;"><title></title><desc></desc><defs><clippath id="recharts9-clip"><rect x="65" y="5" height="220" width="765"></rect></clippath></defs><g class="recharts-cartesian-grid"><g class="recharts-cartesian-grid-horizontal"><line stroke-dasharray="3 3" stroke="#ccc" fill="none" x="65" y="5" width="765" height="220" x1="65" y1="225" x2="830" y2="225"></line><line stroke-dasharray="3 3" stroke="#ccc" fill="none" x="65" y="5" width="765" height="220" x1="65" y1="170" x2="830" y2="170"></line><line stroke-dasharray="3 3" stroke="#ccc" fill="none" x="65" y="5" width="765" height="220" x1="65" y1="115" x2="830" y2="115"></line><line stroke-dasharray="3 3" stroke="#ccc" fill="none" x="65" y="5" width="765" height="220" x1="65" y1="60" x2="830" y2="60"></line><line stroke-dasharray="3 3" stroke="#ccc" fill="none" x="65" y="5" width="765" height="220" x1="65" y1="5" x2="830" y2="5"></line></g></g><g class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"><line orientation="bottom" width="765" height="30" x="65" y="225" class="recharts-cartesian-axis-line" stroke="#666" fill="none" x1="65" y1="225" x2="830" y2="225"></line><g class="recharts-cartesian-axis-ticks"><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" x="65" y="225" class="recharts-cartesian-axis-tick-line" stroke="#666" fill="none" x1="160.625" y1="231" x2="160.625" y2="225"></line><text orientation="bottom" width="765" height="30" stroke="none" font-size="12" x="160.625" y="233" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#666"><tspan x="160.625" dy="0.71em">OPEX</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" x="65" y="225" class="recharts-cartesian-axis-tick-line" stroke="#666" fill="none" x1="351.875" y1="231" x2="351.875" y2="225"></line><text orientation="bottom" width="765" height="30" stroke="none" font-size="12" x="351.875" y="233" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#666"><tspan x="351.875" dy="0.71em">Desp. Financeiras</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" x="65" y="225" class="recharts-cartesian-axis-tick-line" stroke="#666" fill="none" x1="543.125" y1="231" x2="543.125" y2="225"></line><text orientation="bottom" width="765" height="30" stroke="none" font-size="12" x="543.125" y="233" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#666"><tspan x="543.125" dy="0.71em">CAPEX</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" x="65" y="225" class="recharts-cartesian-axis-tick-line" stroke="#666" fill="none" x1="734.375" y1="231" x2="734.375" y2="225"></line><text orientation="bottom" width="765" height="30" stroke="none" font-size="12" x="734.375" y="233" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#666"><tspan x="734.375" dy="0.71em">Distribuições</tspan></text></g></g></g><g class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"><line orientation="left" width="60" height="220" x="5" y="5" class="recharts-cartesian-axis-line" stroke="#666" fill="none" x1="65" y1="5" x2="65" y2="225"></line><g class="recharts-cartesian-axis-ticks"><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="220" x="5" y="5" class="recharts-cartesian-axis-tick-line" stroke="#666" fill="none" x1="59" y1="225" x2="65" y2="225"></line><text orientation="left" width="60" height="220" stroke="none" font-size="12" x="57" y="225" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#666"><tspan x="57" dy="0.355em">0k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="220" x="5" y="5" class="recharts-cartesian-axis-tick-line" stroke="#666" fill="none" x1="59" y1="170" x2="65" y2="170"></line><text orientation="left" width="60" height="220" stroke="none" font-size="12" x="57" y="170" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#666"><tspan x="57" dy="0.355em">250k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="220" x="5" y="5" class="recharts-cartesian-axis-tick-line" stroke="#666" fill="none" x1="59" y1="115" x2="65" y2="115"></line><text orientation="left" width="60" height="220" stroke="none" font-size="12" x="57" y="115" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#666"><tspan x="57" dy="0.355em">500k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="220" x="5" y="5" class="recharts-cartesian-axis-tick-line" stroke="#666" fill="none" x1="59" y1="60" x2="65" y2="60"></line><text orientation="left" width="60" height="220" stroke="none" font-size="12" x="57" y="60" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#666"><tspan x="57" dy="0.355em">750k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="220" x="5" y="5" class="recharts-cartesian-axis-tick-line" stroke="#666" fill="none" x1="59" y1="5" x2="65" y2="5"></line><text orientation="left" width="60" height="220" stroke="none" font-size="12" x="57" y="9" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#666"><tspan x="57" dy="0.355em">1000k</tspan></text></g></g></g><g class="recharts-layer recharts-bar"><g class="recharts-layer recharts-bar-rectangles"><g class="recharts-layer"><g class="recharts-layer recharts-bar-rectangle"><path x="138" y="38" width="20" height="187" radius="4,4,0,0" name="Orçado" fill="#a8b3c5" class="recharts-rectangle" d="M138,42A 4,4,0,0,1,142,38L 154,38A 4,4,0,0,1,
+        158,42L 158,225L 138,225Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="329.25" y="132.60000000000002" width="20" height="92.39999999999998" radius="4,4,0,0" name="Orçado" fill="#a8b3c5" class="recharts-rectangle" d="M329.25,136.60000000000002A 4,4,0,0,1,333.25,132.60000000000002L 345.25,132.60000000000002A 4,4,0,0,1,
+        349.25,136.60000000000002L 349.25,225L 329.25,225Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="520.5" y="141.4" width="20" height="83.6" radius="4,4,0,0" name="Orçado" fill="#a8b3c5" class="recharts-rectangle" d="M520.5,145.4A 4,4,0,0,1,524.5,141.4L 536.5,141.4A 4,4,0,0,1,
+        540.5,145.4L 540.5,225L 520.5,225Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="711.75" y="181" width="20" height="44" radius="4,4,0,0" name="Orçado" fill="#a8b3c5" class="recharts-rectangle" d="M711.75,185A 4,4,0,0,1,715.75,181L 727.75,181A 4,4,0,0,1,
+        731.75,185L 731.75,225L 711.75,225Z"></path></g></g></g><g class="recharts-layer"></g></g><g class="recharts-layer recharts-bar"><g class="recharts-layer recharts-bar-rectangles"><g class="recharts-layer"><g class="recharts-layer recharts-bar-rectangle"><path x="162" y="28.75999999999999" width="20" height="196.24" radius="4,4,0,0" name="Realizado" fill="#f43f5e" class="recharts-rectangle" d="M162,32.75999999999999A 4,4,0,0,1,166,28.75999999999999L 178,28.75999999999999A 4,4,0,0,1,
+        182,32.75999999999999L 182,225L 162,225Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="353.25" y="127.09999999999998" width="20" height="97.90000000000002" radius="4,4,0,0" name="Realizado" fill="#f43f5e" class="recharts-rectangle" d="M353.25,131.09999999999997A 4,4,0,0,1,357.25,127.09999999999998L 369.25,127.09999999999998A 4,4,0,0,1,
+        373.25,131.09999999999997L 373.25,225L 353.25,225Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="544.5" y="137.352" width="20" height="87.648" radius="4,4,0,0" name="Realizado" fill="#f43f5e" class="recharts-rectangle" d="M544.5,141.352A 4,4,0,0,1,548.5,137.352L 560.5,137.352A 4,4,0,0,1,
+        564.5,141.352L 564.5,225L 544.5,225Z"></path></g><g class="recharts-layer recharts-bar-rectangle"><path x="735.75" y="183.64000000000001" width="20" height="41.359999999999985" radius="4,4,0,0" name="Realizado" fill="#f43f5e" class="recharts-rectangle" d="M735.75,187.64000000000001A 4,4,0,0,1,739.75,183.64000000000001L 751.75,183.64000000000001A 4,4,0,0,1,
+        755.75,187.64000000000001L 755.75,225L 735.75,225Z"></path></g></g></g><g class="recharts-layer"></g></g></svg><div tabindex="-1" class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom" style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"><div class="recharts-default-tooltip" style="margin: 0px; padding: 10px; background-color: white; border: 1px solid rgb(226, 232, 240); white-space: nowrap; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px;"><p class="recharts-tooltip-label" style="margin: 0px;"></p></div></div></div></div></div><div class="mt-4 p-3 bg-red-50/60 border border-red-200 rounded-lg flex items-start gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg><div><p class="text-sm font-semibold text-red-900" data-edit-id="src/components/PaymentsSection.jsx:54:13">Atenção: Orçamento Excedido</p><p class="text-xs text-red-700 mt-1" data-edit-disabled="true">As despesas realizadas ultrapassaram o orçamento em R$ 73.400.</p></div></div></div></div></div><div style="opacity: 1; transform: none;"><div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200"><div class="mb-6"><h2 class="text-xl font-bold text-slate-900 mb-2" data-edit-id="src/components/BalanceAnalysis.jsx:13:9">Análise do Saldo de Caixa</h2><p class="text-sm text-slate-600" data-edit-id="src/components/BalanceAnalysis.jsx:14:9">Indicadores de liquidez e equilíbrio financeiro</p></div><div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"><div class="p-4 bg-blue-50 rounded-lg border border-blue-200"><div class="flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-blue-600"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg><span class="text-sm font-medium text-slate-700" data-edit-id="src/components/BalanceAnalysis.jsx:21:13">Saldo Inicial</span></div><p class="text-2xl font-bold text-slate-900" data-edit-disabled="true">R$ 532.700</p></div><div class="p-4 bg-green-50 rounded-lg border border-green-200"><div class="flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-green-600"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg><span class="text-sm font-medium text-slate-700" data-edit-id="src/components/BalanceAnalysis.jsx:29:13">Liquidez Imediata</span></div><p class="text-2xl font-bold text-green-600" data-edit-disabled="true">7.9 meses</p><p class="text-xs text-slate-600 mt-1" data-edit-id="src/components/BalanceAnalysis.jsx:32:11">Cobertura de custos fixos</p></div><div class="p-4 rounded-lg border bg-green-50 border-green-200"><div class="flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-green-600"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg><span class="text-sm font-medium text-slate-700" data-edit-id="src/components/BalanceAnalysis.jsx:42:13">Ponto de Equilíbrio</span></div><p class="text-2xl font-bold text-green-600" data-edit-disabled="true">Equilibrado</p><p class="text-xs text-slate-600 mt-1" data-edit-disabled="true">Entradas ≥ Saídas</p></div></div><div class="recharts-responsive-container" style="width: 100%; height: 300px; min-width: 0px;"><div class="recharts-wrapper" style="position: relative; cursor: default; width: 100%; height: 100%; max-height: 300px; max-width: 835px;"><svg class="recharts-surface" width="835" height="300" viewBox="0 0 835 300" style="width: 100%; height: 100%;"><title></title><desc></desc><defs><clippath id="recharts14-clip"><rect x="65" y="5" height="260" width="765"></rect></clippath></defs><defs><lineargradient id="colorBalanceArea" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stop-color="#3b82f6" stop-opacity="0.3"></stop><stop offset="95%" stop-color="#3b82f6" stop-opacity="0"></stop></lineargradient></defs><g class="recharts-cartesian-grid"><g class="recharts-cartesian-grid-horizontal"><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="65" y1="265" x2="830" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="65" y1="200" x2="830" y2="200"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="65" y1="135" x2="830" y2="135"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="65" y1="70" x2="830" y2="70"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="65" y1="5" x2="830" y2="5"></line></g><g class="recharts-cartesian-grid-vertical"><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="65" y1="5" x2="65" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="134.54545454545456" y1="5" x2="134.54545454545456" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="204.0909090909091" y1="5" x2="204.0909090909091" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="273.6363636363636" y1="5" x2="273.6363636363636" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="343.1818181818182" y1="5" x2="343.1818181818182" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="412.72727272727275" y1="5" x2="412.72727272727275" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="482.27272727272725" y1="5" x2="482.27272727272725" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="551.8181818181818" y1="5" x2="551.8181818181818" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="621.3636363636364" y1="5" x2="621.3636363636364" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="690.9090909090909" y1="5" x2="690.9090909090909" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="760.4545454545455" y1="5" x2="760.4545454545455" y2="265"></line><line stroke-dasharray="3 3" stroke="#e2e8f0" fill="none" x="65" y="5" width="765" height="260" x1="830" y1="5" x2="830" y2="265"></line></g></g><g class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-line" fill="none" x1="65" y1="265" x2="830" y2="265" style="font-size: 12px;"></line><g class="recharts-cartesian-axis-ticks"><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="65" y1="271" x2="65" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="65" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="65" dy="0.71em">Jan</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="134.54545454545456" y1="271" x2="134.54545454545456" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="134.54545454545456" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="134.54545454545456" dy="0.71em">Fev</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="204.0909090909091" y1="271" x2="204.0909090909091" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="204.0909090909091" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="204.0909090909091" dy="0.71em">Mar</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="273.6363636363636" y1="271" x2="273.6363636363636" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="273.6363636363636" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="273.6363636363636" dy="0.71em">Abr</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="343.1818181818182" y1="271" x2="343.1818181818182" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="343.1818181818182" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="343.1818181818182" dy="0.71em">Mai</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="412.72727272727275" y1="271" x2="412.72727272727275" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="412.72727272727275" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="412.72727272727275" dy="0.71em">Jun</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="482.27272727272725" y1="271" x2="482.27272727272725" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="482.27272727272725" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="482.27272727272725" dy="0.71em">Jul</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="551.8181818181818" y1="271" x2="551.8181818181818" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="551.8181818181818" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="551.8181818181818" dy="0.71em">Ago</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="621.3636363636364" y1="271" x2="621.3636363636364" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="621.3636363636364" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="621.3636363636364" dy="0.71em">Set</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="690.9090909090909" y1="271" x2="690.9090909090909" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="690.9090909090909" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="690.9090909090909" dy="0.71em">Out</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="760.4545454545455" y1="271" x2="760.4545454545455" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="760.4545454545455" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="760.4545454545455" dy="0.71em">Nov</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="bottom" width="765" height="30" stroke="#64748b" x="65" y="265" class="recharts-cartesian-axis-tick-line" fill="none" x1="830" y1="271" x2="830" y2="265" style="font-size: 12px;"></line><text orientation="bottom" width="765" height="30" stroke="none" x="824.9375" y="273" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="middle" fill="#64748b" style="font-size: 12px;"><tspan x="824.9375" dy="0.71em">Dez</tspan></text></g></g></g><g class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"><line orientation="left" width="60" height="260" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-line" fill="none" x1="65" y1="5" x2="65" y2="265" style="font-size: 12px;"></line><g class="recharts-cartesian-axis-ticks"><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="260" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-tick-line" fill="none" x1="59" y1="265" x2="65" y2="265" style="font-size: 12px;"></line><text orientation="left" width="60" height="260" stroke="none" x="57" y="265" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#64748b" style="font-size: 12px;"><tspan x="57" dy="0.355em">R$ 0k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="260" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-tick-line" fill="none" x1="59" y1="200" x2="65" y2="200" style="font-size: 12px;"></line><text orientation="left" width="60" height="260" stroke="none" x="57" y="200" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#64748b" style="font-size: 12px;"><tspan x="57" dy="0.355em">R$ 400k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="260" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-tick-line" fill="none" x1="59" y1="135" x2="65" y2="135" style="font-size: 12px;"></line><text orientation="left" width="60" height="260" stroke="none" x="57" y="135" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#64748b" style="font-size: 12px;"><tspan x="57" dy="0.355em">R$ 800k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="260" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-tick-line" fill="none" x1="59" y1="70" x2="65" y2="70" style="font-size: 12px;"></line><text orientation="left" width="60" height="260" stroke="none" x="57" y="70" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#64748b" style="font-size: 12px;"><tspan x="57" dy="0.355em">R$ 1200k</tspan></text></g><g class="recharts-layer recharts-cartesian-axis-tick"><line orientation="left" width="60" height="260" stroke="#64748b" x="5" y="5" class="recharts-cartesian-axis-tick-line" fill="none" x1="59" y1="5" x2="65" y2="5" style="font-size: 12px;"></line><text orientation="left" width="60" height="260" stroke="none" x="57" y="9" class="recharts-text recharts-cartesian-axis-tick-value" text-anchor="end" fill="#64748b" style="font-size: 12px;"><tspan x="57" dy="0.355em">R$ 1600k</tspan></text></g></g></g><g class="recharts-layer recharts-area"><g class="recharts-layer"><defs><clippath id="animationClipPath-recharts-area-16"><rect x="65" y="0" width="765" height="268"></rect></clippath></defs><g class="recharts-layer" clip-path="url(#animationClipPath-recharts-area-16)"><g class="recharts-layer"><path fill-opacity="1" fill="url(#colorBalanceArea)" stroke-width="3" name="Saldo Acumulado" width="765" height="260" stroke="none" class="recharts-curve recharts-area-area" d="M65,70C88.182,73.25,111.364,76.5,134.545,76.5C157.727,76.5,180.909,47.25,204.091,47.25C227.273,47.25,250.455,57,273.636,57C296.818,57,320,35.875,343.182,35.875C366.364,35.875,389.545,50.5,412.727,50.5C435.909,50.5,459.091,29.375,482.273,29.375C505.455,29.375,528.636,39.125,551.818,39.125C575,39.125,598.182,28.021,621.364,24.5C644.545,20.979,667.727,18,690.909,18C714.091,18,737.273,24.695,760.455,26.125C783.636,27.555,806.818,27.913,830,28.27L830,265C806.818,265,783.636,265,760.455,265C737.273,265,714.091,265,690.909,265C667.727,265,644.545,265,621.364,265C598.182,265,575,265,551.818,265C528.636,265,505.455,265,482.273,265C459.091,265,435.909,265,412.727,265C389.545,265,366.364,265,343.182,265C320,265,296.818,265,273.636,265C250.455,265,227.273,265,204.091,265C180.909,265,157.727,265,134.545,265C111.364,265,88.182,265,65,265Z"></path><path stroke="#3b82f6" fill-opacity="1" fill="none" stroke-width="3" name="Saldo Acumulado" width="765" height="260" class="recharts-curve recharts-area-curve" d="M65,70C88.182,73.25,111.364,76.5,134.545,76.5C157.727,76.5,180.909,47.25,204.091,47.25C227.273,47.25,250.455,57,273.636,57C296.818,57,320,35.875,343.182,35.875C366.364,35.875,389.545,50.5,412.727,50.5C435.909,50.5,459.091,29.375,482.273,29.375C505.455,29.375,528.636,39.125,551.818,39.125C575,39.125,598.182,28.021,621.364,24.5C644.545,20.979,667.727,18,690.909,18C714.091,18,737.273,24.695,760.455,26.125C783.636,27.555,806.818,27.913,830,28.27"></path></g></g></g></g></svg><div tabindex="-1" class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom" style="visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px; transform: translate(65px, 10px);"><div class="recharts-default-tooltip" style="margin: 0px; padding: 10px; background-color: white; border: 1px solid rgb(226, 232, 240); white-space: nowrap; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px;"><p class="recharts-tooltip-label" style="margin: 0px;"></p></div></div></div></div><div class="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200"><h3 class="text-sm font-semibold text-slate-900 mb-3" data-edit-id="src/components/BalanceAnalysis.jsx:94:9">Fórmula do Saldo Final</h3><div class="flex flex-wrap items-center gap-2 text-sm"><span class="px-3 py-1 bg-blue-100 text-blue-900 rounded font-mono" data-edit-id="src/components/BalanceAnalysis.jsx:96:11">Saldo Final</span><span class="text-slate-600" data-edit-id="src/components/BalanceAnalysis.jsx:97:11">=</span><span class="px-3 py-1 bg-slate-200 text-slate-900 rounded font-mono" data-edit-id="src/components/BalanceAnalysis.jsx:98:11">Saldo Inicial</span><span class="text-slate-600" data-edit-id="src/components/BalanceAnalysis.jsx:99:11">+</span><span class="px-3 py-1 bg-green-100 text-green-900 rounded font-mono" data-edit-id="src/components/BalanceAnalysis.jsx:100:11">Entradas Totais</span><span class="text-slate-600" data-edit-id="src/components/BalanceAnalysis.jsx:101:11">−</span><span class="px-3 py-1 bg-red-100 text-red-900 rounded font-mono" data-edit-id="src/components/BalanceAnalysis.jsx:102:11">Saídas Totais</span></div></div></div></div><div style="opacity: 1; transform: none;"><div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200"><div class="mb-6 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-blue-600"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg><div><h2 class="text-xl font-bold text-slate-900" data-edit-id="src/components/AnalyticalInsights.jsx:81:11">Insights Analíticos</h2><p class="text-sm text-slate-600" data-edit-id="src/components/AnalyticalInsights.jsx:82:11">Destaques automáticos e alertas gerenciais</p></div></div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"><div class="p-5 rounded-xl border bg-green-50 border-green-200 text-green-700 flex items-start gap-4 h-full" style="opacity: 1; transform: none;"><div class="mt-1 flex-shrink-0 p-2 rounded-full bg-green-50 border-green-200 text-green-700"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-green-600"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></div><div><p class="font-bold text-slate-900" data-edit-disabled="true">Principal Fonte de Entrada</p><p class="text-xl font-bold text-slate-800 my-1" data-edit-disabled="true">Contratos Ativos</p><p class="text-sm" data-edit-disabled="true">Gerou R$ 1.850.000 no período.</p></div></div><div class="p-5 rounded-xl border bg-red-50 border-red-200 text-red-700 flex items-start gap-4 h-full" style="opacity: 1; transform: none;"><div class="mt-1 flex-shrink-0 p-2 rounded-full bg-red-50 border-red-200 text-red-700"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-red-600"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"></polyline><polyline points="16 17 22 17 22 11"></polyline></svg></div><div><p class="font-bold text-slate-900" data-edit-disabled="true">Maior Categoria de Saída</p><p class="text-xl font-bold text-slate-800 my-1" data-edit-disabled="true">OPEX</p><p class="text-sm" data-edit-disabled="true">Consumiu R$ 892.000 do caixa.</p></div></div><div class="p-5 rounded-xl border bg-yellow-50 border-yellow-200 text-yellow-700 flex items-start gap-4 h-full" style="opacity: 1; transform: none;"><div class="mt-1 flex-shrink-0 p-2 rounded-full bg-yellow-50 border-yellow-200 text-yellow-700"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-yellow-600"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></div><div><p class="font-bold text-slate-900" data-edit-disabled="true">Orçamento Excedido</p><p class="text-xl font-bold text-slate-800 my-1" data-edit-disabled="true">Diferença de R$ 73.400</p><p class="text-sm" data-edit-disabled="true">As saídas superaram o planejado. Recomenda-se revisão de custos.</p></div></div><div class="p-5 rounded-xl border bg-blue-50 border-blue-200 text-blue-700 flex items-start gap-4 h-full" style="opacity: 1; transform: none;"><div class="mt-1 flex-shrink-0 p-2 rounded-full bg-blue-50 border-blue-200 text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-blue-600"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><path d="M15 2v2"></path><path d="M15 20v2"></path><path d="M2 15h2"></path><path d="M2 9h2"></path><path d="M20 15h2"></path><path d="M20 9h2"></path><path d="M9 2v2"></path><path d="M9 20v2"></path></svg></div><div><p class="font-bold text-slate-900" data-edit-disabled="true">Análise Preditiva (IA)</p><p class="text-xl font-bold text-slate-800 my-1" data-edit-disabled="true">Saldo positivo em 90 dias</p><p class="text-sm" data-edit-disabled="true">Projeção indica tendência de crescimento do saldo, com 85% de confiança. Continue monitorando o OPEX.</p></div></div></div></div></div></div></div><div data-state="inactive" data-orientation="horizontal" role="tabpanel" aria-labelledby="radix-:r3:-trigger-portfolio" hidden="" id="radix-:r3:-content-portfolio" tabindex="0" class="mt-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300"></div></div></main></div><div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events: none;"><ol tabindex="-1" class="fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]"></ol></div></div>
+		<script type="module" src="./Dashboard Financeiro _ Análise de Performancef_files/main.jsx"></script>
+		<script type="module">import { POPUP_STYLES } from './plugins/visual-editor/visual-editor-config.js';
+
+const PLUGIN_APPLY_EDIT_API_URL = '/api/apply-edit';
+
+const ALLOWED_PARENT_ORIGINS = [
+	'https://horizons.hostinger.com',
+	'https://horizons.hostinger.dev',
+	'https://horizons-frontend-local.hostinger.dev',
+	'http://localhost:4000',
+];
+
+let disabledTooltipElement = null;
+let currentDisabledHoverElement = null;
+
+let translations = {
+  disabledTooltipText: "This text can be changed only through chat.",
+  disabledTooltipTextImage: "This image can only be changed through chat."
+};
+
+let areStylesInjected = false;
+
+let globalEventHandlers = null;
+
+let currentEditingInfo = null;
+
+function injectPopupStyles() {
+  if (areStylesInjected) return;
+
+  const styleElement = document.createElement('style');
+  styleElement.id = 'inline-editor-styles';
+  styleElement.textContent = POPUP_STYLES;
+  document.head.appendChild(styleElement);
+  areStylesInjected = true;
+}
+
+function findEditableElementAtPoint(event) {
+  let editableElement = event.target.closest('[data-edit-id]');
+  
+  if (editableElement) {
+    return editableElement;
+  }
+  
+  const elementsAtPoint = document.elementsFromPoint(event.clientX, event.clientY);
+  
+  const found = elementsAtPoint.find(el => el !== event.target && el.hasAttribute('data-edit-id'));
+  if (found) return found;
+  
+  return null;
+}
+
+function findDisabledElementAtPoint(event) {
+  const direct = event.target.closest('[data-edit-disabled]');
+  if (direct) return direct;
+  const elementsAtPoint = document.elementsFromPoint(event.clientX, event.clientY);
+  const found = elementsAtPoint.find(el => el !== event.target && el.hasAttribute('data-edit-disabled'));
+  if (found) return found;
+  return null;
+}
+
+function showPopup(targetElement, editId, currentContent, isImage = false) {
+ currentEditingInfo = { editId, targetElement };
+
+ const parentOrigin = getParentOrigin();
+
+ if (parentOrigin && ALLOWED_PARENT_ORIGINS.includes(parentOrigin)) {
+   const eventType = isImage ? 'imageEditEnter' : 'editEnter';
+   
+   window.parent.postMessage({
+     type: eventType,
+     payload: { currentText: currentContent }
+   }, parentOrigin);
+ }
+}
+
+function handleGlobalEvent(event) {
+  if (!document.getElementById('root')?.getAttribute('data-edit-mode-enabled')) {
+    return;
+  }
+
+  if (event.target.closest('#inline-editor-popup')) {
+    return;
+  }
+
+  const editableElement = findEditableElementAtPoint(event);
+
+  if (editableElement) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    if (event.type === 'click') {
+      const editId = editableElement.getAttribute('data-edit-id');
+      if (!editId) {
+        console.warn('[INLINE EDITOR] Clicked element missing data-edit-id');
+        return;
+      }
+
+      const isImage = editableElement.tagName.toLowerCase() === 'img';
+      let currentContent = '';
+      
+      if (isImage) {
+        currentContent = editableElement.getAttribute('src') || '';
+      } else {
+        currentContent = editableElement.textContent || '';
+      }
+      
+      showPopup(editableElement, editId, currentContent, isImage);
+    }
+  } else {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+  }
+}
+
+function getParentOrigin() {
+  if (window.location.ancestorOrigins && window.location.ancestorOrigins.length > 0) {
+    return window.location.ancestorOrigins[0];
+  }
+  
+  if (document.referrer) {
+    try {
+      return new URL(document.referrer).origin;
+    } catch (e) {
+      console.warn('Invalid referrer URL:', document.referrer);
+    }
+  }
+  
+  return null;
+}
+
+async function handleEditSave(updatedText) {
+  const newText = updatedText
+  // Replacing characters that cause Babel parser to crash
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/{/g, '&#123;')
+    .replace(/}/g, '&#125;')
+
+  const { editId } = currentEditingInfo;
+
+  try {
+    const response = await fetch(PLUGIN_APPLY_EDIT_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        editId: editId,
+        newFullText: newText
+      }),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      const parentOrigin = getParentOrigin();
+      if (parentOrigin && ALLOWED_PARENT_ORIGINS.includes(parentOrigin)) {
+        window.parent.postMessage({
+          type: 'editApplied',
+          payload: {
+            editId: editId,
+            fileContent: result.newFileContent,
+            beforeCode: result.beforeCode,
+            afterCode: result.afterCode,
+          }
+        }, parentOrigin);
+      } else {
+        console.error('Unauthorized parent origin:', parentOrigin);
+      }
+    } else {
+      console.error(`[vite][visual-editor] Error saving changes: ${result.error}`);
+    }
+  } catch (error) {
+    console.error(`[vite][visual-editor] Error during fetch for ${editId}:`, error);
+  }
+}
+
+function createDisabledTooltip() {
+  if (disabledTooltipElement) return;
+
+  disabledTooltipElement = document.createElement('div');
+  disabledTooltipElement.id = 'inline-editor-disabled-tooltip';
+  document.body.appendChild(disabledTooltipElement);
+}
+
+function showDisabledTooltip(targetElement, isImage = false) {
+  if (!disabledTooltipElement) createDisabledTooltip();
+
+  disabledTooltipElement.textContent = isImage ? translations.disabledTooltipTextImage : translations.disabledTooltipText;
+  
+  if (!disabledTooltipElement.isConnected) {
+    document.body.appendChild(disabledTooltipElement);
+  }
+  disabledTooltipElement.classList.add('tooltip-active');
+
+  const tooltipWidth = disabledTooltipElement.offsetWidth;
+  const tooltipHeight = disabledTooltipElement.offsetHeight;
+  const rect = targetElement.getBoundingClientRect();
+
+  // Ensures that tooltip is not off the screen with 5px margin
+  let newLeft = rect.left + window.scrollX + (rect.width / 2) - (tooltipWidth / 2);
+  let newTop = rect.bottom + window.scrollY + 5;
+
+  if (newLeft < window.scrollX) {
+    newLeft = window.scrollX + 5; 
+  }
+  if (newLeft + tooltipWidth > window.innerWidth + window.scrollX) {
+    newLeft = window.innerWidth + window.scrollX - tooltipWidth - 5; 
+  }
+  if (newTop + tooltipHeight > window.innerHeight + window.scrollY) {
+    newTop = rect.top + window.scrollY - tooltipHeight - 5; 
+  }
+  if (newTop < window.scrollY) {
+    newTop = window.scrollY + 5; 
+  }
+
+  disabledTooltipElement.style.left = `${newLeft}px`;
+  disabledTooltipElement.style.top = `${newTop}px`;
+}
+
+function hideDisabledTooltip() {
+  if (disabledTooltipElement) {
+    disabledTooltipElement.classList.remove('tooltip-active');
+  }
+}
+
+function handleDisabledElementHover(event) {
+  const isImage = event.currentTarget.tagName.toLowerCase() === 'img';
+
+  showDisabledTooltip(event.currentTarget, isImage);
+}
+
+function handleDisabledElementLeave() {
+  hideDisabledTooltip();
+}
+
+function handleDisabledGlobalHover(event) {
+  const disabledElement = findDisabledElementAtPoint(event);
+  if (disabledElement) {
+    if (currentDisabledHoverElement !== disabledElement) {
+      currentDisabledHoverElement = disabledElement;
+      const isImage = disabledElement.tagName.toLowerCase() === 'img';
+      showDisabledTooltip(disabledElement, isImage);
+    }
+  } else {
+    if (currentDisabledHoverElement) {
+      currentDisabledHoverElement = null;
+      hideDisabledTooltip();
+    }
+  }
+}
+
+function enableEditMode() {
+  document.getElementById('root')?.setAttribute('data-edit-mode-enabled', 'true');
+  
+  injectPopupStyles(); 
+  
+  if (!globalEventHandlers) {
+    globalEventHandlers = {
+      mousedown: handleGlobalEvent,
+      pointerdown: handleGlobalEvent,
+      click: handleGlobalEvent
+    };
+    
+    Object.entries(globalEventHandlers).forEach(([eventType, handler]) => {
+      document.addEventListener(eventType, handler, true);
+    });
+  }
+  
+  document.addEventListener('mousemove', handleDisabledGlobalHover, true);
+  
+  document.querySelectorAll('[data-edit-disabled]').forEach(el => {
+    el.removeEventListener('mouseenter', handleDisabledElementHover);
+    el.addEventListener('mouseenter', handleDisabledElementHover);
+    el.removeEventListener('mouseleave', handleDisabledElementLeave);
+    el.addEventListener('mouseleave', handleDisabledElementLeave);
+  });
+}
+
+function disableEditMode() {
+  document.getElementById('root')?.removeAttribute('data-edit-mode-enabled');
+
+  hideDisabledTooltip();
+
+  if (globalEventHandlers) {
+    Object.entries(globalEventHandlers).forEach(([eventType, handler]) => {
+      document.removeEventListener(eventType, handler, true);
+    });
+    globalEventHandlers = null;
+  }
+  
+  document.removeEventListener('mousemove', handleDisabledGlobalHover, true);
+  currentDisabledHoverElement = null;
+  
+  document.querySelectorAll('[data-edit-disabled]').forEach(el => {
+    el.removeEventListener('mouseenter', handleDisabledElementHover);
+    el.removeEventListener('mouseleave', handleDisabledElementLeave);
+  });
+}
+
+window.addEventListener("message", function(event) {
+  if (event.data?.type === "edit-save") {
+    handleEditSave(event.data?.payload?.newText);
+  }
+  if (event.data?.type === "enable-edit-mode") {
+    if (event.data?.translations) {
+      translations = { ...translations, ...event.data.translations };
+  }
+
+    enableEditMode();
+  }
+  if (event.data?.type === "disable-edit-mode") {
+    disableEditMode();
+  }
+}); 
+</script>
+	
+
+<span id="recharts_measurement_span" aria-hidden="true" style="position: absolute; top: -20000px; left: 0px; padding: 0px; margin: 0px; border: none; white-space: pre; font-size: 12px; letter-spacing: normal;">R$ 400k</span></body></html>

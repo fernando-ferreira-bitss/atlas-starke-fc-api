@@ -1,0 +1,208 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Autenticação APIs",
+    "description": "A API de Autenticação de Usuários fornece uma solução segura e eficiente para autenticar usuários. Nesta documentação, você encontrará todas as informações necessárias para integrar com sucesso a autenticação. \n\n Principais características da API: \n\n * A API utiliza tokens JWT para autenticação, com um token válido por 2 horas e um refresh token válido por 4 horas. \n\n * Quando o refresh token é usado, gera um novo token e refresh token. \n\n * Um usuário só pode ter um refresh token válido de cada vez; gerar um novo descarta o anterior.",
+    "version": "1.6.12.0"
+  },
+  "paths": {
+    "/api/Auth/SignIn": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Autenticar do usuário",
+        "description": "Realiza a autenticação do usuário. Retorna Token de acesso válido por 2 horas e um refresh token, válido por 4 horas para atualização do token de acesso.",
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "header",
+            "description": "Identificador único do cliente. Necessário apenas para MegaCloud.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "grantType",
+            "in": "header",
+            "description": "Tipo de autorização.",
+            "schema": {
+              "type": "string",
+              "default": "Api"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Usuário que será autenticado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Api.Autenticacao.Common.Models.User"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Api.Autenticacao.Common.Models.User"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mega.Api.Autenticacao.Common.Models.User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Retorna o token de autenticação",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Api.Autenticacao.Common.Models.Token"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Api.Autenticacao.Common.Models.Token"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Api.Autenticacao.Common.Models.Token"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não foi possível autenticar o usuário"
+          }
+        }
+      }
+    },
+    "/api/Auth/RefreshToken": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Atualizar o token de autenticação",
+        "description": "Realiza a atualização do token de autenticação. Quando o refresh do token for executado, o token atual será invalidado, e um novo será gerado.",
+        "parameters": [
+          {
+            "name": "refreshToken",
+            "in": "query",
+            "description": "Token utilizado renovação do accessToken",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tenantId",
+            "in": "header",
+            "description": "Identificador único do cliente. Necessário apenas para MegaCloud.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna novo token de autenticação",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Api.Autenticacao.Common.Models.Token"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Api.Autenticacao.Common.Models.Token"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Api.Autenticacao.Common.Models.Token"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não foi possível atualizar o token"
+          }
+        }
+      }
+    },
+    "/api/Auth/Authorize": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Validar token de autenticação",
+        "description": "Realiza a validação do token de autenticação.",
+        "responses": {
+          "200": {
+            "description": "Token validado"
+          },
+          "401": {
+            "description": "Token invalido"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Mega.Api.Autenticacao.Common.Models.Token": {
+        "type": "object",
+        "properties": {
+          "expirationToken": {
+            "type": "string",
+            "description": "Data de expiração do accessToken.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "accessToken": {
+            "type": "string",
+            "description": "Token de acesso aos recursos.",
+            "nullable": true
+          },
+          "expirationRefreshToken": {
+            "type": "string",
+            "description": "Data de expiração do refreshToken.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Token usado para atualizar o accessToken.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Api.Autenticacao.Common.Models.User": {
+        "required": [
+          "password",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "userName": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Nome do usuário cadastrado no ERP",
+            "example": "MegaUser"
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Senha do usuário cadastrado no ERP",
+            "example": "MegaPassword"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

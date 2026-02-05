@@ -1,0 +1,160 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Financeiro Server",
+    "description": "Mega Sistemas",
+    "version": "1.3.0.0"
+  },
+  "paths": {
+    "/api/financeirocadastros/FormaCobranca/cnpj/{cnpjFilial}": {
+      "get": {
+        "tags": [
+          "FormaCobranca"
+        ],
+        "summary": "Método que retorna uma lista de forma de cobrança",
+        "description": "Método que retorna uma lista de forma de cobrança por cnpj filial",
+        "parameters": [
+          {
+            "name": "cnpjFilial",
+            "in": "path",
+            "description": "Cnpj da filial",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Financeiro.Cadastros.Common.Models.FormaCobranca"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Financeiro.Cadastros.Common.Models.FormaCobranca"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Financeiro.Cadastros.Common.Models.FormaCobranca"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Forma de cobrança não encontrada"
+          }
+        }
+      }
+    },
+    "/api/financeirocadastros/FormaCobranca/id/{idFilial}": {
+      "get": {
+        "tags": [
+          "FormaCobranca"
+        ],
+        "summary": "Método que retorna uma lista de forma de cobrança",
+        "description": "Método que retorna uma lista de forma de cobrança por id filial",
+        "parameters": [
+          {
+            "name": "idFilial",
+            "in": "path",
+            "description": "Id da filial",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Financeiro.Cadastros.Common.Models.FormaCobranca"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Financeiro.Cadastros.Common.Models.FormaCobranca"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Financeiro.Cadastros.Common.Models.FormaCobranca"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Forma de cobrança não encontrada"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Mega.Erp.Financeiro.Cadastros.Common.Models.CondPagamento": {
+        "type": "object",
+        "properties": {
+          "codigoCondPagamento": {
+            "type": "string",
+            "nullable": true
+          },
+          "descricaoCondPagamento": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantidadeParcelas": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Financeiro.Cadastros.Common.Models.FormaCobranca": {
+        "type": "object",
+        "properties": {
+          "codigoFormaCobranca": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descricaoFormaCobranca": {
+            "type": "string",
+            "nullable": true
+          },
+          "validade": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "floatBancario": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codigoFormaPagamento": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descricaoFormaPagamento": {
+            "type": "string",
+            "nullable": true
+          },
+          "condPagamento": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Financeiro.Cadastros.Common.Models.CondPagamento"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

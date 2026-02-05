@@ -1,0 +1,30 @@
+{
+  "id": 3951,
+  "empreendimento_id": 24015,
+  "empreendimento_nome": "LOTEAMENTO REVOAR",
+  "ref_month": "2025-11",
+  "up_to_30": 1485910.6,
+  "days_30_60": 134702.38,
+  "days_60_90": 178664.06,
+  "days_90_180": 488090.0,
+  "above_180": 0.0,
+  "total": 2287367.04,
+  "details": {
+    "quantities": {
+      "up_to_30": 175,
+      "days_30_60": 27,
+      "days_60_90": 22,
+      "days_90_180": 17,
+      "above_180": 0,
+      "total": 241
+    },
+    "filters": {
+      "parcela_origem": [
+        "Contrato",
+        "Tabela Price"
+      ],
+      "status_parcela": "Ativo"
+    }
+  },
+  "created_at": "2025-11-07T20:33:38.110652"
+}

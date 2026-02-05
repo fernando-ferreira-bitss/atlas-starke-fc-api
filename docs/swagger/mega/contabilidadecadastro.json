@@ -1,0 +1,856 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Contabilidade Server",
+    "description": "Mega Sistemas",
+    "version": "1.3.0.0"
+  },
+  "paths": {
+    "/api/contabilidadecadastros/CentroCusto": {
+      "get": {
+        "tags": [
+          "Centro de Custo"
+        ],
+        "summary": "Retorna todos os centros de custo",
+        "description": "Retorna uma listagem com todos os centros de custo",
+        "parameters": [
+          {
+            "name": "expand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/contabilidadecadastros/CentroCusto/{id}": {
+      "get": {
+        "tags": [
+          "Centro de Custo"
+        ],
+        "summary": "Retorna um centro de custo",
+        "description": "Retorna um centro de custo através de um código especifico",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Código do centro de custo, composto por padrão, identificador e reduzido convertidos em base64",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.CentroCusto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/contabilidadecadastros/CriterioSaldo": {
+      "get": {
+        "tags": [
+          "Critério de Saldos"
+        ],
+        "summary": "Retorna todos os critérios de saldo",
+        "description": "Retorna uma listagem com todos os critérios de saldo",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.CriterioSaldo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.CriterioSaldo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.CriterioSaldo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/contabilidadecadastros/CriterioSaldo/{id}": {
+      "get": {
+        "tags": [
+          "Critério de Saldo"
+        ],
+        "summary": "Retorna um critério de saldo",
+        "description": "Retorna um critério de saldo através de um código especifico",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Código do critério",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.CriterioSaldo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.CriterioSaldo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.CriterioSaldo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/contabilidadecadastros/Historico": {
+      "get": {
+        "tags": [
+          "Histórico"
+        ],
+        "summary": "Retorna todos os históricos",
+        "description": "Retorna uma listagem com todos os históricos",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Historico"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Historico"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Historico"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/contabilidadecadastros/Historico/{id}": {
+      "get": {
+        "tags": [
+          "Historico"
+        ],
+        "summary": "Retorna um histórico",
+        "description": "Retorna um histórico através de um código especifico",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Código do histórico, composto por padrão, identificador e reduzido convertidos em base64",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Historico"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Historico"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Historico"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/contabilidadecadastros/Lote": {
+      "get": {
+        "tags": [
+          "Lote"
+        ],
+        "summary": "Retorna todos os lotes",
+        "description": "Retorna uma listagem com todos os lotes",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Lote"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Lote"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Lote"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/contabilidadecadastros/Lote/{id}": {
+      "get": {
+        "tags": [
+          "Lote"
+        ],
+        "summary": "Retorna um lote",
+        "description": "Retorna um lote através de um código especifico",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Código do lote, composto por código da organização, sequencia e código do lote convertidos em base64",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Lote"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Lote"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.Lote"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/contabilidadecadastros/PlanoContas": {
+      "get": {
+        "tags": [
+          "Plano de Contas"
+        ],
+        "summary": "Retorna todos os planos de contas",
+        "description": "Retorna uma listagem com todos os planos de contas",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/contabilidadecadastros/PlanoContas/{id}": {
+      "get": {
+        "tags": [
+          "Plano de Contas"
+        ],
+        "summary": "Retorna um plano de contas",
+        "description": "Retorna um plano de contas através de um código especifico",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Código do plano de contas, composto por padrão, identificador e reduzido convertidos em base64",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/contabilidadecadastros/RegraRateio": {
+      "get": {
+        "tags": [
+          "Regra de Rateio"
+        ],
+        "summary": "Retorna todas as regras de rateio",
+        "description": "Retorna uma listagem com todas as regras de rateio",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.RegraRateio"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.RegraRateio"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.RegraRateio"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/contabilidadecadastros/RegraRateio/{id}": {
+      "get": {
+        "tags": [
+          "Regra de Rateio"
+        ],
+        "summary": "Retorna uma regra de rateio",
+        "description": "Retorna uma regra de rateio através de um código especifico",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Código da regra de rateio, composto por padrão e código convertidos em base64",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.RegraRateio"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.RegraRateio"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Models.RegraRateio"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Mega.Erp.Contabilidade.Cadastros.Common.Enum.SimNaoEnum": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Models.CriterioSaldo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "observacao": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Models.Historico": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "reduzido": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extenso": {
+            "type": "string",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Models.Lote": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizacao": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          },
+          "sequencia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Models.PlanoContas": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "reduzido": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extenso": {
+            "type": "string",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "obrigaCentroCusto": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Enum.SimNaoEnum"
+          },
+          "obrigaProjeto": {
+            "$ref": "#/components/schemas/Mega.Erp.Contabilidade.Cadastros.Common.Enum.SimNaoEnum"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Contabilidade.Cadastros.Common.Models.RegraRateio": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Agentes.Common.Enums.TiposAgente": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Mega.Erp.Global.Agentes.Common.Models.Agente": {
+        "type": "object",
+        "properties": {
+          "expand": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codigo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tipo": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Enums.TiposAgente"
+          },
+          "idTipo": {
+            "type": "string",
+            "nullable": true
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "nomeFantasia": {
+            "type": "string",
+            "nullable": true
+          },
+          "cnpj": {
+            "type": "string",
+            "nullable": true
+          },
+          "consolidador": {
+            "type": "string",
+            "nullable": true
+          },
+          "agentePai": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Agente"
+          },
+          "tipos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.AgenteTipo"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Agentes.Common.Models.AgenteTipo": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Enums.TiposAgente"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Agentes.Common.Models.Organizacao": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "nomeFantasia": {
+            "type": "string",
+            "nullable": true
+          },
+          "agente": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Agente"
+          },
+          "organizacaoResponsavel": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          },
+          "organizacaoFiscalFinanceiro": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          },
+          "organizacaoPai": {
+            "$ref": "#/components/schemas/Mega.Erp.Global.Agentes.Common.Models.Organizacao"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.CentroCusto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "padrao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "identificador": {
+            "type": "string",
+            "nullable": true
+          },
+          "reduzido": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extenso": {
+            "type": "string",
+            "nullable": true
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true
+          },
+          "global": {
+            "type": "string"
+          },
+          "usuarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mega.Erp.Global.Common.Models.GrupoUsuario"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mega.Erp.Global.Common.Models.GrupoUsuario": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "usuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

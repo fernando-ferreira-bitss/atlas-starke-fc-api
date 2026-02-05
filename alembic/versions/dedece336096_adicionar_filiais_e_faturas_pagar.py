@@ -1,0 +1,144 @@
+"""adicionar_filiais_e_faturas_pagar
+
+Revision ID: dedece336096
+Revises: 2c144ff50a13
+Create Date: 2025-11-07 13:14:01.043051
+
+"""
+from typing import Sequence, Union
+
+from alembic import op
+import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
+
+# revision identifiers, used by Alembic.
+revision: str = 'dedece336096'
+down_revision: Union[str, None] = '2c144ff50a13'
+branch_labels: Union[str, Sequence[str], None] = None
+depends_on: Union[str, Sequence[str], None] = None
+
+
+def upgrade() -> None:
+    # PASSO 1: Criar tabela de filiais
+    op.create_table('filiais',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('nome', sa.String(length=255), nullable=False),
+    sa.Column('fantasia', sa.String(length=255), nullable=True),
+    sa.Column('cnpj', sa.String(length=20), nullable=True),
+    sa.Column('criado_em', sa.DateTime(), nullable=False),
+    sa.Column('atualizado_em', sa.DateTime(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    # PASSO 2: Adicionar filial_id em developments
+    op.add_column('developments', sa.Column('filial_id', sa.Integer(), nullable=True))
+    op.create_index('idx_development_filial', 'developments', ['filial_id'], unique=False)
+    op.create_index(op.f('ix_developments_filial_id'), 'developments', ['filial_id'], unique=False)
+
+    # PASSO 3: Atualizar faturas_pagar (renomear colunas)
+    op.alter_column('faturas_pagar', 'raw_data', new_column_name='dados_brutos')
+    op.alter_column('faturas_pagar', 'created_at', new_column_name='criado_em')
+    op.alter_column('faturas_pagar', 'updated_at', new_column_name='atualizado_em')
+
+    # PASSO 4: Migrar cash_out (adicionar colunas como nullable primeiro)
+    op.add_column('cash_out', sa.Column('filial_id', sa.Integer(), nullable=True))
+    op.add_column('cash_out', sa.Column('filial_nome', sa.String(length=200), nullable=True))
+    op.add_column('cash_out', sa.Column('mes_referencia', sa.String(length=7), nullable=True))
+    op.add_column('cash_out', sa.Column('categoria', sa.String(length=100), nullable=True))
+    op.add_column('cash_out', sa.Column('orcamento', sa.Float(), nullable=True))
+    op.add_column('cash_out', sa.Column('realizado', sa.Float(), nullable=True))
+    op.add_column('cash_out', sa.Column('detalhes', sa.JSON(), nullable=True))
+    op.add_column('cash_out', sa.Column('criado_em', sa.DateTime(), nullable=True))
+
+    # PASSO 5: Copiar dados antigos para novas colunas
+    op.execute("""
+        UPDATE cash_out SET
+            mes_referencia = ref_month,
+            categoria = category,
+            orcamento = budget,
+            realizado = actual,
+            detalhes = details,
+            criado_em = created_at
+    """)
+
+    # PASSO 6: Para filial_id e filial_nome, usaremos empreendimento_id temporariamente
+    # (será corrigido quando sincronizarmos developments)
+    op.execute("""
+        UPDATE cash_out SET
+            filial_id = empreendimento_id,
+            filial_nome = empreendimento_nome
+    """)
+
+    # PASSO 7: Tornar colunas NOT NULL
+    op.alter_column('cash_out', 'filial_id', nullable=False)
+    op.alter_column('cash_out', 'filial_nome', nullable=False)
+    op.alter_column('cash_out', 'mes_referencia', nullable=False)
+    op.alter_column('cash_out', 'categoria', nullable=False)
+    op.alter_column('cash_out', 'orcamento', nullable=False)
+    op.alter_column('cash_out', 'realizado', nullable=False)
+    op.alter_column('cash_out', 'criado_em', nullable=False)
+
+    # PASSO 8: Dropar constraints e indexes antigos
+    op.drop_constraint('uq_cash_out_emp_month_category', 'cash_out', type_='unique')
+    op.drop_index('idx_cash_out_emp_ref_month', table_name='cash_out')
+    op.drop_index('idx_cash_out_ref_month_category', table_name='cash_out')
+    op.drop_index('ix_cash_out_empreendimento_id', table_name='cash_out')
+    op.drop_index('ix_cash_out_ref_month', table_name='cash_out')
+
+    # PASSO 9: Criar novos indexes e constraints
+    op.create_index('idx_cash_out_filial_mes_ref', 'cash_out', ['filial_id', 'mes_referencia'], unique=False)
+    op.create_index('idx_cash_out_mes_categoria', 'cash_out', ['mes_referencia', 'categoria'], unique=False)
+    op.create_index(op.f('ix_cash_out_filial_id'), 'cash_out', ['filial_id'], unique=False)
+    op.create_index(op.f('ix_cash_out_mes_referencia'), 'cash_out', ['mes_referencia'], unique=False)
+    op.create_unique_constraint('uq_cash_out_filial_mes_categoria', 'cash_out', ['filial_id', 'mes_referencia', 'categoria'])
+
+    # PASSO 10: Dropar colunas antigas
+    op.drop_column('cash_out', 'created_at')
+    op.drop_column('cash_out', 'empreendimento_nome')
+    op.drop_column('cash_out', 'ref_month')
+    op.drop_column('cash_out', 'actual')
+    op.drop_column('cash_out', 'category')
+    op.drop_column('cash_out', 'details')
+    op.drop_column('cash_out', 'empreendimento_id')
+    op.drop_column('cash_out', 'budget')
+
+
+def downgrade() -> None:
+    # ### commands auto generated by Alembic - please adjust! ###
+    op.add_column('faturas_pagar', sa.Column('updated_at', postgresql.TIMESTAMP(), autoincrement=False, nullable=False))
+    op.add_column('faturas_pagar', sa.Column('raw_data', postgresql.JSON(astext_type=sa.Text()), autoincrement=False, nullable=True))
+    op.add_column('faturas_pagar', sa.Column('created_at', postgresql.TIMESTAMP(), autoincrement=False, nullable=False))
+    op.drop_column('faturas_pagar', 'atualizado_em')
+    op.drop_column('faturas_pagar', 'criado_em')
+    op.drop_column('faturas_pagar', 'dados_brutos')
+    op.drop_index(op.f('ix_developments_filial_id'), table_name='developments')
+    op.drop_index('idx_development_filial', table_name='developments')
+    op.drop_column('developments', 'filial_id')
+    op.add_column('cash_out', sa.Column('budget', sa.DOUBLE_PRECISION(precision=53), autoincrement=False, nullable=False))
+    op.add_column('cash_out', sa.Column('empreendimento_id', sa.INTEGER(), autoincrement=False, nullable=False))
+    op.add_column('cash_out', sa.Column('details', postgresql.JSON(astext_type=sa.Text()), autoincrement=False, nullable=True))
+    op.add_column('cash_out', sa.Column('category', sa.VARCHAR(length=100), autoincrement=False, nullable=False))
+    op.add_column('cash_out', sa.Column('actual', sa.DOUBLE_PRECISION(precision=53), autoincrement=False, nullable=False))
+    op.add_column('cash_out', sa.Column('ref_month', sa.VARCHAR(length=7), autoincrement=False, nullable=False))
+    op.add_column('cash_out', sa.Column('empreendimento_nome', sa.VARCHAR(length=200), autoincrement=False, nullable=False))
+    op.add_column('cash_out', sa.Column('created_at', postgresql.TIMESTAMP(), autoincrement=False, nullable=False))
+    op.drop_constraint('uq_cash_out_filial_mes_categoria', 'cash_out', type_='unique')
+    op.drop_index(op.f('ix_cash_out_mes_referencia'), table_name='cash_out')
+    op.drop_index(op.f('ix_cash_out_filial_id'), table_name='cash_out')
+    op.drop_index('idx_cash_out_mes_categoria', table_name='cash_out')
+    op.drop_index('idx_cash_out_filial_mes_ref', table_name='cash_out')
+    op.create_unique_constraint(op.f('uq_cash_out_emp_month_category'), 'cash_out', ['empreendimento_id', 'ref_month', 'category'], postgresql_nulls_not_distinct=False)
+    op.create_index(op.f('ix_cash_out_ref_month'), 'cash_out', ['ref_month'], unique=False)
+    op.create_index(op.f('ix_cash_out_empreendimento_id'), 'cash_out', ['empreendimento_id'], unique=False)
+    op.create_index(op.f('idx_cash_out_ref_month_category'), 'cash_out', ['ref_month', 'category'], unique=False)
+    op.create_index(op.f('idx_cash_out_emp_ref_month'), 'cash_out', ['empreendimento_id', 'ref_month'], unique=False)
+    op.drop_column('cash_out', 'criado_em')
+    op.drop_column('cash_out', 'detalhes')
+    op.drop_column('cash_out', 'realizado')
+    op.drop_column('cash_out', 'orcamento')
+    op.drop_column('cash_out', 'categoria')
+    op.drop_column('cash_out', 'mes_referencia')
+    op.drop_column('cash_out', 'filial_nome')
+    op.drop_column('cash_out', 'filial_id')
+    op.drop_table('filiais')
+    # ### end Alembic commands ###
