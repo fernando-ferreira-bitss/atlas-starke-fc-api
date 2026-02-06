@@ -1751,8 +1751,7 @@ class UAUSyncService:
                 if delinquency["total"] > 0:
                     logger.info(
                         f"Delinquency {ref_month_str}: total={delinquency['total']:,.2f} "
-                        f"({delinquency['details']['parcelas_vencidas_nao_pagas']} vencidas, "
-                        f"{delinquency['details']['parcelas_pagas_atraso']} pagas atraso)"
+                        f"({delinquency['details']['parcelas_inadimplentes']} inadimplentes)"
                     )
             except Exception as e:
                 logger.error(f"Error calculating Delinquency for {empresa_nome} - {ref_month_str}: {e}")

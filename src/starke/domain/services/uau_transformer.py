@@ -1,7 +1,7 @@
 """Transform UAU API data to Starke domain models."""
 
 import logging
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from decimal import Decimal
 from typing import Any, Dict, List, Optional
 
@@ -580,8 +580,16 @@ class UAUDataTransformer:
     # Delinquency (Inadimplência)
     # ============================================
 
-    # Bank compensation grace period (same as Mega: 3 days)
-    GRACE_DAYS_COMPENSACAO = 3
+    @staticmethod
+    def _add_business_days(start_date: date, days: int) -> date:
+        """Add N business days to a date (skipping weekends only)."""
+        current = start_date
+        added = 0
+        while added < days:
+            current += timedelta(days=1)
+            if current.weekday() < 5:  # Mon-Fri
+                added += 1
+        return current
 
     def transform_parcelas_export_to_delinquency(
         self,
@@ -591,20 +599,16 @@ class UAUDataTransformer:
         ref_date: date,
     ) -> Dict[str, Any]:
         """
-        Transform ExportarVendas parcelas to Starke Delinquency.
+        Transform ExportarVendas parcelas to Starke Delinquency (monthly snapshot).
 
-        Optimized method that processes parcelas directly from ExportarVendasXml,
-        avoiding separate API calls. Handles both scenarios:
+        Snapshot logic: for each ref_date, only parcelas that were NOT yet paid
+        at that point appear as delinquent. Parcelas paid before/on ref_date are
+        excluded from the calculation.
 
-        1. Parcelas VENCIDAS NÃO PAGAS:
-           - ParcelaRecebida = "0" AND DataVencimento < ref_date - grace_period
-           - dias_atraso = ref_date - DataVencimento
-
-        2. Parcelas PAGAS EM ATRASO:
-           - ParcelaRecebida = "1" AND DataRecebimento > DataVencimento + grace_period
-           - dias_atraso = DataRecebimento - DataVencimento
-
-        Grace period: 3 days (bank compensation time)
+        For each overdue parcela:
+        1. If paid before/on ref_date → SKIP (already settled in that month)
+        2. If unpaid or paid after ref_date → dias_atraso = ref_date - DataVencimento
+        3. Grace period: 2 business days (weekdays only)
 
         Args:
             vendas: List of vendas from ExportarVendasXml (with Parcelas embedded)
@@ -631,8 +635,7 @@ class UAUDataTransformer:
         }
         total = 0.0
         total_qty = 0
-        parcelas_vencidas_nao_pagas = 0
-        parcelas_pagas_atraso = 0
+        parcelas_inadimplentes = 0
 
         for venda in vendas:
             # Skip cancelled vendas (StatusVenda = "1")
@@ -651,79 +654,44 @@ class UAUDataTransformer:
                 is_paga = parcela.get("ParcelaRecebida") == "1"
 
                 if is_paga:
-                    # Parcela PAGA - 3 cenários possíveis (mesmo padrão do Mega):
+                    # Snapshot: if paid before/on ref_date → skip (settled)
                     dt_pagamento = self._parse_date(parcela.get("DataRecebimento"))
-                    dt_venc = self._parse_date(parcela.get("DataVencimento"))
-
-                    if not dt_pagamento or not dt_venc:
+                    if not dt_pagamento:
                         continue
-
-                    # Skip parcelas com vencimento futuro em relação ao ref_date
-                    if dt_venc > ref_date:
-                        continue
-
                     if dt_pagamento <= ref_date:
-                        # Cenário 2: Paga ANTES/DURANTE o mês de referência
-                        # dias_atraso = data_pagamento - data_vencimento
-                        dias_atraso = (dt_pagamento - dt_venc).days
+                        continue
+                    # Paid AFTER ref_date → in that month it was still unpaid
 
-                        # Skip if paid on time or within grace period
-                        if dias_atraso <= self.GRACE_DAYS_COMPENSACAO:
-                            continue
+                # Parse vencimento (common to paid-after-ref and unpaid)
+                dt_venc = self._parse_date(parcela.get("DataVencimento"))
+                if not dt_venc:
+                    continue
 
-                        # Use confirmed value for paid parcels
-                        valor = float(self._parse_decimal(parcela.get("ValorPrincipalConfirmado", 0)))
-                        if valor <= 0:
-                            continue
+                # Skip future parcelas
+                if dt_venc > ref_date:
+                    continue
 
-                        self._add_to_bucket(buckets, quantities, dias_atraso, valor)
-                        total += valor
-                        total_qty += 1
-                        parcelas_pagas_atraso += 1
-                    else:
-                        # Cenário 3: Paga DEPOIS do mês de referência
-                        # Nesse mês ela ainda não tinha sido paga, tratar como vencida não paga
-                        dias_atraso = (ref_date - dt_venc).days
+                # dias_atraso = ref_date - data_vencimento
+                dias_atraso = (ref_date - dt_venc).days
 
-                        if dias_atraso <= self.GRACE_DAYS_COMPENSACAO:
-                            continue
+                # Grace period: 2 business days (skip weekends)
+                grace_end = self._add_business_days(dt_venc, 2)
+                if ref_date <= grace_end:
+                    continue
 
-                        # Use ValorPrincipalConfirmado (ValorPrincipal é zerado quando paga)
-                        valor = float(self._parse_decimal(parcela.get("ValorPrincipalConfirmado", 0)))
-                        if valor <= 0:
-                            continue
-
-                        self._add_to_bucket(buckets, quantities, dias_atraso, valor)
-                        total += valor
-                        total_qty += 1
-                        parcelas_vencidas_nao_pagas += 1
-
+                # Value: ValorPrincipalConfirmado for paid, ValorPrincipal for unpaid
+                if is_paga:
+                    valor = float(self._parse_decimal(parcela.get("ValorPrincipalConfirmado", 0)))
                 else:
-                    # Cenário 1: Parcela VENCIDA NÃO PAGA
-                    dt_venc = self._parse_date(parcela.get("DataVencimento"))
-                    if not dt_venc:
-                        continue
-
-                    # Skip future parcelas
-                    if dt_venc > ref_date:
-                        continue
-
-                    # dias_atraso = ref_date - data_vencimento
-                    dias_atraso = (ref_date - dt_venc).days
-
-                    # Skip if within grace period
-                    if dias_atraso <= self.GRACE_DAYS_COMPENSACAO:
-                        continue
-
-                    # Use principal value for unpaid parcels
                     valor = float(self._parse_decimal(parcela.get("ValorPrincipal", 0)))
-                    if valor <= 0:
-                        continue
 
-                    self._add_to_bucket(buckets, quantities, dias_atraso, valor)
-                    total += valor
-                    total_qty += 1
-                    parcelas_vencidas_nao_pagas += 1
+                if valor <= 0:
+                    continue
+
+                self._add_to_bucket(buckets, quantities, dias_atraso, valor)
+                total += valor
+                total_qty += 1
+                parcelas_inadimplentes += 1
 
         return {
             "empreendimento_id": empresa_id,
@@ -737,11 +705,10 @@ class UAUDataTransformer:
             "total": total,
             "details": {
                 "calculation_date": ref_date.isoformat(),
-                "grace_days": self.GRACE_DAYS_COMPENSACAO,
+                "grace_period": "2_business_days",
                 "quantities": quantities,
                 "total_parcelas": total_qty,
-                "parcelas_vencidas_nao_pagas": parcelas_vencidas_nao_pagas,
-                "parcelas_pagas_atraso": parcelas_pagas_atraso,
+                "parcelas_inadimplentes": parcelas_inadimplentes,
             },
             "origem": "uau",
         }
@@ -755,12 +722,12 @@ class UAUDataTransformer:
         ref_date: date,
     ) -> Dict[str, Any]:
         """
-        Transform UAU parcelas to Starke Delinquency.
+        Transform UAU parcelas to Starke Delinquency (monthly snapshot).
 
-        Calculates aging buckets from overdue parcelas (same logic as Mega):
-        - Unpaid parcelas: dias_atraso = ref_date - data_vencimento
-        - Paid late parcelas: dias_atraso = data_pagamento - data_vencimento
-        - Grace period: 3 days (bank compensation time)
+        Snapshot logic:
+        - Unpaid parcelas: overdue if dt_venc < ref_date and past grace period
+        - Paid parcelas: only count if paid AFTER ref_date (still unpaid in that month)
+        - Grace period: 2 business days (weekdays only)
 
         Args:
             parcelas_a_receber: List of open parcelas from BuscarParcelasAReceber
@@ -770,7 +737,7 @@ class UAUDataTransformer:
             parcelas_recebidas: List of paid parcelas from BuscarParcelasRecebidas
                 - Data_Rec (payment date)
                 - ValorConf_Rec (paid value)
-                - DataVenc_Rec (due date)
+                - DataVenci_Rec (due date)
             empresa_id: Empresa ID
             empresa_nome: Empresa name
             ref_date: Reference date for calculation
@@ -814,8 +781,9 @@ class UAUDataTransformer:
             # Calculate dias_atraso for unpaid: ref_date - data_vencimento
             dias_atraso = (ref_date - dt_venc).days
 
-            # Skip if within grace period (bank compensation: 3 days)
-            if dias_atraso < self.GRACE_DAYS_COMPENSACAO:
+            # Grace period: 2 business days (skip weekends)
+            grace_end = self._add_business_days(dt_venc, 2)
+            if ref_date <= grace_end:
                 continue
 
             # Get value
@@ -828,27 +796,28 @@ class UAUDataTransformer:
             total += valor
             total_qty += 1
 
-        # Process PAID LATE parcelas (parcelas recebidas com atraso)
+        # Process PAID parcelas - only those paid AFTER ref_date (snapshot)
         for parcela in parcelas_recebidas:
             # Get payment date
             dt_pagamento = self._parse_date(parcela.get("Data_Rec"))
             if not dt_pagamento:
                 continue
 
-            # Only consider payments before/on ref_date
-            if dt_pagamento > ref_date:
+            # Snapshot: if paid before/on ref_date → skip (already settled)
+            if dt_pagamento <= ref_date:
                 continue
 
-            # Get due date (field name is DataVenci_Rec)
+            # Paid after ref_date → in that month it was still unpaid
             dt_venc = self._parse_date(parcela.get("DataVenci_Rec"))
-            if not dt_venc:
+            if not dt_venc or dt_venc > ref_date:
                 continue
 
-            # Calculate dias_atraso for paid: data_pagamento - data_vencimento
-            dias_atraso = (dt_pagamento - dt_venc).days
+            # Calculate dias_atraso: ref_date - data_vencimento
+            dias_atraso = (ref_date - dt_venc).days
 
-            # Skip if paid on time or within grace period
-            if dias_atraso < self.GRACE_DAYS_COMPENSACAO:
+            # Grace period: 2 business days (skip weekends)
+            grace_end = self._add_business_days(dt_venc, 2)
+            if ref_date <= grace_end:
                 continue
 
             # Get value
@@ -873,7 +842,7 @@ class UAUDataTransformer:
             "total": total,
             "details": {
                 "calculation_date": ref_date.isoformat(),
-                "grace_days": self.GRACE_DAYS_COMPENSACAO,
+                "grace_period": "2_business_days",
                 "quantities": quantities,
                 "total_parcelas": total_qty,
             },

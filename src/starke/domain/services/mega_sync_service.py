@@ -1424,11 +1424,31 @@ class MegaSyncService:
             # STEP 1: Sync developments (and their filiais)
             # Always sync all developments since Mega API doesn't support filtering by ID
             if sync_developments:
+                # When processing specific developments, preserve is_active of the others
+                # sync_developments() resets is_active for ALL devs; we restore the unaffected ones
+                saved_active_ids = set()
+                if development_ids:
+                    saved_active_ids = set(
+                        row[0] for row in self.db.query(Development.id).filter(
+                            Development.origem == "mega",
+                            Development.is_active == True,
+                            ~Development.id.in_(development_ids),
+                        ).all()
+                    )
+
                 step1_start = time.time()
                 logger.info("Step 1: Syncing all developments and filiais from API")
                 stats["developments_synced"] = self.sync_developments()
                 stats["timings"]["step1_developments"] = round(time.time() - step1_start, 2)
                 logger.info(f"⏱️ Step 1 completed in {stats['timings']['step1_developments']:.2f}s")
+
+                # Restore is_active for developments NOT being processed
+                if saved_active_ids:
+                    self.db.query(Development).filter(
+                        Development.id.in_(saved_active_ids)
+                    ).update({Development.is_active: True}, synchronize_session=False)
+                    self.db.commit()
+                    logger.info(f"Preserved is_active for {len(saved_active_ids)} developments not in filter")
             else:
                 logger.info("Step 1: Skipping development sync (sync_developments=False)")
 

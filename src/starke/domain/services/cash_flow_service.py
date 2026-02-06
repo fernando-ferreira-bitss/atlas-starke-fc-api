@@ -1,6 +1,6 @@
 """Cash flow calculation service with business rules."""
 
-from datetime import date
+from datetime import date, timedelta
 from decimal import Decimal
 from typing import Any, Optional
 
@@ -219,6 +219,17 @@ class CashFlowService:
             return None
 
         return None
+
+    @staticmethod
+    def _add_business_days(start_date: date, days: int) -> date:
+        """Add N business days to a date (skipping weekends only)."""
+        current = start_date
+        added = 0
+        while added < days:
+            current += timedelta(days=1)
+            if current.weekday() < 5:  # Mon-Fri
+                added += 1
+        return current
 
     def calculate_cash_out_from_despesas(
         self,
@@ -562,9 +573,9 @@ class CashFlowService:
         ref_date: date,
     ) -> DelinquencyData:
         """
-        Calculate delinquency aging buckets from parcelas.
+        Calculate delinquency aging buckets from parcelas (monthly snapshot).
 
-        Business Rules (UPDATED):
+        Business Rules:
         - IMPORTANT: If ref_date > today, cap ref_date to today to prevent
           miscalculating aging buckets for installments overdue today but not
           yet overdue at the future ref_date
@@ -572,13 +583,10 @@ class CashFlowService:
         - Filter by parcela_origem IN ('Contrato', 'Tabela Price')
         - Filter by data_vencimento < date.today() (already due in reality)
         - Filter by data_vencimento < ref_date (already due in reference period)
-        - Filter by maximum aging (skip parcelas > 365 days overdue to prevent
-          impossible aging from data migration errors)
-        - Calculate dias_atraso:
-          * If unpaid (data_baixa is NULL): ref_date - data_vencimento
-          * If paid before/on ref_date (data_baixa <= ref_date): data_baixa - data_vencimento
-          * If paid after ref_date (data_baixa > ref_date): ref_date - data_vencimento
-        - Only consider parcelas with dias_atraso > 0 (overdue)
+        - Filter by maximum aging (skip parcelas > 365 days overdue)
+        - Snapshot logic: if paid before/on ref_date → skip (already settled)
+        - If unpaid or paid after ref_date → dias_atraso = ref_date - data_vencimento
+        - Grace period: 2 business days (weekdays only) from data_vencimento
         - Use vlr_original (not vlr_presente which is 0 for paid parcelas)
         - Classify by aging buckets:
           * 0-30 days
@@ -693,20 +701,16 @@ class CashFlowService:
             data_baixa_str = parcela_dict.get("data_baixa") or parcela_dict.get("dataBaixa")
             data_baixa = self._parse_date(data_baixa_str) if data_baixa_str else None
 
-            # Calculate dias_atraso based on payment status
-            if data_baixa is None:
-                # Case A: Unpaid - calculate from ref_date
-                dias_atraso = (ref_date - data_vencimento).days
-            elif data_baixa <= ref_date:
-                # Case B1: Paid before/on ref_date - use actual payment delay
-                dias_atraso = (data_baixa - data_vencimento).days
-            else:
-                # Case B2: Paid after ref_date - calculate as if still unpaid at ref_date
-                dias_atraso = (ref_date - data_vencimento).days
+            # Snapshot logic: if paid before/on ref_date, skip (already settled)
+            if data_baixa is not None and data_baixa <= ref_date:
+                continue
 
-            # Only consider overdue parcelas (paid late or still unpaid late)
-            # Skip if not overdue OR if within 3-day compensation period
-            if dias_atraso < 3:
+            # Not paid or paid after ref_date → calculate aging from ref_date
+            dias_atraso = (ref_date - data_vencimento).days
+
+            # Grace period: 2 business days (skip weekends)
+            grace_end = self._add_business_days(data_vencimento, 2)
+            if ref_date <= grace_end:
                 continue
 
             processed_count += 1
@@ -722,7 +726,6 @@ class CashFlowService:
             )
 
             # Classify by aging bucket
-            # Note: Only process parcelas with 3+ days overdue (after bank compensation period)
             if dias_atraso <= 30:
                 aging_values["up_to_30"] += valor
                 aging_quantities["up_to_30"] += 1
