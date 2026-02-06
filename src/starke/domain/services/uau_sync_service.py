@@ -1,7 +1,7 @@
 """UAU API synchronization service - orchestrates data import from UAU to Starke."""
 
 import logging
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from typing import Any, Dict, List, Optional, Tuple
 
 from sqlalchemy.orm import Session
@@ -559,25 +559,23 @@ class UAUSyncService:
                     parcelas = [parcelas]
 
                 for parcela in parcelas:
-                    record = self.transformer.transform_parcela_export_to_cash_in(
+                    records = self.transformer.transform_parcela_export_to_cash_in(
                         parcela, empreendimento_internal_id, empresa_nome, obra, num_venda
                     )
-                    if record and record.get("ref_month") in months_in_period:
-                        all_cash_in.append(record)
+                    for record in records:
+                        if record.get("ref_month") in months_in_period:
+                            all_cash_in.append(record)
 
             logger.info(f"Processed {len(all_cash_in)} parcelas for CashIn within period")
 
             # Aggregate CashIn by (emp_id, ref_month, category)
             aggregated_cash_in = self.transformer.aggregate_cash_in(all_cash_in)
 
-            # === Process vendas for Delinquency ===
-            delinquency = self.transformer.transform_parcelas_export_to_delinquency(
-                vendas, empreendimento_internal_id, empresa_nome, ref_date
-            )
-
             # === DB Operations ===
             # Refresh DB connection before critical operations
             from sqlalchemy import text
+            from dateutil.relativedelta import relativedelta
+
             try:
                 self.db.execute(text("SELECT 1"))
             except Exception:
@@ -598,24 +596,38 @@ class UAUSyncService:
                     self.db.add(cash_in)
                     cash_in_count += 1
 
-            # Clear and insert Delinquency record
-            ref_month_str = ref_date.strftime("%Y-%m-%d")
-            self.db.query(Delinquency).filter(
-                Delinquency.empreendimento_id == empreendimento_internal_id,
-                Delinquency.ref_month == ref_month_str,
-                Delinquency.origem == "uau",
-            ).delete()
+            # === Process Delinquency for EACH month in period (same as Mega) ===
+            delinquency_count = 0
+            for ref_month_str in sorted(months_in_period):
+                try:
+                    year, month = map(int, ref_month_str.split("-"))
+                    month_start = date(year, month, 1)
+                    last_day_of_month = month_start + relativedelta(months=1) - relativedelta(days=1)
+                    month_ref_date = min(last_day_of_month, date.today())
 
-            delinquency_record = Delinquency(**delinquency)
-            self.db.add(delinquency_record)
-            delinquency_count = 1
+                    delinquency = self.transformer.transform_parcelas_export_to_delinquency(
+                        vendas, empreendimento_internal_id, empresa_nome, month_ref_date
+                    )
+                    delinquency["ref_month"] = ref_month_str
+
+                    self.db.query(Delinquency).filter(
+                        Delinquency.empreendimento_id == empreendimento_internal_id,
+                        Delinquency.ref_month == ref_month_str,
+                        Delinquency.origem == "uau",
+                    ).delete()
+
+                    delinquency_record = Delinquency(**delinquency)
+                    self.db.add(delinquency_record)
+                    delinquency_count += 1
+                except Exception as e:
+                    logger.error(f"Error calculating Delinquency for {ref_month_str}: {e}")
 
             self.db.commit()
 
             logger.info(
                 f"Synchronized via ExportarVendas: "
                 f"{cash_in_count} CashIn records, "
-                f"Delinquency total={delinquency['total']:,.2f}"
+                f"{delinquency_count} Delinquency records"
             )
 
             return cash_in_count, delinquency_count, vendas
@@ -695,11 +707,12 @@ class UAUSyncService:
                     parcelas = [parcelas]
 
                 for parcela in parcelas:
-                    record = self.transformer.transform_parcela_export_to_cash_in(
+                    records = self.transformer.transform_parcela_export_to_cash_in(
                         parcela, empreendimento_internal_id, empresa_nome, obra, num_venda
                     )
-                    if record and record.get("ref_month") in months_in_period:
-                        all_cash_in.append(record)
+                    for record in records:
+                        if record.get("ref_month") in months_in_period:
+                            all_cash_in.append(record)
 
             aggregated = self.transformer.aggregate_cash_in(all_cash_in)
 
@@ -785,7 +798,7 @@ class UAUSyncService:
             )
 
             # Clear and insert
-            ref_month_str = ref_date.strftime("%Y-%m-%d")
+            ref_month_str = ref_date.strftime("%Y-%m")
             self.db.query(Delinquency).filter(
                 Delinquency.empreendimento_id == empreendimento_internal_id,
                 Delinquency.ref_month == ref_month_str,
@@ -1238,7 +1251,7 @@ class UAUSyncService:
             )
 
             # Clear existing record (use internal ID)
-            ref_month = ref_date.strftime("%Y-%m-%d")
+            ref_month = ref_date.strftime("%Y-%m")
             self.db.query(Delinquency).filter(
                 Delinquency.empreendimento_id == empreendimento_internal_id,
                 Delinquency.ref_month == ref_month,
@@ -1270,6 +1283,7 @@ class UAUSyncService:
         empresa_ids: Optional[List[int]] = None,
         start_date: Optional[date] = None,
         end_date: Optional[date] = None,
+        skip_recent_hours: int = 0,
     ) -> Dict[str, Any]:
         """
         Perform full synchronization for UAU data.
@@ -1278,6 +1292,7 @@ class UAUSyncService:
             empresa_ids: Optional list of empresa IDs to sync (defaults to all)
             start_date: Start date for financial data
             end_date: End date for financial data
+            skip_recent_hours: Skip empresas synced within X hours (0 = process all)
 
         Returns:
             Dict with sync statistics
@@ -1303,6 +1318,7 @@ class UAUSyncService:
 
         stats = {
             "empresas_synced": 0,
+            "developments_skipped": 0,
             "contracts_synced": 0,
             "cash_out_records": 0,
             "cash_in_records": 0,
@@ -1328,6 +1344,11 @@ class UAUSyncService:
 
             empresas = query.all()
 
+            # Count inactive empresas
+            total_uau = self.db.query(Development).filter(Development.origem == "uau").count()
+            inactive_count = total_uau - len(empresas)
+            stats["developments_skipped"] = inactive_count
+
             if not empresas:
                 logger.warning(
                     "No active UAU empresas to sync. "
@@ -1335,11 +1356,21 @@ class UAUSyncService:
                 )
                 return stats
 
-            logger.info(f"Processing {len(empresas)} active empresas")
+            logger.info(f"Processing {len(empresas)} active empresas ({inactive_count} inactive skipped)")
+
+            # Checkpoint: skip empresas synced recently
+            cutoff_time = datetime.utcnow() - timedelta(hours=skip_recent_hours) if skip_recent_hours > 0 else None
 
             # Step 3: Sync financial data for each empresa
             for empresa in empresas:
                 try:
+                    # CHECKPOINT: Skip if recently synced
+                    if cutoff_time and empresa.last_financial_sync_at and empresa.last_financial_sync_at > cutoff_time:
+                        hours_ago = (datetime.utcnow() - empresa.last_financial_sync_at).total_seconds() / 3600
+                        logger.info(f"Skipping {empresa.name} - synced {hours_ago:.1f}h ago (within {skip_recent_hours}h)")
+                        stats["developments_skipped"] += 1
+                        continue
+
                     # Use external_id for API calls, pass empresa (Development) to avoid extra queries
                     external_id = empresa.external_id
                     logger.info(f"Processing empresa: {empresa.name} (external_id: {external_id})")
@@ -1655,21 +1686,19 @@ class UAUSyncService:
                 parcelas = [parcelas]
 
             for parcela in parcelas:
-                record = self.transformer.transform_parcela_export_to_cash_in(
+                records = self.transformer.transform_parcela_export_to_cash_in(
                     parcela, empreendimento_internal_id, empresa_nome, obra, num_venda
                 )
-                if record and record.get("ref_month") in months_in_period:
-                    all_cash_in.append(record)
+                for record in records:
+                    if record.get("ref_month") in months_in_period:
+                        all_cash_in.append(record)
 
         aggregated_cash_in = self.transformer.aggregate_cash_in(all_cash_in)
 
-        # === Process Delinquency ===
-        delinquency = self.transformer.transform_parcelas_export_to_delinquency(
-            vendas, empreendimento_internal_id, empresa_nome, ref_date
-        )
-
         # === DB Operations ===
         from sqlalchemy import text
+        from dateutil.relativedelta import relativedelta
+
         try:
             self.db.execute(text("SELECT 1"))
         except Exception:
@@ -1689,25 +1718,52 @@ class UAUSyncService:
                 self.db.add(cash_in)
                 cash_in_count += 1
 
-        # Clear and insert Delinquency
-        ref_month_str = ref_date.strftime("%Y-%m-%d")
-        self.db.query(Delinquency).filter(
-            Delinquency.empreendimento_id == empreendimento_internal_id,
-            Delinquency.ref_month == ref_month_str,
-            Delinquency.origem == "uau",
-        ).delete()
+        # === Process Delinquency for EACH month in period (same as Mega) ===
+        delinquency_count = 0
+        for ref_month_str in sorted(months_in_period):
+            try:
+                year, month = map(int, ref_month_str.split("-"))
+                month_start = date(year, month, 1)
+                last_day_of_month = month_start + relativedelta(months=1) - relativedelta(days=1)
 
-        delinquency_record = Delinquency(**delinquency)
-        self.db.add(delinquency_record)
+                # For future months, cap at today
+                month_ref_date = min(last_day_of_month, date.today())
+
+                delinquency = self.transformer.transform_parcelas_export_to_delinquency(
+                    vendas, empreendimento_internal_id, empresa_nome, month_ref_date
+                )
+
+                # Override ref_month to use YYYY-MM format (transformer now returns YYYY-MM)
+                delinquency["ref_month"] = ref_month_str
+
+                # Clear existing and insert new
+                self.db.query(Delinquency).filter(
+                    Delinquency.empreendimento_id == empreendimento_internal_id,
+                    Delinquency.ref_month == ref_month_str,
+                    Delinquency.origem == "uau",
+                ).delete()
+
+                delinquency_record = Delinquency(**delinquency)
+                self.db.add(delinquency_record)
+                delinquency_count += 1
+
+                if delinquency["total"] > 0:
+                    logger.info(
+                        f"Delinquency {ref_month_str}: total={delinquency['total']:,.2f} "
+                        f"({delinquency['details']['parcelas_vencidas_nao_pagas']} vencidas, "
+                        f"{delinquency['details']['parcelas_pagas_atraso']} pagas atraso)"
+                    )
+            except Exception as e:
+                logger.error(f"Error calculating Delinquency for {empresa_nome} - {ref_month_str}: {e}")
 
         self.db.commit()
 
         logger.info(
             f"From pre-fetched data: {cash_in_count} CashIn, "
-            f"Delinquency total={delinquency['total']:,.2f}"
+            f"{delinquency_count} Delinquency records"
         )
 
-        return cash_in_count, 1
+        return cash_in_count, delinquency_count
 
     def _get_months_in_range(self, mes_inicial: str, mes_final: str) -> List[str]:
         """

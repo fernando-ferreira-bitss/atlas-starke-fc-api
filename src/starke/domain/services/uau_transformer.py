@@ -287,13 +287,19 @@ class UAUDataTransformer:
         empresa_nome: str,
         obra: str,
         num_venda: int,
-    ) -> Optional[Dict[str, Any]]:
+    ) -> List[Dict[str, Any]]:
         """
-        Transform parcela from ExportarVendasXml to CashIn record.
+        Transform parcela from ExportarVendasXml to CashIn records.
 
         Handles both:
-        - ParcelaRecebida = "0" → forecast (valor previsto)
-        - ParcelaRecebida = "1" → actual (valor recebido)
+        - ParcelaRecebida = "0" → 1 record: forecast no mês do vencimento
+        - ParcelaRecebida = "1" → 2 records:
+            - forecast no mês do vencimento (o que era esperado receber)
+            - actual no mês do pagamento (o que foi efetivamente recebido)
+
+        NOTA: A API UAU zera o ValorPrincipal quando a parcela é paga,
+        por isso usamos ValorPrincipalConfirmado como base do forecast
+        para parcelas pagas.
 
         Args:
             parcela: Raw parcela data from ExportarVendasXml
@@ -302,7 +308,7 @@ class UAUDataTransformer:
                 - NumeroParcela: número da parcela
                 - DataVencimento: data de vencimento
                 - DataRecebimento: data do pagamento (se paga)
-                - ValorPrincipal: valor original (forecast)
+                - ValorPrincipal: valor original (forecast, 0 se paga)
                 - ValorPrincipalConfirmado: valor pago (actual)
                 - ValorJurosAtrasoConfirmado: juros cobrados
                 - ValorMultaConfirmado: multa cobrada
@@ -312,7 +318,7 @@ class UAUDataTransformer:
             num_venda: Número da venda
 
         Returns:
-            CashIn dict with forecast or actual value
+            List of CashIn dicts (1 for open, 2 for paid parcelas)
         """
         is_paga = parcela.get("ParcelaRecebida") == "1"
         num_parcela = self._safe_int(parcela.get("NumeroParcela")) or 0
@@ -320,27 +326,76 @@ class UAUDataTransformer:
         category = self._map_tipo_parcela_to_category(tipo)
 
         if is_paga:
-            # ACTUAL - parcela paga
             dt_pagamento = self._parse_date(parcela.get("DataRecebimento"))
             if not dt_pagamento:
-                return None
+                return []
 
-            valor = self._parse_decimal(parcela.get("ValorPrincipalConfirmado", 0))
-            if valor <= 0:
-                return None
+            valor_principal = self._parse_decimal(parcela.get("ValorPrincipalConfirmado", 0))
+            if valor_principal <= 0:
+                return []
 
-            ref_month = dt_pagamento.strftime("%Y-%m")
-            origin_id = f"uau_export_{empresa_id}_{obra}_{num_venda}_{num_parcela}_actual"
+            # Componentes adicionais do valor efetivamente recebido
+            juros_atraso = self._parse_decimal(parcela.get("ValorJurosAtrasoConfirmado", 0))
+            multa = self._parse_decimal(parcela.get("ValorMultaConfirmado", 0))
+            juros_contrato = self._parse_decimal(parcela.get("ValorJurosContratoConfirmado", 0))
+            acrescimo = self._parse_decimal(parcela.get("ValorAcrescimoConfirmado", 0))
+            correcao = self._parse_decimal(parcela.get("ValorCorrecaoConfirmado", 0))
+            correcao_atraso = self._parse_decimal(parcela.get("ValorCorrecaoAtrasoConfirmado", 0))
+            desconto = self._parse_decimal(parcela.get("ValorDescontoConfirmado", 0))
+            desconto_antecipacao = self._parse_decimal(parcela.get("ValorDescontoAdiantamentoConfirmado", 0))
+            desconto_condicional = self._parse_decimal(parcela.get("ValorDescontoCondicionalConfirmado", 0))
 
-            return {
+            # Actual = principal + acréscimos - descontos
+            valor_actual = (
+                valor_principal
+                + juros_atraso + multa + juros_contrato
+                + acrescimo + correcao + correcao_atraso
+                - desconto - desconto_antecipacao - desconto_condicional
+            )
+
+            dt_vencimento = self._parse_date(parcela.get("DataVencimento"))
+
+            records = []
+
+            # FORECAST - o que era esperado receber no mês do vencimento
+            # Usa ValorPrincipalConfirmado (sem juros/multa/desconto) como valor base esperado
+            if dt_vencimento:
+                forecast_ref_month = dt_vencimento.strftime("%Y-%m")
+                forecast_origin_id = f"uau_export_{empresa_id}_{obra}_{num_venda}_{num_parcela}_forecast"
+
+                records.append({
+                    "empreendimento_id": empresa_id,
+                    "empreendimento_nome": empresa_nome,
+                    "ref_month": forecast_ref_month,
+                    "category": category,
+                    "forecast": float(valor_principal),
+                    "actual": 0.0,
+                    "details": {
+                        "origin_id": forecast_origin_id,
+                        "tipo": "forecast",
+                        "vencimento": dt_vencimento.isoformat(),
+                        "pagamento": dt_pagamento.isoformat(),
+                        "num_venda": num_venda,
+                        "num_parcela": num_parcela,
+                        "obra": obra,
+                        "tipo_parcela": tipo,
+                    },
+                    "origem": "uau",
+                })
+
+            # ACTUAL - valor total efetivamente recebido (principal + juros + multa - descontos)
+            actual_ref_month = dt_pagamento.strftime("%Y-%m")
+            actual_origin_id = f"uau_export_{empresa_id}_{obra}_{num_venda}_{num_parcela}_actual"
+
+            records.append({
                 "empreendimento_id": empresa_id,
                 "empreendimento_nome": empresa_nome,
-                "ref_month": ref_month,
+                "ref_month": actual_ref_month,
                 "category": category,
                 "forecast": 0.0,
-                "actual": float(valor),
+                "actual": float(valor_actual),
                 "details": {
-                    "origin_id": origin_id,
+                    "origin_id": actual_origin_id,
                     "tipo": "actual",
                     "pagamento": dt_pagamento.isoformat(),
                     "vencimento": self._parse_date_str(parcela.get("DataVencimento")),
@@ -348,25 +403,35 @@ class UAUDataTransformer:
                     "num_parcela": num_parcela,
                     "obra": obra,
                     "tipo_parcela": tipo,
-                    "juros": float(self._parse_decimal(parcela.get("ValorJurosAtrasoConfirmado", 0))),
-                    "multa": float(self._parse_decimal(parcela.get("ValorMultaConfirmado", 0))),
+                    "principal": float(valor_principal),
+                    "juros_atraso": float(juros_atraso),
+                    "multa": float(multa),
+                    "juros_contrato": float(juros_contrato),
+                    "acrescimo": float(acrescimo),
+                    "correcao": float(correcao),
+                    "correcao_atraso": float(correcao_atraso),
+                    "desconto": float(desconto),
+                    "desconto_antecipacao": float(desconto_antecipacao),
+                    "desconto_condicional": float(desconto_condicional),
                 },
                 "origem": "uau",
-            }
+            })
+
+            return records
         else:
             # FORECAST - parcela aberta
             dt_vencimento = self._parse_date(parcela.get("DataVencimento"))
             if not dt_vencimento:
-                return None
+                return []
 
             valor = self._parse_decimal(parcela.get("ValorPrincipal", 0))
             if valor <= 0:
-                return None
+                return []
 
             ref_month = dt_vencimento.strftime("%Y-%m")
             origin_id = f"uau_export_{empresa_id}_{obra}_{num_venda}_{num_parcela}_forecast"
 
-            return {
+            return [{
                 "empreendimento_id": empresa_id,
                 "empreendimento_nome": empresa_nome,
                 "ref_month": ref_month,
@@ -383,7 +448,7 @@ class UAUDataTransformer:
                     "tipo_parcela": tipo,
                 },
                 "origem": "uau",
-            }
+            }]
 
     def aggregate_cash_in(
         self,
@@ -584,33 +649,52 @@ class UAUDataTransformer:
                 is_paga = parcela.get("ParcelaRecebida") == "1"
 
                 if is_paga:
-                    # Cenário 2: Parcela PAGA EM ATRASO
+                    # Parcela PAGA - 3 cenários possíveis (mesmo padrão do Mega):
                     dt_pagamento = self._parse_date(parcela.get("DataRecebimento"))
                     dt_venc = self._parse_date(parcela.get("DataVencimento"))
 
                     if not dt_pagamento or not dt_venc:
                         continue
 
-                    # Only consider payments on or before ref_date
-                    if dt_pagamento > ref_date:
+                    # Skip parcelas com vencimento futuro em relação ao ref_date
+                    if dt_venc > ref_date:
                         continue
 
-                    # dias_atraso = data_pagamento - data_vencimento
-                    dias_atraso = (dt_pagamento - dt_venc).days
+                    if dt_pagamento <= ref_date:
+                        # Cenário 2: Paga ANTES/DURANTE o mês de referência
+                        # dias_atraso = data_pagamento - data_vencimento
+                        dias_atraso = (dt_pagamento - dt_venc).days
 
-                    # Skip if paid on time or within grace period
-                    if dias_atraso <= self.GRACE_DAYS_COMPENSACAO:
-                        continue
+                        # Skip if paid on time or within grace period
+                        if dias_atraso <= self.GRACE_DAYS_COMPENSACAO:
+                            continue
 
-                    # Use confirmed value for paid parcels
-                    valor = float(self._parse_decimal(parcela.get("ValorPrincipalConfirmado", 0)))
-                    if valor <= 0:
-                        continue
+                        # Use confirmed value for paid parcels
+                        valor = float(self._parse_decimal(parcela.get("ValorPrincipalConfirmado", 0)))
+                        if valor <= 0:
+                            continue
 
-                    self._add_to_bucket(buckets, quantities, dias_atraso, valor)
-                    total += valor
-                    total_qty += 1
-                    parcelas_pagas_atraso += 1
+                        self._add_to_bucket(buckets, quantities, dias_atraso, valor)
+                        total += valor
+                        total_qty += 1
+                        parcelas_pagas_atraso += 1
+                    else:
+                        # Cenário 3: Paga DEPOIS do mês de referência
+                        # Nesse mês ela ainda não tinha sido paga, tratar como vencida não paga
+                        dias_atraso = (ref_date - dt_venc).days
+
+                        if dias_atraso <= self.GRACE_DAYS_COMPENSACAO:
+                            continue
+
+                        # Use ValorPrincipalConfirmado (ValorPrincipal é zerado quando paga)
+                        valor = float(self._parse_decimal(parcela.get("ValorPrincipalConfirmado", 0)))
+                        if valor <= 0:
+                            continue
+
+                        self._add_to_bucket(buckets, quantities, dias_atraso, valor)
+                        total += valor
+                        total_qty += 1
+                        parcelas_vencidas_nao_pagas += 1
 
                 else:
                     # Cenário 1: Parcela VENCIDA NÃO PAGA
@@ -642,7 +726,7 @@ class UAUDataTransformer:
         return {
             "empreendimento_id": empresa_id,
             "empreendimento_nome": empresa_nome,
-            "ref_month": ref_date.strftime("%Y-%m-%d"),
+            "ref_month": ref_date.strftime("%Y-%m"),
             "up_to_30": buckets["up_to_30"],
             "days_30_60": buckets["days_30_60"],
             "days_60_90": buckets["days_60_90"],
@@ -778,7 +862,7 @@ class UAUDataTransformer:
         return {
             "empreendimento_id": empresa_id,
             "empreendimento_nome": empresa_nome,
-            "ref_month": ref_date.strftime("%Y-%m-%d"),
+            "ref_month": ref_date.strftime("%Y-%m"),
             "up_to_30": buckets["up_to_30"],
             "days_30_60": buckets["days_30_60"],
             "days_60_90": buckets["days_60_90"],
