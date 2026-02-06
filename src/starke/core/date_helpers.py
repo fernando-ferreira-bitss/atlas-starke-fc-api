@@ -1,9 +1,14 @@
 """Date and period helpers for cash flow reporting."""
 
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from typing import Literal
 
 PeriodType = Literal["mensal", "trimestral", "anual"]
+
+
+def utc_now() -> datetime:
+    """Return current UTC datetime (timezone-aware)."""
+    return datetime.now(timezone.utc)
 
 
 def normalize_ref_date(ref_date: date) -> date:

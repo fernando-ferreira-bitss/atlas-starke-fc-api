@@ -11,6 +11,7 @@ from starke.domain.services.development_service import DevelopmentService
 from starke.infrastructure.database.base import get_session
 from starke.infrastructure.database.models import Run
 from starke.infrastructure.external_apis.mega_client import MegaAPIClient
+from starke.core.date_helpers import utc_now
 
 logger = get_logger(__name__)
 
@@ -55,7 +56,7 @@ class Orchestrator:
             run = Run(
                 exec_date=ref_date_str,
                 status="running",
-                started_at=datetime.utcnow(),
+                started_at=utc_now(),
             )
             session.add(run)
             session.flush()
@@ -71,7 +72,7 @@ class Orchestrator:
 
                 # Update run as successful
                 run.status = "success"
-                run.finished_at = datetime.utcnow()
+                run.finished_at = utc_now()
                 run.metrics = summary
                 session.commit()
 
@@ -81,7 +82,7 @@ class Orchestrator:
             except Exception as e:
                 # Update run as failed
                 run.status = "failed"
-                run.finished_at = datetime.utcnow()
+                run.finished_at = utc_now()
                 run.error = str(e)
                 session.commit()
 

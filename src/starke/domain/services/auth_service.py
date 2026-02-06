@@ -1,6 +1,6 @@
 """Authentication service for user management and JWT token generation."""
 
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from typing import Optional
 
 from jose import JWTError, jwt
@@ -8,6 +8,7 @@ from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from starke.core.config import get_settings
+from starke.core.date_helpers import utc_now
 from starke.infrastructure.database.models import User
 
 # Password hashing context
@@ -112,7 +113,7 @@ class AuthService:
         if is_superuser is not None:
             user.is_superuser = is_superuser
 
-        user.updated_at = datetime.now(timezone.utc)
+        user.updated_at = utc_now()
         self.db.commit()
         self.db.refresh(user)
         return user
@@ -124,7 +125,7 @@ class AuthService:
             return False
 
         user.is_active = False
-        user.updated_at = datetime.now(timezone.utc)
+        user.updated_at = utc_now()
         self.db.commit()
         return True
 
@@ -142,9 +143,9 @@ class AuthService:
         settings = get_settings()
         to_encode = data.copy()
         if expires_delta:
-            expire = datetime.now(timezone.utc) + expires_delta
+            expire = utc_now() + expires_delta
         else:
-            expire = datetime.now(timezone.utc) + timedelta(
+            expire = utc_now() + timedelta(
                 minutes=settings.jwt_access_token_expire_minutes
             )
 
@@ -166,7 +167,7 @@ class AuthService:
     def create_password_reset_token(email: str) -> str:
         """Create a password reset token valid for 1 hour."""
         settings = get_settings()
-        expire = datetime.now(timezone.utc) + timedelta(hours=1)
+        expire = utc_now() + timedelta(hours=1)
         to_encode = {
             "sub": email,
             "exp": expire,
@@ -194,6 +195,6 @@ class AuthService:
         if not user:
             return False
         user.hashed_password = self.get_password_hash(new_password)
-        user.updated_at = datetime.now(timezone.utc)
+        user.updated_at = utc_now()
         self.db.commit()
         return True

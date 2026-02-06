@@ -5,6 +5,8 @@ from datetime import date, datetime
 from decimal import Decimal
 from typing import Any, Dict, List, Optional
 
+from starke.core.date_helpers import utc_now
+
 logger = logging.getLogger(__name__)
 
 
@@ -50,7 +52,7 @@ class UAUDataTransformer:
             "is_active": False,  # Starts inactive, activated only if has importations
             "raw_data": empresa,
             "origem": "uau",
-            "last_synced_at": datetime.utcnow(),
+            "last_synced_at": utc_now(),
         }
 
     # ============================================
@@ -1005,7 +1007,7 @@ class UAUDataTransformer:
                 "numero": numero,
                 "status_code": status_code,
             },
-            "last_synced_at": datetime.utcnow(),
+            "last_synced_at": utc_now(),
         }
 
     def is_venda_finalizada(self, venda: Dict[str, Any]) -> bool:

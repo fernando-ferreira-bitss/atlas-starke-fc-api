@@ -10,6 +10,7 @@ from apscheduler.triggers.cron import CronTrigger
 
 from starke.domain.services.mega_sync_service import MegaSyncService
 from starke.domain.services.uau_sync_service import UAUSyncService
+from starke.core.date_helpers import utc_now
 from starke.infrastructure.database.base import get_session
 from starke.infrastructure.database.models import Run
 
@@ -208,7 +209,7 @@ class SyncScheduler:
                 exec_date=exec_date,
                 source=source,
                 status="running",
-                started_at=datetime.utcnow(),
+                started_at=utc_now(),
                 triggered_by_user_id=triggered_by_user_id,
             )
             db.add(run)
@@ -231,7 +232,7 @@ class SyncScheduler:
             run = db.query(Run).filter(Run.id == run_id).first()
             if run:
                 run.status = status
-                run.finished_at = datetime.utcnow()
+                run.finished_at = utc_now()
                 run.error = error
                 run.metrics = metrics or {}
                 db.commit()

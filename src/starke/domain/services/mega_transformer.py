@@ -6,6 +6,7 @@ from decimal import Decimal
 from typing import Any, Dict, List, Optional, Tuple
 
 from starke.core.config_loader import get_mega_config
+from starke.core.date_helpers import utc_now
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +61,7 @@ class MegaDataTransformer:
             "name": emp_name,
             "is_active": is_active,
             "raw_data": mega_data,  # Store complete raw data
-            "last_synced_at": datetime.utcnow(),
+            "last_synced_at": utc_now(),
             # Metadata for filtering/querying
             "_filial_codigo": filial_codigo,
             "_centro_custo": centro_custo,
@@ -122,7 +123,7 @@ class MegaDataTransformer:
             "valor_contrato": valor_contrato,
             "valor_atualizado_ipca": None,  # Will be calculated later if needed
             "data_assinatura": data_assinatura,
-            "last_synced_at": datetime.utcnow(),
+            "last_synced_at": utc_now(),
         }
 
     # ============================================

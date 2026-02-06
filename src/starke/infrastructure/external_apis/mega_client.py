@@ -1,6 +1,6 @@
 """Mega ERP API Client with retry and rate limiting."""
 
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional, Union
 
 import httpx
@@ -12,6 +12,7 @@ from tenacity import (
 )
 
 from starke.core.config import get_settings
+from starke.core.date_helpers import utc_now
 from starke.core.logging import get_logger
 
 logger = get_logger(__name__)
@@ -118,7 +119,7 @@ class MegaAPIClient:
             self._authenticate()
         elif self._token_expiration:
             # Compare with timezone-aware datetime
-            now = datetime.now(timezone.utc)
+            now = utc_now()
             if now >= self._token_expiration:
                 logger.info("Token expired, re-authenticating")
                 self._authenticate()

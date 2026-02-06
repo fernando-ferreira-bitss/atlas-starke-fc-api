@@ -7,6 +7,7 @@ from typing import Any, Optional
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from starke.core.date_helpers import utc_now
 from starke.core.logging import get_logger
 from starke.domain.entities.contracts import ContratoData
 from starke.infrastructure.database.models import Contract, Development
@@ -313,7 +314,7 @@ class ContractService:
                     "valor_contrato": valor_contrato,
                     "valor_atualizado_ipca": valor_atualizado_ipca,
                     "data_assinatura": data_assinatura,
-                    "last_synced_at": datetime.utcnow(),
+                    "last_synced_at": utc_now(),
                 }
 
                 contract = Contract(**contract_data)
@@ -463,7 +464,7 @@ class ContractService:
 
             if development:
                 development.is_active = has_active
-                development.updated_at = datetime.utcnow()
+                development.updated_at = utc_now()
 
                 logger.debug(
                     "Updated empreendimento active status",
@@ -531,7 +532,7 @@ class ContractService:
                     "cod_contrato": cod_contrato,
                     "empreendimento_id": empreendimento_id,
                     "status": contract_dict.get("status_contrato"),
-                    "last_synced_at": datetime.utcnow(),
+                    "last_synced_at": utc_now(),
                 }
 
                 if existing:

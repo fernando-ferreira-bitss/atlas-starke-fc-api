@@ -11,6 +11,7 @@ from sqlalchemy import tuple_
 from sqlalchemy.orm import Session
 
 from starke.core.config import get_settings
+from starke.core.date_helpers import utc_now
 from starke.core.config_loader import get_mega_config
 from starke.domain.services.cash_flow_service import CashFlowService
 from starke.domain.services.mega_transformer import MegaDataTransformer
@@ -238,7 +239,7 @@ class MegaSyncService:
                     existing_filial.nome = filial_info["nome"]
                     existing_filial.fantasia = filial_info["fantasia"]
                     existing_filial.cnpj = filial_info["cnpj"]
-                    existing_filial.atualizado_em = datetime.utcnow()
+                    existing_filial.atualizado_em = utc_now()
                     filiais_updated += 1
                 else:
                     # Create new with external_id (inactive by default, will be activated if has active developments)
@@ -249,7 +250,7 @@ class MegaSyncService:
                         cnpj=filial_info["cnpj"],
                         origem="mega",
                         is_active=False,
-                        criado_em=datetime.utcnow(),
+                        criado_em=utc_now(),
                     )
                     self.db.add(new_filial)
                     # Add to lookup for use in development sync
@@ -301,7 +302,7 @@ class MegaSyncService:
                         existing.centro_custo_id = centro_custo
                         existing.raw_data = transformed["raw_data"]
                         existing.last_synced_at = transformed["last_synced_at"]
-                        existing.updated_at = datetime.utcnow()
+                        existing.updated_at = utc_now()
                         devs_updated += 1
                     else:
                         # Create new with external_id
@@ -968,7 +969,7 @@ class MegaSyncService:
             # Step 3: Separate into updates and inserts
             to_update = []
             to_insert = []
-            now = datetime.utcnow()
+            now = utc_now()
 
             for transformed in transformed_faturas:
                 try:
@@ -1492,7 +1493,7 @@ class MegaSyncService:
                 devs_skipped = 0
                 total_portfolio_stats = 0
                 total_delinquency = 0
-                cutoff_time = datetime.utcnow() - timedelta(hours=skip_recent_hours) if skip_recent_hours > 0 else None
+                cutoff_time = utc_now() - timedelta(hours=skip_recent_hours) if skip_recent_hours > 0 else None
 
                 # Import models needed for inline processing
                 from starke.infrastructure.database.models import PortfolioStats, Delinquency, Filial
@@ -1503,7 +1504,7 @@ class MegaSyncService:
 
                         # CHECKPOINT: Skip if recently synced
                         if cutoff_time and dev.last_financial_sync_at and dev.last_financial_sync_at > cutoff_time:
-                            hours_ago = (datetime.utcnow() - dev.last_financial_sync_at).total_seconds() / 3600
+                            hours_ago = (utc_now() - dev.last_financial_sync_at).total_seconds() / 3600
                             logger.info(f"⏭️ Skipping {dev.name} - synced {hours_ago:.1f}h ago (within {skip_recent_hours}h)")
                             devs_skipped += 1
                             # Still count contracts for active status check
@@ -1607,7 +1608,7 @@ class MegaSyncService:
                         # Activate development and filial after complete processing
                         if has_active:
                             dev.is_active = True
-                            dev.updated_at = datetime.utcnow()
+                            dev.updated_at = utc_now()
                             logger.info(f"✅ Activated development: {dev.name}")
 
                             # Also activate the filial if not already active
@@ -1615,11 +1616,11 @@ class MegaSyncService:
                                 filial = self.db.query(Filial).filter(Filial.id == dev.filial_id).first()
                                 if filial and not filial.is_active:
                                     filial.is_active = True
-                                    filial.atualizado_em = datetime.utcnow()
+                                    filial.atualizado_em = utc_now()
                                     logger.info(f"✅ Activated filial: {filial.nome}")
 
                         # CHECKPOINT: Mark this development as synced
-                        dev.last_financial_sync_at = datetime.utcnow()
+                        dev.last_financial_sync_at = utc_now()
 
                         # Commit after each development to avoid large transactions
                         self._safe_commit(f"dev_{dev.name}")
@@ -1790,7 +1791,7 @@ class MegaSyncService:
                 duration=stats["duration"],
                 total_contracts=stats["total_contracts"],
                 active_contracts=stats["active_contracts"],
-                details={"calculation_date": datetime.utcnow().isoformat()},
+                details={"calculation_date": utc_now().isoformat()},
             )
             self.db.add(portfolio_stats)
 
@@ -1961,7 +1962,7 @@ class MegaSyncService:
                     duration=stats["duration"],
                     total_contracts=stats["total_contracts"],
                     active_contracts=stats["active_contracts"],
-                    details={"calculation_date": datetime.utcnow().isoformat()},
+                    details={"calculation_date": utc_now().isoformat()},
                 )
                 self.db.add(portfolio_stats)
                 result["portfolio_stats_saved"] = 1

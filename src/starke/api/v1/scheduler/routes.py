@@ -8,6 +8,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from starke.api.dependencies import get_db
+from starke.core.date_helpers import utc_now
 from starke.api.dependencies.auth import require_admin
 from starke.core.scheduler import get_scheduler
 from starke.infrastructure.database.models import Run, User
@@ -191,7 +192,7 @@ def _run_sync_task(
         run = Run(
             exec_date=end_date.isoformat(),
             status="running",
-            started_at=datetime.utcnow(),
+            started_at=utc_now(),
             triggered_by_user_id=user_id,
         )
         db.add(run)
@@ -246,7 +247,7 @@ def _run_sync_task(
             run = db.query(Run).filter(Run.id == run_id).first()
             if run:
                 run.status = "failed" if has_error else "success"
-                run.finished_at = datetime.utcnow()
+                run.finished_at = utc_now()
                 run.metrics = stats
                 db.commit()
                 logger.info(f"Updated run record: ID={run_id}, status={run.status}")
@@ -256,7 +257,7 @@ def _run_sync_task(
             run = db.query(Run).filter(Run.id == run_id).first()
             if run:
                 run.status = "failed"
-                run.finished_at = datetime.utcnow()
+                run.finished_at = utc_now()
                 run.error = str(e)
                 db.commit()
             raise

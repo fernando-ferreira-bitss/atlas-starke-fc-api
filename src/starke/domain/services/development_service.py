@@ -1,10 +1,10 @@
 """Service for managing developments (real estate projects)."""
 
-from datetime import datetime, timezone
 from typing import List, Optional
 
 from sqlalchemy.orm import Session
 
+from starke.core.date_helpers import utc_now
 from starke.infrastructure.database.models import Development
 from starke.infrastructure.external_apis.mega_client import MegaAPIClient
 
@@ -34,7 +34,7 @@ class DevelopmentService:
         dev = self.get_development_by_id(development_id)
         if dev:
             dev.is_active = True
-            dev.updated_at = datetime.now(timezone.utc)
+            dev.updated_at = utc_now()
             self.db.commit()
             self.db.refresh(dev)
         return dev
@@ -44,7 +44,7 @@ class DevelopmentService:
         dev = self.get_development_by_id(development_id)
         if dev:
             dev.is_active = False
-            dev.updated_at = datetime.now(timezone.utc)
+            dev.updated_at = utc_now()
             self.db.commit()
             self.db.refresh(dev)
         return dev
@@ -109,8 +109,8 @@ class DevelopmentService:
                             existing.centro_custo_id = centro_custo_id
                             existing.raw_data = api_dev
                             existing.is_active = False  # Reset to inactive, will be activated by contract sync
-                            existing.last_synced_at = datetime.now(timezone.utc)
-                            existing.updated_at = datetime.now(timezone.utc)
+                            existing.last_synced_at = utc_now()
+                            existing.updated_at = utc_now()
                             summary["updated"] += 1
                         else:
                             # Create new
@@ -120,7 +120,7 @@ class DevelopmentService:
                                 centro_custo_id=centro_custo_id,
                                 is_active=False,  # Default to inactive, will be activated by contract sync
                                 raw_data=api_dev,
-                                last_synced_at=datetime.now(timezone.utc),
+                                last_synced_at=utc_now(),
                             )
                             self.db.add(new_dev)
                             summary["created"] += 1

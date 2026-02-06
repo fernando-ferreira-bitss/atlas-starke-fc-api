@@ -5,9 +5,10 @@ from decimal import Decimal
 from enum import Enum as PyEnum
 from typing import Any, Optional
 
-from sqlalchemy import JSON, CheckConstraint, ForeignKey, Index, Numeric, String, Text, UniqueConstraint
+from sqlalchemy import JSON, CheckConstraint, DateTime, ForeignKey, Index, Numeric, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
+from starke.core.date_helpers import utc_now
 from starke.infrastructure.database.base import Base
 
 
@@ -33,8 +34,8 @@ class Run(Base):
     exec_date: Mapped[str] = mapped_column(String(10), nullable=False, index=True)
     source: Mapped[str] = mapped_column(String(20), nullable=False, default="mega")  # mega, uau
     status: Mapped[str] = mapped_column(String(20), nullable=False)  # pending, running, success, failed
-    started_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
-    finished_at: Mapped[Optional[datetime]] = mapped_column(nullable=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
+    finished_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
     error: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     metrics: Mapped[Optional[dict[str, Any]]] = mapped_column(JSON, nullable=True)
     triggered_by_user_id: Mapped[Optional[int]] = mapped_column(
@@ -64,7 +65,7 @@ class RawPayload(Base):
     exec_date: Mapped[str] = mapped_column(String(10), nullable=False, index=True)
     payload_hash: Mapped[str] = mapped_column(String(64), nullable=False)
     payload_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
 
     __table_args__ = (
         UniqueConstraint("source", "exec_date", "payload_hash", name="uq_payload_idempotency"),
@@ -89,7 +90,7 @@ class CashIn(Base):
     actual: Mapped[float] = mapped_column(nullable=False, default=0.0)
     details: Mapped[Optional[dict[str, Any]]] = mapped_column(JSON, nullable=True)
     origem: Mapped[str] = mapped_column(String(20), nullable=False, default="mega")  # mega | uau
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
 
     __table_args__ = (
         UniqueConstraint("empreendimento_id", "ref_month", "category", "origem", name="uq_cash_in_emp_month_category_origem"),
@@ -116,7 +117,7 @@ class CashOut(Base):
     realizado: Mapped[float] = mapped_column(nullable=False, default=0.0)  # actual
     detalhes: Mapped[Optional[dict[str, Any]]] = mapped_column(JSON, nullable=True)
     origem: Mapped[str] = mapped_column(String(20), nullable=False, default="mega")  # mega | uau
-    criado_em: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
+    criado_em: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
 
     __table_args__ = (
         UniqueConstraint("filial_id", "mes_referencia", "categoria", "origem", name="uq_cash_out_filial_mes_categoria_origem"),
@@ -150,7 +151,7 @@ class PortfolioStats(Base):
     active_contracts: Mapped[int] = mapped_column(nullable=False, default=0)
     details: Mapped[Optional[dict[str, Any]]] = mapped_column(JSON, nullable=True)
     origem: Mapped[str] = mapped_column(String(20), nullable=False, default="mega")  # mega | uau
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
 
     __table_args__ = (
         UniqueConstraint("empreendimento_id", "ref_month", "origem", name="uq_portfolio_emp_month_origem"),
@@ -179,7 +180,7 @@ class Delinquency(Base):
     total: Mapped[float] = mapped_column(nullable=False, default=0.0)  # Total inadimplente
     details: Mapped[Optional[dict[str, Any]]] = mapped_column(JSON, nullable=True)
     origem: Mapped[str] = mapped_column(String(20), nullable=False, default="mega")  # mega | uau
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
 
     __table_args__ = (
         UniqueConstraint("empreendimento_id", "ref_month", "origem", name="uq_delinquency_emp_date_origem"),
@@ -209,8 +210,8 @@ class User(Base):
         index=True,
     )
     preferences: Mapped[Optional[dict[str, Any]]] = mapped_column(JSON, nullable=True)  # User preferences
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
-    updated_at: Mapped[Optional[datetime]] = mapped_column(nullable=True, onupdate=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
+    updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True, onupdate=utc_now)
 
     def __repr__(self) -> str:
         return f"<User(id={self.id}, email={self.email}, role={self.role})>"
@@ -241,8 +242,8 @@ class Filial(Base):
     cnpj: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
     is_active: Mapped[bool] = mapped_column(nullable=False, default=True)
     origem: Mapped[str] = mapped_column(String(20), nullable=False, default="mega")  # mega | uau
-    criado_em: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
-    atualizado_em: Mapped[Optional[datetime]] = mapped_column(nullable=True, onupdate=datetime.utcnow)
+    criado_em: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
+    atualizado_em: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True, onupdate=utc_now)
 
     __table_args__ = (
         Index("idx_filial_origem", "origem"),
@@ -270,10 +271,10 @@ class Development(Base):
     is_active: Mapped[bool] = mapped_column(nullable=False, default=True)
     raw_data: Mapped[Optional[dict[str, Any]]] = mapped_column(JSON, nullable=True)  # Full API response
     origem: Mapped[str] = mapped_column(String(20), nullable=False, default="mega")  # mega | uau
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
-    updated_at: Mapped[Optional[datetime]] = mapped_column(nullable=True, onupdate=datetime.utcnow)
-    last_synced_at: Mapped[Optional[datetime]] = mapped_column(nullable=True)  # Last sync from API
-    last_financial_sync_at: Mapped[Optional[datetime]] = mapped_column(nullable=True)  # Last full financial sync (CashIn/CashOut)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
+    updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True, onupdate=utc_now)
+    last_synced_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)  # Last sync from API
+    last_financial_sync_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)  # Last full financial sync (CashIn/CashOut)
 
     __table_args__ = (
         Index("idx_development_active", "is_active"),
@@ -329,7 +330,7 @@ class Contract(Base):
     data_assinatura: Mapped[Optional[date]] = mapped_column(nullable=True)  # Contract signing date
     cliente_cpf: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)  # Client CPF/CNPJ (UAU)
     cliente_codigo: Mapped[Optional[int]] = mapped_column(nullable=True)  # Client code (UAU)
-    last_synced_at: Mapped[Optional[datetime]] = mapped_column(nullable=True)  # Last sync from API
+    last_synced_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)  # Last sync from API
 
     __table_args__ = (
         UniqueConstraint("cod_contrato", "empreendimento_id", "obra", "origem", name="uq_contract_cod_emp_origem"),
@@ -395,8 +396,8 @@ class FaturaPagar(Base):
     agente_codigo: Mapped[Optional[int]] = mapped_column(nullable=True)
     agente_nome: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     dados_brutos: Mapped[Optional[dict[str, Any]]] = mapped_column(JSON, nullable=True)
-    criado_em: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
-    atualizado_em: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    criado_em: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
+    atualizado_em: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now, onupdate=utc_now)
 
     __table_args__ = (
         UniqueConstraint("origem", "filial_id", "numero_ap", "numero_parcela", name="uq_fatura_origem_filial_ap_parcela"),
@@ -432,7 +433,7 @@ class RolePermission(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     role: Mapped[str] = mapped_column(String(50), nullable=False, index=True)
     screen_code: Mapped[str] = mapped_column(String(100), nullable=False)
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
 
     __table_args__ = (
         UniqueConstraint("role", "screen_code", name="uq_role_screen"),
@@ -468,8 +469,8 @@ class ImpersonationLog(Base):
         ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
     )
-    started_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
-    ended_at: Mapped[Optional[datetime]] = mapped_column(nullable=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
+    ended_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
 
     __table_args__ = (
         Index("idx_impersonation_actor", "actor_user_id"),

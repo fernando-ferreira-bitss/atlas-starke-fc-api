@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from starke.domain.services.uau_transformer import UAUDataTransformer
 from starke.infrastructure.external_apis.uau_api_client import UAUAPIClient
+from starke.core.date_helpers import utc_now
 
 logger = logging.getLogger(__name__)
 
@@ -95,7 +96,7 @@ class UAUSyncService:
 
             logger.info(f"Loaded {len(filiais_by_external_id)} existing filiais and {len(devs_by_external_id)} existing developments")
 
-            now = datetime.now(datetime.timezone.utc) if hasattr(datetime, 'timezone') else datetime.utcnow()
+            now = utc_now()
 
             count = 0
             for empresa in empresas:
@@ -1359,14 +1360,14 @@ class UAUSyncService:
             logger.info(f"Processing {len(empresas)} active empresas ({inactive_count} inactive skipped)")
 
             # Checkpoint: skip empresas synced recently
-            cutoff_time = datetime.utcnow() - timedelta(hours=skip_recent_hours) if skip_recent_hours > 0 else None
+            cutoff_time = utc_now() - timedelta(hours=skip_recent_hours) if skip_recent_hours > 0 else None
 
             # Step 3: Sync financial data for each empresa
             for empresa in empresas:
                 try:
                     # CHECKPOINT: Skip if recently synced
                     if cutoff_time and empresa.last_financial_sync_at and empresa.last_financial_sync_at > cutoff_time:
-                        hours_ago = (datetime.utcnow() - empresa.last_financial_sync_at).total_seconds() / 3600
+                        hours_ago = (utc_now() - empresa.last_financial_sync_at).total_seconds() / 3600
                         logger.info(f"Skipping {empresa.name} - synced {hours_ago:.1f}h ago (within {skip_recent_hours}h)")
                         stats["developments_skipped"] += 1
                         continue
@@ -1454,7 +1455,7 @@ class UAUSyncService:
                         logger.warning(f"Error syncing PortfolioStats: {e}")
 
                     # Update last_financial_sync_at after successful financial sync
-                    empresa.last_financial_sync_at = datetime.utcnow()
+                    empresa.last_financial_sync_at = utc_now()
                     self.db.commit()
                     logger.info(f"Updated last_financial_sync_at for empresa {empresa.name}")
 
